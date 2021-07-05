@@ -67,6 +67,7 @@
 <script>
 import firebaseInstance from '../middleware/firebase'
 import {mapActions} from 'vuex'
+import functionsApi from '../middleware/firebase/database/functionsApi'
 
 require('dotenv').config();
 
@@ -100,6 +101,8 @@ export default {
   },
 
   methods: {
+    ...mapActions('auth', ['setUser']),
+
     ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
     async confirmed() {
       await this.setTermService().then(async () => {
@@ -118,10 +121,11 @@ export default {
     },
 
     login() {
+      const self = this
       const provider = new firebaseInstance.firebase.auth.GoogleAuthProvider();
       return firebaseInstance.firebase.auth()
           .signInWithPopup(provider)
-          .then((result) => {
+          .then(async (result) => {
             debugger
             /** @type {firebase.auth.OAuthCredential} */
             var credential = result.credential;
@@ -132,6 +136,7 @@ export default {
             var user = result.user;
             // ...
             window.user = result.user;
+            await self.setUser(user)
 
             this.checkTerm(user.uid).then(async (res) => {
               debugger
@@ -157,10 +162,11 @@ export default {
     },
 
     async FacebookLogin() {
-      const provider = await new firebaseInstance.firebase.auth.FacebookAuthProvider();
-      await firebaseInstance.firebase.auth()
+      const self = this
+      const provider = new firebaseInstance.firebase.auth.FacebookAuthProvider();
+      return firebaseInstance.firebase.auth()
           .signInWithPopup(provider)
-          .then((result) => {
+          .then(async (result) => {
             /** @type {firebase.auth.OAuthCredential} */
             var credential = result.credential;
 
@@ -170,6 +176,7 @@ export default {
             var user = result.user;
             // ...
             window.user = result.user;
+            await self.setUser(user)
 
           }).then(async () => {
             var fix = await this.checkTerm()
@@ -193,15 +200,18 @@ export default {
     },
 
     async signIn() {
-      await firebaseInstance.firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-          .then((userCredential) => {
+      const self = this
+      return  firebaseInstance.firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+          .then(async (userCredential) => {
             // Signed in
             var user = userCredential.user;
             // ...
             window.user = userCredential.user;
+            debugger
+            await self.setUser(user)
 
             //if user alredy payed so go home. if not, go pay
-            this.checkPay()
+            await this.checkPay()
 
           })
           .catch((error) => {
@@ -224,14 +234,17 @@ export default {
     invitorEnter() {
       this.turn = false
     },
-
-    created() {
-      if (window.user) {
-        this.$router.push('/payment')
-      }
+  },
+  created() {
+    debugger
+    functionsApi.validatePayment({entity : 'yeyyeyeye'}).then(res =>{
+      debugger
+      console.log(res)
+    })
+    if (window.user) {
+      this.$router.push('/payment')
     }
   }
-  ,
 }
 
 

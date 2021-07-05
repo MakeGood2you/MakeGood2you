@@ -20,6 +20,7 @@ export default {
    async setAndPush(){
 
      const payload = {data: this.$route.query}
+     debugger
      await this.welcomeFunction(payload).then(() => {
        this.$router.push('/Home')
      })
