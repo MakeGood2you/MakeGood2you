@@ -2,7 +2,7 @@
   <q-layout>
     <q-toolbar>
       <q-btn
-          v-show="user.uid"
+          v-show="user"
           class="absolute-right q-pr-sm"
           @click="signOut"
           icon="account_circle"
@@ -22,23 +22,24 @@
 </template>
 
 <script>
-import {mapState,mapMutations} from 'vuex'
+import {mapState,mapActions} from 'vuex'
 import firebaseInstance from '../../osher-project/src/middleware/firebase'
 
 
 export default {
   computed:mapState('auth', ['user']),
   methods: {
-    ...mapMutations('auth', ['setUser']),
+    ...mapActions('auth', ['setUser']),
     signOut() {
       const self = this
-      firebaseInstance.firebase.auth().signOut().then(() => {
+      return firebaseInstance.firebase.auth().signOut().then(async () => {
         // Sign-out successful.
-        self.setUser(null)
+       await self.setUser(null)
+       await this.$router.push(`/`)
+
       }).catch((error) => {
         // An error happened.
       });
-      this.$router.push(`/`)
     }
   }
 }

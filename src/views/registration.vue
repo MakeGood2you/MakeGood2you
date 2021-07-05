@@ -45,7 +45,7 @@
 
 <script>
 import firebaseInstance from "@/middleware/firebase";
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 
 export default {
   name: "registration",
@@ -55,11 +55,12 @@ export default {
       fixed: false,
       email: '',
       password: '',
-      terms:'',
-      isPwd:true
+      terms: '',
+      isPwd: true
     }
   },
   methods: {
+    ...mapActions('auth', ['setUser']),
     ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
     goBack() {
       this.$router.push(`/Register`)
@@ -77,15 +78,17 @@ export default {
     sign() {
       const self = this
       if (this.accepted === true) {
-      return  firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+        return firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
             .then(async (userCredential) => {
               // Signed in
               var user = userCredential.user;
               // ...
               window.user = userCredential.user;
-debugger
-             await this.setTermService()
-             await self.$router.push('/payment');
+              debugger
+
+              await self.setUser(user)
+              await this.setTermService()
+              await self.$router.push('/payment');
 
               // this.checkPay()
 

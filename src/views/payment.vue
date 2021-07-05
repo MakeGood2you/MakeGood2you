@@ -45,15 +45,26 @@
           />
         </b>הצגת לידים
         </p>
-      </div><br>
-      <q-btn @click="month" class="month" style="font-family: 'Amatic SC', cursive;  background-color: rgb(142,174,194);" dir="rtl">
-        <p style="font-size: 32px" ><br>חודשי<br><p style="font-size: 40px"><b>150 ש"ח</b><br><br><b style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">250 ש"ח</b></p>
+      </div>
+      <br>
+      <q-btn @click="month" class="month"
+             style="font-family: 'Amatic SC', cursive;  background-color: rgb(142,174,194);" dir="rtl">
+        <p style="font-size: 32px"><br>חודשי<br>
+        <p style="font-size: 40px"><b>150 ש"ח</b><br><br><b
+            style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">250 ש"ח</b></p>
       </q-btn>
-      <q-btn @click="halfYear" class="halfYear" style="font-family: 'Amatic SC', cursive; background-color: rgb(70,123,147);" dir="rtl">
-        <p style="font-size: 32px" ><br><b>חצי שנה + <br>שבועיים חינם!</b><p style="font-size: 40px"><b>600 ש"ח</b><br><br><b style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">900 ש"ח</b></p>
+      <q-btn @click="halfYear" class="halfYear"
+             style="font-family: 'Amatic SC', cursive; background-color: rgb(70,123,147);" dir="rtl">
+        <p style="font-size: 32px"><br><b>חצי שנה + <br>שבועיים חינם!</b>
+        <p style="font-size: 40px"><b>600 ש"ח</b><br><br><b
+            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">900 ש"ח</b></p>
       </q-btn>
-      <q-btn @click="year" class="year" style="font-family: 'Amatic SC', cursive; background-color: rgb(36,91,121);" dir="rtl">
-        <p style="font-size: 32px" ><br><b>שנה + <br>חודש חינם!</b><p style="font-size: 40px"><b>1,000 ש"ח</b><br><br><b style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">1,600 ש"ח</b></p>
+      <q-btn @click="year" class="year" style="font-family: 'Amatic SC', cursive; background-color: rgb(36,91,121);"
+             dir="rtl">
+        <p style="font-size: 32px"><br><b>שנה + <br>חודש חינם!</b>
+        <p style="font-size: 40px"><b>1,000 ש"ח</b><br><br><b
+            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">1,600 ש"ח</b>
+        </p>
       </q-btn>
     </div>
   </div>
@@ -64,11 +75,9 @@ import {mapActions} from 'vuex'
 
 export default {
   name: "payment",
-data(){
-    return {
-      uid:window.user.uid,
-  }
-},
+  data() {
+    return {}
+  },
   methods: {
     ...mapActions('events', ['setPackagePayment']),
 
@@ -109,16 +118,17 @@ data(){
   align-items: center;
   justify-content: center;
 }
-.month, .halfYear, .year{
+
+.month, .halfYear, .year {
   margin-right: 20px;
   width: 170px;
   height: 200px;
 }
 
-.insted{
+.insted {
 
 
-margin-right: 20px;
+  margin-right: 20px;
   /* Safari */
   -webkit-transform: rotate(5deg);
 
