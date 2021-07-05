@@ -8,8 +8,9 @@ async function setPackage(options) {
     await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/package/selected`).set(`${options.paymentMethod}`)
 }
 
-async function checkTermService() {
-    const check = await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/terms/confirmed`).once('value').then((res) => {
+async function checkTermService(uid) {
+    debugger
+    const check = await firebaseInstance.firebase.database().ref(`users/${uid}/data/terms/confirmed`).once('value').then((res) => {
         return res.val()
     });
     return check

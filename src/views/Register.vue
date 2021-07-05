@@ -6,7 +6,8 @@
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
           <h5 class="witchSign">התחברות</h5>
           <q-input v-if="!turn" v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password" :type="isPwd ? 'password' : 'text'">
+          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password"
+                   :type="isPwd ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -100,25 +101,64 @@ export default {
 
   methods: {
     ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
-    async confirmed(){
-        await this.setTermService().then(async ()=>{
-          await this.checkPay()
-        })
+    async confirmed() {
+      await this.setTermService().then(async () => {
+        await this.checkPay()
+      })
     },
     async checkPay() {
       debugger
       const checker = await this.checkLastDayAuth()
       debugger
-      if (checker==true) {
+      if (checker == true) {
         await this.$router.push('/home')
-      }else {
+      } else {
         await this.$router.push('/payment');
       }
     },
 
-     login() {
-      const provider =  new firebaseInstance.firebase.auth.GoogleAuthProvider();
-       firebaseInstance.firebase.auth()
+    login() {
+      const provider = new firebaseInstance.firebase.auth.GoogleAuthProvider();
+      return firebaseInstance.firebase.auth()
+          .signInWithPopup(provider)
+          .then((result) => {
+            debugger
+            /** @type {firebase.auth.OAuthCredential} */
+            var credential = result.credential;
+
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            // ...
+            window.user = result.user;
+
+            this.checkTerm(user.uid).then(async (res) => {
+              debugger
+              if (res) {
+                debugger
+                await this.checkPay()
+              } else {
+                this.fixed = true
+              }
+            })
+          })
+          .catch((error) => {
+            console.log(error);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+    },
+
+    async FacebookLogin() {
+      const provider = await new firebaseInstance.firebase.auth.FacebookAuthProvider();
+      await firebaseInstance.firebase.auth()
           .signInWithPopup(provider)
           .then((result) => {
             /** @type {firebase.auth.OAuthCredential} */
@@ -131,65 +171,28 @@ export default {
             // ...
             window.user = result.user;
 
-          }).then(()=>{
-         this.checkTerm().then(async (res)=>{
-          if (res === "true") {
-            await this.checkPay()
-          } else {
-            this.fixed = true
-          }
-        })
-        })
-        .catch((error) => {
-        console.log(error);
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-      });
+          }).then(async () => {
+            var fix = await this.checkTerm()
+            console.log(fix)
+            if (fix === "true") {
+              await this.checkPay()
+            } else {
+              this.fixed = true
+            }
+          }).catch((error) => {
+            console.log(error);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
     },
 
-    async FacebookLogin() {
-        const provider = await new firebaseInstance.firebase.auth.FacebookAuthProvider();
-        await firebaseInstance.firebase.auth()
-            .signInWithPopup(provider)
-            .then((result) => {
-              /** @type {firebase.auth.OAuthCredential} */
-              var credential = result.credential;
-
-              // This gives you a Google Access Token. You can use it to access the Google API.
-              var token = credential.accessToken;
-              // The signed-in user info.
-              var user = result.user;
-              // ...
-              window.user = result.user;
-
-            }).then(async ()=>{
-          var fix = await this.checkTerm()
-          console.log(fix)
-          if (fix === "true") {
-            await this.checkPay()
-          } else {
-            this.fixed = true
-          }
-        }).catch((error) => {
-          console.log(error);
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-        });
-    },
-
-   async signIn() {
+    async signIn() {
       await firebaseInstance.firebase.auth().signInWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
             // Signed in
@@ -198,7 +201,7 @@ export default {
             window.user = userCredential.user;
 
             //if user alredy payed so go home. if not, go pay
-             this.checkPay()
+            this.checkPay()
 
           })
           .catch((error) => {

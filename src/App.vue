@@ -2,7 +2,7 @@
   <q-layout>
     <q-toolbar>
       <q-btn
-          v-show="$route.name.includes('Home') || $route.name.includes('payment')"
+          v-show="user.uid"
           class="absolute-right q-pr-sm"
           @click="signOut"
           icon="account_circle"
@@ -14,7 +14,7 @@
       />
     </q-toolbar>
 
-    <div id="image"><img alt="picPicLogo"  v-show="!$route.name.includes('welcome')" src="../../osher-project/src/assets/osher.png" width="160"></div>
+    <div id="image"><img alt="picPicLogo"   src="../src/assets/osher.png" width="160"></div>
     <q-page-container>
       <router-view></router-view>
     </q-page-container>
@@ -22,14 +22,19 @@
 </template>
 
 <script>
+import {mapState,mapMutations} from 'vuex'
 import firebaseInstance from '../../osher-project/src/middleware/firebase'
 
 
 export default {
+  computed:mapState('auth', ['user']),
   methods: {
+    ...mapMutations('auth', ['setUser']),
     signOut() {
+      const self = this
       firebaseInstance.firebase.auth().signOut().then(() => {
         // Sign-out successful.
+        self.setUser(null)
       }).catch((error) => {
         // An error happened.
       });

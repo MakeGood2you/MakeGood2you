@@ -4,9 +4,10 @@
       <div class="ori" dir="rtl">
         <form class="q-gutter-md">
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
-          <h5 class="witchSign" v-if="!turn">הרשמה </h5>
-          <q-input v-if="!turn" v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password" :type="isPwd ? 'password' : 'text'">
+          <h5 class="witchSign">הרשמה </h5>
+          <q-input v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
+          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password"
+                   :type="isPwd ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -17,29 +18,28 @@
           </q-input>
           <br>
 
-            <a class="textOk" @click="fixed = true" style="color: #027BE3; margin-left: 70%" >תנאי שימוש</a>
+          <a class="textOk" @click="fixed = true" style="color: #027BE3; margin-left: 70%">תנאי שימוש</a>
 
-            <q-dialog v-model="fixed">
-              <q-card>
-                <q-card-section>
-                  <div class="text-h6" dir="rtl" >תנאי שימוש</div>
-                </q-card-section>
+          <q-dialog v-model="fixed">
+            <q-card>
+              <q-card-section>
+                <div class="text-h6" dir="rtl">תנאי שימוש</div>
+              </q-card-section>
+              <q-separator/>
 
-                <q-separator/>
+              <q-card-section style="max-height: 50vh" class="scroll">
+                <p>{{ terms }}</p>
+              </q-card-section>
 
-                <q-card-section style="max-height: 50vh" class="scroll">
-                  <p>{{ terms }}</p>
-                </q-card-section>
+              <q-separator/>
 
-                <q-separator/>
-
-                <q-card-actions align="right">
-                  <q-btn flat label="אשר" color="primary" v-close-popup @click="accepted=true"/>
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
+              <q-card-actions align="right">
+                <q-btn flat label="אשר" color="primary" v-close-popup @click="accepted=true"/>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
           <q-btn class="buttonE" label="הרשמה" @click="sign()"/>
-          <q-btn class="buttonE" label="חזור"  @click="goBack()"/>
+          <q-btn class="buttonE" label="חזור" @click="goBack()"/>
         </form>
       </div>
     </div>
@@ -58,34 +58,39 @@ export default {
       fixed: false,
       email: '',
       password: '',
+      terms:'',
+      isPwd:true
     }
   },
   methods: {
-    ...mapActions('events', ['checkTerm', 'setTermService','checkLastDayAuth']),
-    goBack(){
+    ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
+    goBack() {
       this.$router.push(`/Register`)
     },
     async checkPay() {
       const checker = await this.checkLastDayAuth()
       debugger
-      if (checker==true) {
+      if (checker) {
         await this.$router.push('/home')
-      }else {
+      } else {
         await this.$router.push('/payment');
       }
     },
 
     sign() {
+      const self = this
       if (this.accepted === true) {
-        firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-            .then((userCredential) => {
+      return  firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+            .then(async (userCredential) => {
               // Signed in
               var user = userCredential.user;
               // ...
               window.user = userCredential.user;
+debugger
+             await this.setTermService()
+             await self.$router.push('/payment');
 
-                 this.setTermService()
-                 this.checkPay()
+              // this.checkPay()
 
             })
             .catch((error) => {
@@ -102,7 +107,7 @@ export default {
 </script>
 
 <style scoped>
-.buttonE{
+.buttonE {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -116,10 +121,12 @@ export default {
   color: antiquewhite;
   border-radius: 10px;
 }
-.textOk:hover{
+
+.textOk:hover {
   filter: opacity(50%);
 }
-.body{
+
+.body {
   display: flex;
   align-items: center;
   justify-content: center;
