@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "osher-project",
+    "picpic": "osher-project"
+  },
+  "targets": {
+    "osher-project": {
+      "hosting": {
+        "admin": [
+          "picpic-admin"
+        ]
+      }
+    }
+  }
+}

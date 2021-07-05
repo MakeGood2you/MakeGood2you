@@ -1,0 +1,63 @@
+{
+  "name": "osher-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@quasar/extras": "1.9.14",
+    "axios": "0.21.1",
+    "copyboard": "0.0.1-security",
+    "dns": "^0.2.2",
+    "dotenv": "^8.2.0",
+    "file-saver": "2.0.2",
+    "firebase": "8.2.7",
+    "firebase-functions": "^3.13.2",
+    "firebase-messaging": "1.0.6",
+    "fs": "0.0.2",
+    "lazyload": "^2.0.0-rc.2",
+    "qrcode": "^1.4.4",
+    "quasar": "1.15.1",
+    "vue": "2.6.12",
+    "vue-clipboard2": "^0.3.1",
+    "vue-confetti": "^2.2.1",
+    "vue-cool-lightbox": "^2.7.4",
+    "vue-image-lightbox": "^7.2.0",
+    "vue-infinite-loading": "^2.4.5",
+    "vue-lazyload": "^1.3.3",
+    "vue-notification": "^1.3.20",
+    "vue-pure-lightbox": "^3.1.2",
+    "vue-router": "3.5.1",
+    "vuex": "3.6.2"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@types/file-saver": "^2.0.1",
+    "@vue/cli-plugin-babel": "4.5.11",
+    "@vue/cli-plugin-router": "4.5.11",
+    "@vue/cli-service": "4.5.11",
+    "firebase-tools": "9.3.0",
+    "fslightbox-vue": "^1.2.0",
+    "node-sass": "5.0.0",
+    "postcss-rtl": "1.7.3",
+    "sass-loader": "10.1.1",
+    "vue-cli-plugin-quasar": "3.0.1",
+    "vue-template-compiler": "2.6.12"
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".postcssrc.js",
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oshervatari/osher-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oshervatari/osher-project/issues"
+  },
+  "homepage": "https://github.com/oshervatari/osher-project#readme"
+}
