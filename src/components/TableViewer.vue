@@ -177,6 +177,7 @@ export default {
       })
     },
     reverseString(str) {
+      debugger
       const splitString = str.split("-");
       splitString.splice(1, 0, '-')
       splitString.splice(3, 0, '-')

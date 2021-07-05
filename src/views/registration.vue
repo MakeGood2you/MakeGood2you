@@ -2,7 +2,7 @@
   <div class="body">
     <div class="background">
       <div class="ori" dir="rtl">
-        <form class="q-gutter-md">
+        <form class="q-gutter-md column">
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
           <h5 class="witchSign">הרשמה </h5>
           <q-input v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
@@ -17,25 +17,22 @@
             </template>
           </q-input>
           <br>
-
-          <a class="textOk" @click="fixed = true" style="color: #027BE3; margin-left: 70%">תנאי שימוש</a>
+          <q-checkbox class="checkbox self-start" v-model="accepted" >אני מאשר את
+            <a  style="color: #027BE3"  v-close-popup @click="fixed=true">תנאי שימוש</a>
+          </q-checkbox>
 
           <q-dialog v-model="fixed">
             <q-card>
               <q-card-section>
-                <div class="text-h6" dir="rtl">תנאי שימוש</div>
+                <div class="text-h6" dir="rtl" >תנאי שימוש</div>
               </q-card-section>
+
               <q-separator/>
 
               <q-card-section style="max-height: 50vh" class="scroll">
                 <p>{{ terms }}</p>
               </q-card-section>
 
-              <q-separator/>
-
-              <q-card-actions align="right">
-                <q-btn flat label="אשר" color="primary" v-close-popup @click="accepted=true"/>
-              </q-card-actions>
             </q-card>
           </q-dialog>
           <q-btn class="buttonE" label="הרשמה" @click="sign()"/>

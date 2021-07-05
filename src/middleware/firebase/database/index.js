@@ -5,7 +5,8 @@ async function setTerm() {
 }
 
 async function setPackage(options) {
-    await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/package/selected`).set(`${options.paymentMethod}`)
+    debugger
+   return await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/package/selected`).set(`${options.paymentMethod}`)
 }
 
 async function checkTermService(uid) {

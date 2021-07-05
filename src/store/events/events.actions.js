@@ -53,6 +53,7 @@ export default {
     },
     getEvents: async ({commit}) => {
         const events = await database.read({entity: 'events'});
+        debugger
         commit('setEvents', events)
     },
 
