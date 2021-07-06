@@ -5,9 +5,10 @@
         <form class="q-gutter-md column">
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
           <h5 class="witchSign">הרשמה </h5>
-          <q-input v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password"
-                   :type="isPwd ? 'password' : 'text'">
+          <q-input v-model="localUser.email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
+          <q-input placeholder="סיסמא" ref="password" id="password" v-model="localUser.password"
+                   :type="isPwd ? 'password' : 'text'"
+          >
             <template v-slot:append>
               <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -17,14 +18,16 @@
             </template>
           </q-input>
           <br>
-          <q-checkbox class="checkbox self-start" v-model="accepted" >אני מאשר את
-            <a  style="color: #027BE3"  v-close-popup @click="fixed=true">תנאי שימוש</a>
-          </q-checkbox>
-
+          <div class="self-start">
+            <q-checkbox class="checkbox " @input="setPropertyTrueOrFalse('isAcceptTerms')" v-model="accepted">אני מאשר
+              את
+            </q-checkbox>
+            <a style="color: #027BE3" v-close-popup @click="fixed=true"> תנאי שימוש </a>
+          </div>
           <q-dialog v-model="fixed">
             <q-card>
               <q-card-section>
-                <div class="text-h6" dir="rtl" >תנאי שימוש</div>
+                <div class="text-h6" dir="rtl">תנאי שימוש</div>
               </q-card-section>
 
               <q-separator/>
@@ -35,7 +38,7 @@
 
             </q-card>
           </q-dialog>
-          <q-btn class="buttonE" label="הרשמה" @click="sign()"/>
+          <q-btn class="buttonE" label="הרשמה" @click="registerWithMailAndPass()"/>
           <q-btn class="buttonE" label="חזור" @click="goBack()"/>
         </form>
       </div>
@@ -44,64 +47,46 @@
 </template>
 
 <script>
-import firebaseInstance from "@/middleware/firebase";
-import {mapActions, mapMutations} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   name: "registration",
   data() {
     return {
+      localUser: {
+        email: '',
+        password: ''
+      },
       accepted: false,
       fixed: false,
-      email: '',
-      password: '',
       terms: '',
       isPwd: true
     }
   },
+  computed: mapState('auth', ['isFixed', 'isAcceptTerms', 'user']),
   methods: {
-    ...mapActions('auth', ['setUser']),
-    ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
+    ...mapActions('auth', ['register', 'checkTerm']),
+    ...mapMutations('auth', ['setPropertyTrueOrFalse']),
     goBack() {
       this.$router.push(`/Register`)
     },
-    async checkPay() {
-      const checker = await this.checkLastDayAuth()
-      debugger
-      if (checker) {
-        await this.$router.push('/home')
-      } else {
-        await this.$router.push('/payment');
-      }
-    },
 
-    sign() {
-      const self = this
-      if (this.accepted === true) {
-        return firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-            .then(async (userCredential) => {
-              // Signed in
-              var user = userCredential.user;
-              // ...
-              window.user = userCredential.user;
-              debugger
-
-              await self.setUser(user)
-              await this.setTermService()
-              await self.$router.push('/payment');
-
-              // this.checkPay()
-
-            })
-            .catch((error) => {
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // ..
-            });
-      } else {
+    async registerWithMailAndPass() {
+      console.log(this.accepted)
+      if (this.isAcceptTerms === false) {
         alert('יש לאשר את תנאי השימוש')
+        return console.error('יש לאשר את תנאי השימוש')
       }
-    }
+      if (this.localUser.email && this.localUser.password) {
+        await this.register(this.localUser)
+        if (this.user) {
+          await this.$router.push('/payment');
+        }
+      } else {
+        alert('אחד מהפרטים לא הוזנו')
+      }
+
+    },
   }
 }
 </script>

@@ -1,6 +1,12 @@
 export default {
     setUser: (state, user) => {
         state.user = user
-        debugger
     },
+    setPropertyTrueOrFalse: (state, name) => {
+        state[name] =  !state[name]
+    },
+    isUserPay: (state, bool) =>{
+        state.isPay = bool
+    },
+
 }

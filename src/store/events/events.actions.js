@@ -11,9 +11,7 @@ export default {
         return leads
     },
 
-    setTermService: async () => {
-       await database.setTerm()
-    },
+
     setPackagePayment: async ({state, commit},paymentMethod) => {
         await database.setPackage({paymentMethod})
     },
@@ -22,10 +20,7 @@ export default {
         return pack
     },
 
-    checkTerm: async ({commit}, uid) => {
-         const term = await database.checkTermService(uid)
-         return term
-    },
+
     checkLastDayAuth: async () => {
         const last = await database.checkLastDayForAuth()
         return last
@@ -53,7 +48,6 @@ export default {
     },
     getEvents: async ({commit}) => {
         const events = await database.read({entity: 'events'});
-        debugger
         commit('setEvents', events)
     },
 

@@ -79,7 +79,8 @@ export default {
     return {}
   },
   methods: {
-    ...mapActions('events', ['setPackagePayment']),
+    ...mapActions('events', ['setPackagePayment',]),
+    ...mapActions('auth', ['isUserConnected',]),
 
     month() {
       let paymentMethod = 'month'
@@ -96,6 +97,9 @@ export default {
       this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1j1kja/1j1klb/payment/';
     }
+  },
+  created() {
+    this.isUserConnected()
   }
 }
 </script>

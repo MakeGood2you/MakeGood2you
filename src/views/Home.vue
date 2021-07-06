@@ -25,7 +25,7 @@ import EventPage from './EventPage'
 import pictureAdded from "./pictureAdded"
 import Register from "./Register"
 import leads from "./leads"
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
   name: 'Home',
@@ -38,6 +38,7 @@ export default {
   components: {
     AddEvent, TableViewer, EventPage, pictureAdded, Register, leads
   },
+  computed:mapState('auth',['isPay']),
   methods: {
     ...mapActions('events', ['checkPackage', 'setPackagePayment', 'getLeads', 'checkLastDayForUse', 'checkPayTrue']),
 
@@ -52,31 +53,32 @@ export default {
     }
   },
   async created() {
+
     // todo: check date validation (if validation exist keep home if not: set limited date for use)
-    const pay = await this.checkPayTrue()
-    if (pay===false){
+    // const pay = await this.checkPayTrue()
+    if (!this.isPay){
       await this.$router.push('/payment')
     }
-    if (!window.user) {
-      await this.$router.push('/')
-    }
-
-    const pack = await this.checkPackage()
-
-    if (pack === 'month') {
-      this.validationNumber = 37
-    }
-    if (pack === 'halfYear') {
-      this.validationNumber = 194
-    }
-    if (pack === 'year') {
-      this.validationNumber = 395
-    }
-
-    const valid = await this.checkLastDayForUse(this.validationNumber)
-    if (valid === false) {
-      await this.$router.push('/payment')
-    }
+    // if (!window.user) {
+    //   await this.$router.push('/')
+    // }
+    //
+    // const pack = await this.checkPackage()
+    //
+    // if (pack === 'month') {
+    //   this.validationNumber = 37
+    // }
+    // if (pack === 'halfYear') {
+    //   this.validationNumber = 194
+    // }
+    // if (pack === 'year') {
+    //   this.validationNumber = 395
+    // }
+    //
+    // const valid = await this.checkLastDayForUse(this.validationNumber)
+    // if (valid === false) {
+    //   await this.$router.push('/payment')
+    // }
   }
 }
 

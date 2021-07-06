@@ -22,24 +22,16 @@
 </template>
 
 <script>
-import {mapState,mapActions} from 'vuex'
-import firebaseInstance from '../../osher-project/src/middleware/firebase'
+import {mapActions, mapState} from 'vuex'
 
 
 export default {
   computed:mapState('auth', ['user']),
   methods: {
-    ...mapActions('auth', ['setUser']),
-    signOut() {
-      const self = this
-      return firebaseInstance.firebase.auth().signOut().then(async () => {
-        // Sign-out successful.
-       await self.setUser(null)
-       await this.$router.push(`/`)
-
-      }).catch((error) => {
-        // An error happened.
-      });
+    ...mapActions('auth', ['firebaseLogout']),
+    async signOut() {
+      await this.firebaseLogout()
+      await this.$router.push(`/`)
     }
   }
 }

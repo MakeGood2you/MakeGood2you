@@ -1,9 +1,9 @@
 import firebase from 'firebase/app';
-import firebaseMessaging from 'firebase/messaging'
-import auth from 'firebase/auth';
-import functions from "firebase/functions";
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/functions';
 
-firebase.initializeApp ({
+firebase.initializeApp({
     apiKey: "AIzaSyC0KwyR8ujADw3j7MyoWNWsIaaP_NlnphY",
     authDomain: "osher-project.firebaseapp.com",
     databaseURL: "https://osher-project-default-rtdb.europe-west1.firebasedatabase.app",
@@ -13,11 +13,23 @@ firebase.initializeApp ({
     appId: "1:1026088270281:web:b1ed5527a0438c2dbe5018"
 });
 
+const authentication = () => {
+    return firebase.auth()
+}
 
-const messaging = firebase.messaging();
-
-export default  {
- firebase,
- messaging,
+authentication().onAuthStateChanged(async function (user) {
+    if (user) {
+        window.user = user;
+        console.log(window.user.uid)
+        console.log(user)
+    } else {
+        // No user is signed in.
+        console.log(user, ' no user')
+    }
+});
+export default {
+    authentication,
+    firebase,
+    // messaging,
 
 }

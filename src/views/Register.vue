@@ -5,8 +5,9 @@
         <form class="q-gutter-md">
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
           <h5 class="witchSign">התחברות</h5>
-          <q-input v-if="!turn" v-model="email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="password"
+          <q-input v-if="!turn" v-model="user.email" placeholder="אימייל" style="margin-top: 60px"
+                   type="email"></q-input>
+          <q-input placeholder="סיסמא" ref="password" id="password" v-model="user.password"
                    :type="isPwd ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
@@ -21,7 +22,7 @@
           <div><br>
             <p class="forget" @click="goToForgot">שכחתי סיסמא</p>
 
-            <q-dialog v-model="fixed">
+            <q-dialog v-model="isFixed">
               <q-card>
                 <q-card-section>
                   <div class="text-h6" dir="rtl">תנאי שימוש</div>
@@ -41,33 +42,31 @@
             </q-dialog>
           </div>
           <br><br>
-          <button @click="signIn()" class="connectMe" style="margin: auto; display:grid;">
+          <button @click="getLogin('passAndEmail')" class="connectMe" style="margin: auto; display:grid;">
             <span></span>
             התחבר
           </button>
 
           <p style="text-align: center; margin-top: 20px; font-size: 17px">או באמצעות:</p>
           <div>
-            <q-btn flat style="margin-left: 20px;" @click="login()">
+            <q-btn flat style="margin-left: 20px;" @click="getLogin('google')">
               <img src="../assets/google.png" height="50" width="50"/>
             </q-btn>
             <q-btn flat icon="facebook" size="xl" style="display: inline; color: #0028ad; margin-right: 20px; "
-                   @click="FacebookLogin()"/>
+                   @click="getLogin('facebook')"/>
           </div>
 
         </form>
         <br>
       </div>
-      <p style="text-align: center; font-size: 15px">עדיין לא נרשמת? <b class="reg" @click="registering">לחץ
-        כאן</b></p>
+      <p style="text-align: center; font-size: 15px">עדיין לא נרשמת? <b class="reg" @click="registering">
+        לחץ כאן
+      </b></p>
     </div>
   </div>
 </template>
-
 <script>
-import firebaseInstance from '../middleware/firebase'
-import {mapActions} from 'vuex'
-import functionsApi from '../middleware/firebase/database/functionsApi'
+import {mapActions, mapMutations, mapState} from 'vuex'
 
 require('dotenv').config();
 
@@ -82,6 +81,11 @@ export default {
   name: "Register",
   data() {
     return {
+      user: {
+        email: '',
+        password: ''
+      },
+
       isPwd: true,
       accepted: false,
       fixed: false,
@@ -89,8 +93,7 @@ export default {
       code: false,
       phoneAuth: false,
       turn: false,
-      email: '',
-      password: '',
+
       name: null,
       lastName: null,
       phone: null,
@@ -99,127 +102,30 @@ export default {
       terms: ''
     }
   },
-
+  computed: {
+    ...mapState('auth', ['isPay', 'isFixed'])
+  },
   methods: {
-    ...mapActions('auth', ['setUser']),
+    ...mapActions('auth', ['checkTerm', 'login', 'setTermService', 'isUserPayValidate']),
+    ...mapMutations('auth', ['setUser']),
+    ...mapActions('events', ['checkLastDayAuth']),
+    async getLogin(provider) {
+      provider = provider !== 'passAndEmail' ? provider : this.user
+      await this.login(provider)
+      this.choseRouter()
 
-    ...mapActions('events', ['checkTerm', 'setTermService', 'checkLastDayAuth']),
+    },
+
     async confirmed() {
-      await this.setTermService().then(async () => {
-        await this.checkPay()
-      })
+      await this.setTermService()
+      //check if user pay
+      await this.isUserPayValidate()
+      this.choseRouter()
     },
-    async checkPay() {
+
+    choseRouter() {
       debugger
-      const checker = await this.checkLastDayAuth()
-      debugger
-      if (checker == true) {
-        await this.$router.push('/home')
-      } else {
-        await this.$router.push('/payment');
-      }
-    },
-
-    login() {
-      const self = this
-      const provider = new firebaseInstance.firebase.auth.GoogleAuthProvider();
-      return firebaseInstance.firebase.auth()
-          .signInWithPopup(provider)
-          .then(async (result) => {
-            debugger
-            /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
-
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            window.user = result.user;
-            await self.setUser(user)
-
-            this.checkTerm(user.uid).then(async (res) => {
-              debugger
-              if (res) {
-                debugger
-                await this.checkPay()
-              } else {
-                this.fixed = true
-              }
-            })
-          })
-          .catch((error) => {
-            console.log(error);
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-    },
-
-    async FacebookLogin() {
-      const self = this
-      const provider = new firebaseInstance.firebase.auth.FacebookAuthProvider();
-      return firebaseInstance.firebase.auth()
-          .signInWithPopup(provider)
-          .then(async (result) => {
-            /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
-
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            window.user = result.user;
-            await self.setUser(user)
-
-          }).then(async () => {
-            var fix = await this.checkTerm()
-            console.log(fix)
-            if (fix === "true") {
-              await this.checkPay()
-            } else {
-              this.fixed = true
-            }
-          }).catch((error) => {
-            console.log(error);
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-    },
-
-    async signIn() {
-      const self = this
-      return  firebaseInstance.firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-          .then(async (userCredential) => {
-            // Signed in
-            var user = userCredential.user;
-            // ...
-            window.user = userCredential.user;
-            debugger
-            await self.setUser(user)
-
-            //if user alredy payed so go home. if not, go pay
-            await this.checkPay()
-
-          })
-          .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ..
-          });
-
+      this.isPay ? this.$router.push('/Home') : this.$router.push('/payment');
     },
     goToForgot() {
       this.$router.push('/forgot')
@@ -235,14 +141,12 @@ export default {
       this.turn = false
     },
   },
-  created() {
-    debugger
-    functionsApi.validatePayment({entity : 'yeyyeyeye'}).then(res =>{
-      debugger
-      console.log(res)
-    })
-    if (window.user) {
-      this.$router.push('/payment')
+
+  async created() {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+      this.setUser(user)
+      // const isUserPay = await this.isUserPayValidate(user.uid)
     }
   }
 }

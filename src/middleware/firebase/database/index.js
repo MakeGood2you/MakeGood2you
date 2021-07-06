@@ -1,7 +1,10 @@
 import firebaseInstance from '../';
 
-async function setTerm() {
-    await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/terms/confirmed`).set('true')
+async function setTerm(uid) {
+    debugger
+    await firebaseInstance.firebase.database()
+        .ref(`users/${uid}/data/terms/confirmed`)
+        .set(true)
 }
 
 async function setPackage(options) {
@@ -10,7 +13,6 @@ async function setPackage(options) {
 }
 
 async function checkTermService(uid) {
-    debugger
     const check = await firebaseInstance.firebase.database().ref(`users/${uid}/data/terms/confirmed`).once('value').then((res) => {
         return res.val()
     });
@@ -76,6 +78,14 @@ function checkLastDayForAuth() {
                 return false
             })
         }
+    });
+}
+
+function isUserPay() {
+    return firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/package/validation`).once('value').then((res) => {
+       return res.val()
+
+
     });
 }
 
