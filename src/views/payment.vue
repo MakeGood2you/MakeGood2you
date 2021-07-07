@@ -90,17 +90,17 @@ export default {
     month() {
       let paymentMethod = 'month'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1iyla6/1ldh1e/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5kn/1le5j6/payment/';
     },
     halfYear() {
       let paymentMethod = 'halfYear'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1j1kkt/1j1kj9/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5jj/1le5jq/payment/';
     },
     year() {
       let paymentMethod = 'year'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1j1kja/1j1klb/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5ju/1le617/payment/';
     }
   },
   created() {
