@@ -52,12 +52,11 @@ export default {
       }
     }
   },
-  async created() {
-
+   created() {
     // todo: check date validation (if validation exist keep home if not: set limited date for use)
     // const pay = await this.checkPayTrue()
     if (!this.isPay){
-      await this.$router.push('/payment')
+       this.$router.push('/payment')
     }
     // if (!window.user) {
     //   await this.$router.push('/')

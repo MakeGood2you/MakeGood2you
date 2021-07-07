@@ -33,7 +33,6 @@ export default {
     },
 
     register: async ({commit, state, dispatch}, user) => {
-
         const firebaseAuthUser = await authApi.registerWithPassAndEmail(user)
         if (!firebaseAuthUser) return console.error('not user')
         debugger
@@ -83,6 +82,7 @@ export default {
         console.log('is user pay? ', isUserPay)
         commit('isUserPay', isUserPay)
     },
+
 
     isUserConnected: ({commit}) => {
         const user = JSON.parse(localStorage.getItem('user'))

@@ -1,39 +1,28 @@
 <template>
   <q-layout>
     <q-toolbar>
-      <q-btn
-          v-show="user"
-          class="absolute-right q-pr-sm"
-          @click="signOut"
-          icon="account_circle"
-          no-caps
-          color="black"
-          flat
-          dense
-          label="התנתק"
-      />
+      <Setting  v-show="user" class="absolute-right q-pr-sm"></Setting>
     </q-toolbar>
 
     <div id="image"><img alt="picPicLogo"   src="../src/assets/osher.png" width="160"></div>
+
     <q-page-container>
+
       <router-view></router-view>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import Setting from '../src/components/Settings'
+import {mapState} from "vuex";
 
 
 export default {
-  computed:mapState('auth', ['user']),
-  methods: {
-    ...mapActions('auth', ['firebaseLogout']),
-    async signOut() {
-      await this.firebaseLogout()
-      await this.$router.push(`/`)
-    }
-  }
+  data: () => ({}),
+  components: {Setting},
+  computed: mapState('auth', ['user']),
+
 }
 
 </script>

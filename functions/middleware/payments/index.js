@@ -9,7 +9,9 @@ exports.validatePayment = functions.https.onCall(async (data, context) => {
     console.log('///////////////////'+uid+'////////////////////////////////////')
 
     const entity = `users/${uid}/data/package/paymentDetails/data/OG-CustomerID`
+
     const isUserPay = await db.get(entity)
+
     console.log(`//////////////////////////////${isUserPay}/////////////////////////////`)
     if (!isUserPay){
         console.log(`////////////////////////////// FALSE /////////////////////////////`)
