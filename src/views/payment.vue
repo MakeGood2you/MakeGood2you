@@ -1,14 +1,12 @@
 <template>
   <div class="body">
     <div dir="rtl" class="background4">
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
-      <p style="font-size: 60px; color: #000000; @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');font-family: 'Amatic SC', cursive; ">
-        חבילות</p><br>
+      <p style="font-size: 60px; color: #000000; font-family: 'Open Sans Hebrew Condensed', serif; ">
+        בחר את התכנית שלך</p><br>
       <div
-          style="text-align: right; color: #500000; font-size: 30px; margin-right: 30px; font-family:  'Amatic SC', cursive;"
+          style="text-align: right; color: #500000; font-size: 30px; margin-right: 30px;   font-family: 'Open Sans Hebrew Condensed', serif;"
           dir="rtl">
-        <p style="font-size: 35px"><b>
+        <p style="font-size: 25px"><b>
           <q-icon
               name="check"
               style="color: #00383d;
@@ -17,17 +15,16 @@
           />
         </b> יצירת אירועים ללא הגבלה
         </p>
-        <p style="font-size: 35px"><b>
+        <p style="font-size: 25px"><b>
           <q-icon
               name="check"
               style="color: #00383d;
           width: 30px;
           font-size: 30px"
-
           />
         </b> כמות מוזמנים ללא הגבלה
         </p>
-        <p style="font-size: 35px"><b>
+        <p style="font-size: 25px"><b>
           <q-icon
               name="check"
               style="color: #00383d;
@@ -36,7 +33,7 @@
           />
         </b> אפשרות הגבלת תמונות למוזמן
         </p>
-        <p style="font-size: 35px"><b>
+        <p style="font-size: 25px"><b>
           <q-icon
               name="check"
               style="color: #00383d;
@@ -45,26 +42,34 @@
           />
         </b>הצגת לידים
         </p>
+        <p style="font-size: 25px"><b>
+          <q-icon
+              name="add"
+              style="color: #00383d;
+          width: 30px;
+          font-size: 30px"
+          />
+        </b>רולאפ מתנה !
+        </p>
       </div>
       <br>
-      <q-btn @click="month" class="month"
-             style="font-family: 'Amatic SC', cursive;  background-color: rgb(142,174,194);" dir="rtl">
-        <p style="font-size: 32px"><br>חודשי<br>
-        <p style="font-size: 40px"><b>150 ש"ח</b><br><br><b
-            style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">250 ש"ח</b></p>
-      </q-btn>
       <q-btn @click="halfYear" class="halfYear"
-             style="font-family: 'Amatic SC', cursive; background-color: rgb(70,123,147);" dir="rtl">
-        <p style="font-size: 32px"><br><b>חצי שנה + <br>שבועיים חינם!</b>
-        <p style="font-size: 40px"><b>600 ש"ח</b><br><br><b
-            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">900 ש"ח</b></p>
+             style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);" dir="rtl">
+        <p style="font-size: 32px; color: white"><br>חצי שנתי<br>
+        <p style="font-size: 32px; color: white"><b>1,750 ש"ח</b><br><p
+            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">2100 ש"ח</p>
       </q-btn>
-      <q-btn @click="year" class="year" style="font-family: 'Amatic SC', cursive; background-color: rgb(36,91,121);"
+      <q-btn @click="month" class="month"
+             style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(31,65,123);" dir="rtl">
+        <p style="font-size: 32px; color: white"><br>חודשי<br>
+        <p style="font-size: 32px; color: white"><b>350 ש"ח</b><br><br><p
+          style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">500 ש"ח</p>
+      </q-btn>
+      <q-btn @click="year" class="year" style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);"
              dir="rtl">
-        <p style="font-size: 32px"><br><b>שנה + <br>חודש חינם!</b>
-        <p style="font-size: 40px"><b>1,000 ש"ח</b><br><br><b
-            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">1,600 ש"ח</b>
-        </p>
+        <p style="font-size: 32px; color: white"><br> שנתי
+        <p style="font-size: 32px; color: white"><b>2,850 ש"ח</b><br><p
+            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">4200 ש"ח</p>
       </q-btn>
     </div>
   </div>
@@ -85,7 +90,7 @@ export default {
     month() {
       let paymentMethod = 'month'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1iyla6/1iyla7/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1iyla6/1ldh1e/payment/';
     },
     halfYear() {
       let paymentMethod = 'halfYear'
@@ -105,6 +110,10 @@ export default {
 </script>
 
 <style scoped>
+@import url(https://dl.dropboxusercontent.com/u/15746367/fonts/carmela/style.css);
+@import url(https://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrewcondensed.css);
+
 .background4 {
   width: 700px;
   position: relative;
@@ -128,9 +137,10 @@ export default {
   width: 170px;
   height: 200px;
 }
-
+.month:hover, .halfYear:hover, .year:hover {
+filter: opacity(80%);
+}
 .insted {
-
 
   margin-right: 20px;
   /* Safari */
