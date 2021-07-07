@@ -25,7 +25,7 @@ import EventPage from './EventPage'
 import pictureAdded from "./pictureAdded"
 import Register from "./Register"
 import leads from "./leads"
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapMutations, mapState} from 'vuex'
 
 export default {
   name: 'Home',
@@ -40,6 +40,7 @@ export default {
   },
   computed:mapState('auth',['isPay', 'user']),
   methods: {
+    ...mapMutations('auth', ['setUser']),
     ...mapActions('events', ['checkPackage', 'setPackagePayment', 'getLeads', 'checkLastDayForUse', 'checkPayTrue']),
 
     async goLeads() {
@@ -53,6 +54,11 @@ export default {
     }
   },
    created() {
+     const user = JSON.parse(localStorage.getItem('user'))
+     if (user) {
+       this.setUser(user)
+       // const isUserPay = await this.isUserPayValidate(user.uid)
+     }
     // todo: check date validation (if validation exist keep home if not: set limited date for use)
     // const pay = await this.checkPayTrue()
     // if (!this.user){

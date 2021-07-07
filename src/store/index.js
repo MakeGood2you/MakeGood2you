@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import events from './events'
 import auth from './auth'
 import app from './app'
+import businesses from './businesses'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,8 @@ export default new Vuex.Store({
     modules: {
         events,
         auth,
-        app
+        app,
+        businesses
     }
 })
 

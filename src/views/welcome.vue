@@ -22,9 +22,8 @@ export default {
 
      const payload = {data: this.$route.query}
      // await this.welcomeFunction(payload).then(() => {
-        if (user.isNewUser){
+        if (this.user.isNewUser){
           this.$router.push('/add-business-details')
-          debugger
         }
        else {
          debugger

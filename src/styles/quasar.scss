@@ -3,10 +3,11 @@
 // @import '~quasar-addon-styl';
 
 // app global css in SCSS form
-@import "onBoarding/mainStyle";
+//@import "onBoarding/mainStyle";
 @import "shapes";
-@import "fonts";
+@import "sizes/containers";
 @import "inputs";
+@import "borders/radius";
 
 * {
   //margin: 0;
@@ -49,7 +50,6 @@ a {
 }
 
 .center {
-  //text-align: center;
   margin: auto;
 }
 

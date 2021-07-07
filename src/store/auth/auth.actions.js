@@ -13,6 +13,8 @@ export default {
             console.error('there is not chosen provider')
             return undefined
         }
+        commit('setUser', firebaseAuthUser)
+        localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
         // set the user in state and localstorage
 

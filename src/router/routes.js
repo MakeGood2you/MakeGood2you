@@ -12,7 +12,7 @@ const routes = [
     {path: '/welcome', name: 'welcome', component: () => import('../views/welcome.vue'),},
 
     {path: '/Home', name: 'Home', component: Home, meta: {authUserPayment: true}},
-    {path: '/add-business-details', name: 'addBusinessDetails', component: () => import('../components/auth/AddBusinessDetails.vue'), meta: {authUserPayment: true}},
+    {path: '/add-business-details', name: 'addBusinessDetails', component: () => import('../components/business/AddBusinessDetails.vue'), meta: {authUserPayment: true}},
     {path: '/leads', name: 'leads', component: leads, meta: {authUserPayment: true}},
 
     {path: '/event-page/:eid', name: 'EventPage', component: () => import(/* webpackChunkName: "about" */ '../views/EventPage.vue'), meta: {authUserPayment: true}},

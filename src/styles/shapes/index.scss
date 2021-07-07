@@ -1,0 +1,32 @@
+@import "src/styles/quasar.variables";
+
+.circle-bottom {
+  width: 100vw;
+  height: 30vh;
+  background-color: $input-bg;
+  border-radius: 0px 0px 50% 50% / 0px 0px 20% 20%
+}
+
+.triangle-bottom {
+  width: 100vw;
+  height: 38vh;
+  background: rgba(84, 73, 217, 0.1);
+}
+
+.triangle-bottom:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 4rem solid #f8f6f6;;
+  border-left: 50vw solid transparent;
+  border-right: 50vw solid transparent;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
+}

@@ -7,18 +7,12 @@
            flat
            dense
            label="הגדרות">
-      <q-menu>
+      <q-menu class="">
 
         <div class="row no-wrap q-pa-md">
           <div class="column">
             <div class="text-h6 q-mb-md ">הגדרות</div>
-            <q-btn icon="account_circle"
-                   class="self-end"
-                   no-caps
-                   color="black"
-                   flat
-                   dense
-                   v-model="mobileData" label="התנתקות מהשירות"/>
+            <div class="self-end column">
 
             <q-btn
                    class="self-end"
@@ -26,10 +20,22 @@
                    color="black"
                    flat
                    dense
-                   v-model="mobileData" label="פרטי העסק">
+                   v-model="mobileData">
+              <span>התנתקות מהשירות</span><q-icon name="account_circle"></q-icon>
+            </q-btn>
 
-            </q-btn>          </div>
-
+            <q-btn
+                @click="goEditBusinessDetails"
+                class="self-end"
+                no-caps
+                color="black"
+                flat
+                dense
+                v-model="mobileData">
+              <span> פרטי העסק</span><q-icon name="edit"></q-icon>
+            </q-btn>
+          </div>
+          </div>
           <q-separator vertical inset class="q-mx-lg"/>
 
           <div class="column items-center">
@@ -68,7 +74,9 @@ export default {
   computed: mapState('auth', ['user']),
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
-
+    goEditBusinessDetails() {
+      this.$router.push('/add-business-details')
+    },
     async signOut() {
       await this.firebaseLogout()
       await this.$router.push(`/`)

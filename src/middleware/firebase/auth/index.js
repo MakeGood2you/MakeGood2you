@@ -20,7 +20,7 @@ async function loginProvider(provider) {
             var token = credential.accessToken;
             // The signed-in user info.
             var user = result.user;
-
+debugger
             return {
                 uid: user.uid,
                 email: user.email,
@@ -35,7 +35,7 @@ async function loginProvider(provider) {
             var errorMessage = error.message;
             // The email of the user's account used.
             var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
+            // The firebase.business.AuthCredential type that was used.
             var credential = error.credential;
             console.error(errorCode)
             console.error(errorMessage)
@@ -50,7 +50,7 @@ function loginWithMailAndPass(options) {
         .then((userCredential) => {
             // Signed in
             var user = userCredential.user;
-
+debugger
             // ...
             return {
                 uid: user.uid,
@@ -69,6 +69,7 @@ function registerWithPassAndEmail(user) {
     return firebaseInstance.firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
         .then(async (result) => {
             // Signed in
+            debugger
             var user = result.user;
             // ...
             window.user = result.user;
