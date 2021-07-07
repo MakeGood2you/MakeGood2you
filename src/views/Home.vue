@@ -38,7 +38,7 @@ export default {
   components: {
     AddEvent, TableViewer, EventPage, pictureAdded, Register, leads
   },
-  computed:mapState('auth',['isPay']),
+  computed:mapState('auth',['isPay', 'user']),
   methods: {
     ...mapActions('events', ['checkPackage', 'setPackagePayment', 'getLeads', 'checkLastDayForUse', 'checkPayTrue']),
 
@@ -55,9 +55,9 @@ export default {
    created() {
     // todo: check date validation (if validation exist keep home if not: set limited date for use)
     // const pay = await this.checkPayTrue()
-    if (!this.isPay){
-       this.$router.push('/payment')
-    }
+    // if (!this.user){
+    //    this.$router.push('/payment')
+    // }
     // if (!window.user) {
     //   await this.$router.push('/')
     // }

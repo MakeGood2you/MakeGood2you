@@ -1,14 +1,12 @@
 import firebaseInstance from '../';
 
 async function setTerm(uid) {
-    debugger
     await firebaseInstance.firebase.database()
         .ref(`users/${uid}/data/terms/confirmed`)
         .set(true)
 }
 
 async function setPackage(options) {
-    debugger
    return await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/package/selected`).set(`${options.paymentMethod}`)
 }
 

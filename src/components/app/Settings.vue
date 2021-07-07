@@ -19,6 +19,7 @@
                    flat
                    dense
                    v-model="mobileData" label="התנתקות מהשירות"/>
+
             <q-btn
                    class="self-end"
                    no-caps

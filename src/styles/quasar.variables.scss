@@ -1,9 +1,21 @@
 // It's highly recommended to change the default colors
 // to match your app's branding.
+$dark      : #1D1D1D;
 
-$primary   : #027BE3;
-$secondary : #26A69A;
+$positive  : #21BA45;
+$negative  : #C10015;
+$info      : #31CCEC;
+$warning   : #F2C037;
+
+//////////////////////////////////////////////
+//                COLORS                    //
+//////////////////////////////////////////////
+$primary   : #5F2EEA;
+$secondary : #5449D9;
 $accent    : #9C27B0;
+
+$input-bg  : #f8f6f6;;
+$hover-btn : #F5F1FF;
 
 $dark      : #1D1D1D;
 
@@ -11,5 +23,21 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+//////////////////////////////////////////////
+//                SIZES                     //
+//////////////////////////////////////////////
+
+$input-size : 18rem;
+//FONTS
+$font-size-sm : 16px;
+$font-size-md : 18px;
+$font-size-lg : 22px;
+$font-size-xl : 26px;
+//BUTTONS
+$btn-ws-md : 8rem;
+$btn-hs-md : 3rem ;
+$btn-ws-xl : 20rem ;
+
 
 @import '~quasar-variables-styl'

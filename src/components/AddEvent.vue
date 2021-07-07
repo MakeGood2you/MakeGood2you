@@ -7,23 +7,7 @@
       <q-input v-model="localEditedEvent.place" class="inputs" color="black"  label="מקום האירוע" type="text"/>
       <q-input v-model="localEditedEvent.date" class="inputs" color="black"  label="מועד האירוע" type="date"></q-input>
       <q-input v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs"  color="black"  type="number" label="הגבלת תמונות"/>
-      <q-icon name="add" v-if="!editedEventId" ></q-icon><p v-if="!editedEventId" class="addInfo" style="display: inline-block" @click="small = true">
-      <b> פרטי העסק </b>
-      <p style="display: inline;font-size: 10px" v-if="!editedEventId">  (יפורסם אצל המשתמשים)  </p>
-      <q-dialog v-model="small">
-      <q-card style="width: 300px">
-        <q-card-section>
-          <div dir="rtl">
-            <p>הזן פרטי עסק:</p>
-            <q-input v-model="localInfoDetails.BName"  placeholder="שם העסק" type="text"/>
-            <q-input v-model="localInfoDetails.BEmail" placeholder="אימייל" type="email"/>
-            <q-input v-model="localInfoDetails.BPhone" placeholder="טלפון" mask="###-###-####"/>
-            <br>
-            <q-btn style="width: 100%; background-color: #008e24" @click="publish()">פרסם!</q-btn>
-          </div>
-        </q-card-section>
-      </q-card>
-      </q-dialog>
+
       <br><br><br>
     </div>
 
@@ -68,11 +52,7 @@ export default {
       persistent: false,
       small: false,
       text: '',
-      localInfoDetails:{
-        BName:'',
-        BEmail:'',
-        BPhone:''
-      },
+
       localEditedEvent: {
         eventStyle: '',
         place: '',

@@ -8,34 +8,32 @@ export default {
     login: async ({state, commit, dispatch}, provider) => {
         //check login provider
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
+        debugger
         if (!firebaseAuthUser) {
-            return console.error('there is not chosen provider')
+            console.error('there is not chosen provider')
+            return undefined
         }
 
         // set the user in state and localstorage
-        commit('setUser', firebaseAuthUser)
-        localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
         //chek if is accept terms
         const uid = firebaseAuthUser.uid
-        const checkTerms = await dispatch('checkTerm', uid)
-
-        console.log(checkTerms)
-        if (checkTerms) {
+        const isAcceptTerms = await dispatch('checkTerm', uid)
+        console.log('is Accept Terms ?', isAcceptTerms)
+        if (isAcceptTerms) {
             await dispatch('isUserPayValidate', uid)
-
+            commit('setUser', firebaseAuthUser)
+            localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
         } else {
             commit('setPropertyTrueOrFalse', 'isFixed')
             // open pop up to confirm the terms
             // TODO : CHNACH THE VARIBLE IN COMPONNENT TO POINTER TO STATE
         }
-
     },
 
     register: async ({commit, state, dispatch}, user) => {
         const firebaseAuthUser = await authApi.registerWithPassAndEmail(user)
         if (!firebaseAuthUser) return console.error('not user')
-        debugger
         commit('setUser', firebaseAuthUser)
         await dispatch('setTermService', firebaseAuthUser.uid)
         localStorage.setItem('user', JSON.stringify(firebaseAuthUser))

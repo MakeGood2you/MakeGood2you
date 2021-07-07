@@ -5,9 +5,9 @@
         <form class="q-gutter-md">
           <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
           <h5 class="witchSign">התחברות</h5>
-          <q-input v-if="!turn" v-model="user.email" placeholder="אימייל" style="margin-top: 60px"
+          <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" style="margin-top: 60px"
                    type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="user.password"
+          <q-input placeholder="סיסמא" ref="password" id="password" v-model="localUser.password"
                    :type="isPwd ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
@@ -81,7 +81,7 @@ export default {
   name: "Register",
   data() {
     return {
-      user: {
+      localUser: {
         email: '',
         password: ''
       },
@@ -110,7 +110,7 @@ export default {
     ...mapMutations('auth', ['setUser']),
     ...mapActions('events', ['checkLastDayAuth']),
     async getLogin(provider) {
-      provider = provider !== 'passAndEmail' ? provider : this.user
+      provider = provider !== 'passAndEmail' ? provider : this.localUser
       await this.login(provider)
       this.choseRouter()
 
@@ -124,7 +124,7 @@ export default {
     },
 
     choseRouter() {
-      debugger
+      if (!this.localUser) return
       this.isPay ? this.$router.push('/Home') : this.$router.push('/payment');
     },
     goToForgot() {

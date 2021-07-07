@@ -2,3 +2,64 @@
 @import '~quasar-styl';
 // @import '~quasar-addon-styl';
 
+// app global css in SCSS form
+@import "onBoarding/mainStyle";
+@import "shapes";
+@import "fonts";
+@import "inputs";
+
+* {
+  //margin: 0;
+  //padding: 0;
+  //box-sizing: unset;
+}
+a {
+  text-decoration: none; /* no underline */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  //margin: auto;
+  //height: 100vh;
+  //max-width: 50vh;
+}
+
+.btn-group {
+  justify-items: end;
+}
+
+.btn {
+  border-radius: 12px;
+  width: $btn-ws-md;
+  height: $btn-hs-md;
+}
+
+.btn-lg {
+  border-radius: 12px;
+  width: $btn-ws-xl;
+  height: $btn-hs-md;
+}
+.btn-clicked{
+  background-color: $hover-btn;
+  border-radius: 20px;
+}
+
+.center {
+  //text-align: center;
+  margin: auto;
+}
+
+.input-text {
+  font-style: normal;
+  font-weight: bold;
+  font-size: $font-size-sm;
+}
+
+.span-bold{
+  color: $primary;
+  font-weight: bold;
+}

@@ -23,7 +23,8 @@ async function loginProvider(provider) {
 
             return {
                 uid: user.uid,
-                email: user.email
+                email: user.email,
+                isNewUser: result.additionalUserInfo.isNewUser
             }
             // if (result.additionalUserInfo.isNewUser) {
             // }
@@ -45,7 +46,6 @@ async function loginProvider(provider) {
 }
 
 function loginWithMailAndPass(options) {
-    debugger
     return firebaseInstance.authentication().signInWithEmailAndPassword(options.email, options.password)
         .then((userCredential) => {
             // Signed in
@@ -67,16 +67,16 @@ function loginWithMailAndPass(options) {
 
 function registerWithPassAndEmail(user) {
     return firebaseInstance.firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
-        .then(async (userCredential) => {
+        .then(async (result) => {
             // Signed in
-            var user = userCredential.user;
+            var user = result.user;
             // ...
-            window.user = userCredential.user;
+            window.user = result.user;
             return {
                 uid: user.uid,
-                email: user.email
-            } // this.checkPay()
-
+                email: user.email,
+                isNewUser: result.additionalUserInfo.isNewUser
+            }
         })
         .catch((error) => {
             var errorCode = error.code;

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Setting from '../src/components/Settings'
+import Setting from './components/app/Settings'
 import {mapState} from "vuex";
 
 
