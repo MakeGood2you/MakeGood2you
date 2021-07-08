@@ -16,6 +16,7 @@
 
             <q-btn
                    class="self-end"
+                   @click="billingRecurringCancelClient"
                    no-caps
                    color="black"
                    flat
@@ -74,9 +75,15 @@ export default {
   computed: mapState('auth', ['user']),
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
+    ...mapActions('businesses', ['billingRecurringCancelAction']),
     goEditBusinessDetails() {
       this.$router.push('/add-business-details')
     },
+   async billingRecurringCancelClient() {
+      await this.billingRecurringCancelAction()
+     console.log('costumer as deleted')
+    },
+
     async signOut() {
       await this.firebaseLogout()
       await this.$router.push(`/`)

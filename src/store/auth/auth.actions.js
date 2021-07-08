@@ -6,7 +6,6 @@ export default {
 //genric login functions
     login: async ({state, commit, dispatch}, provider) => {
         //check login provider
-        const isAcceptTerms = await dispatch('checkTerm', uid)
 
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
         if (!firebaseAuthUser) {
@@ -20,6 +19,8 @@ export default {
 
         //chek if is accept terms
         const uid = firebaseAuthUser.uid
+        const isAcceptTerms = await dispatch('checkTerm', uid)
+
         console.log('is Accept Terms ?', isAcceptTerms)
         if (isAcceptTerms) {
             await dispatch('businesses/isUserPayValidate', uid, {root: true})

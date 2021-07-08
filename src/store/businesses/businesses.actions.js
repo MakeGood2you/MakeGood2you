@@ -1,11 +1,11 @@
 import db from '../../middleware/firebase/database/api'
 import {getUserFromLocalStorage} from '../../middleware/utils'
 import functions from "../../middleware/firebase/functions";
-import database from "../../middleware/firebase/database";
+import axios from "../../middleware/axios";
+
 const user = getUserFromLocalStorage()
 
 export default {
-//genric login functions
 
     addBusinessDetails: async ({commit, rootState}, businessDetails) => {
         const uid = getUserFromLocalStorage().uid
@@ -28,10 +28,19 @@ export default {
         commit('isUserPay', isUserPay)
     },
 
-    setPayment: async  ({}, details) => {
+    setPayment: async ({}, details) => {
         const entity = `users/${user.uid}/data/package/paymentDetails`
         debugger
         await db.set(entity, details)
     },
+    billingRecurringCancelAction: async () => {
+        const api = 'https://europe-west1-osher-project.cloudfunctions.net'
+        const entity = '/payment-billingRecurringCancel'
+        const data = {uid: getUserFromLocalStorage().uid}
+        const options = {api, entity, data}
+        debugger
+        await axios.post(options)
+        console.log('is canceling')
+    }
 
 }

@@ -5,8 +5,6 @@ export default {
     setPropertyTrueOrFalse: (state, name) => {
         state[name] =  !state[name]
     },
-    isUserPay: (state, bool) =>{
-        state.isPay = bool
-    },
+
 
 }

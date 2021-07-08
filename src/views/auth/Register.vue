@@ -104,7 +104,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['isPay', 'isFixed', 'user'])
+    ...mapState('auth', ['isFixed', 'user']),
+    ...mapState('businesses', ['isPay'])
   },
   methods: {
     ...mapActions('auth', ['checkTerm', 'login', 'setTermService',]),
@@ -128,7 +129,7 @@ export default {
     },
 
     choseRouter() {
-      if (!this.localUser) return
+      if (!this.isPay) return
       this.isPay ? this.$router.push('/Home') : this.$router.push('/payment');
     },
     goToForgot() {

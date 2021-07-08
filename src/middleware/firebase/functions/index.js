@@ -11,6 +11,7 @@ export default {
 //         entity: 'entity',
 //     }
 //     funcName: 'name'
+
 async function callableFunction(body, funcName) {
     const checkPayment = await firebaseInstance.firebase
         .app()
