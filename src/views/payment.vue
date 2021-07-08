@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     ...mapActions('events', ['setPackagePayment',]),
-    ...mapActions('auth', ['isUserConnected',]),
 
     month() {
       let paymentMethod = 'month'
@@ -104,7 +103,6 @@ export default {
     }
   },
   created() {
-    this.isUserConnected()
   }
 }
 </script>

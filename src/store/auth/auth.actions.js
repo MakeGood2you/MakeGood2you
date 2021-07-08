@@ -1,6 +1,5 @@
 import authApi from '../../middleware/firebase/auth';
 import database from "../../middleware/firebase/database";
-import functions from "../../middleware/firebase/functions";
 
 
 export default {
@@ -10,7 +9,6 @@ export default {
         const isAcceptTerms = await dispatch('checkTerm', uid)
 
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
-        debugger
         if (!firebaseAuthUser) {
             console.error('there is not chosen provider')
             return undefined
@@ -24,7 +22,7 @@ export default {
         const uid = firebaseAuthUser.uid
         console.log('is Accept Terms ?', isAcceptTerms)
         if (isAcceptTerms) {
-            await dispatch('isUserPayValidate', uid)
+            await dispatch('businesses/isUserPayValidate', uid, {root: true})
             commit('setUser', firebaseAuthUser)
             localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
         } else {
@@ -77,17 +75,5 @@ export default {
 
         await database.setTerm(uid)
     },
-
-    isUserPayValidate: async ({commit}, uid) => {
-        const isUserPay = await functions.callableFunction({you: 'got', it: 'bro', uid,}, 'payment-validatePayment')
-        console.log('is user pay? ', isUserPay)
-        commit('isUserPay', isUserPay)
-    },
-
-
-    isUserConnected: ({commit}) => {
-        const user = JSON.parse(localStorage.getItem('user'))
-        commit('setUser', user)
-    }
 
 }

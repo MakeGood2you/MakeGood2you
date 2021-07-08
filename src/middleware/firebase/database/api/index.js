@@ -16,12 +16,10 @@ async function create(entity, document) {
 async function set(entity, document) {
   debugger
   return await db.ref(entity).set(document)
-
 }
 
 async function get(entity) {
   const result = await db.ref(entity).once("value")
-  debugger
   return result.val()
 }
 

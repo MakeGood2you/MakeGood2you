@@ -67,7 +67,7 @@
 </template>
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
-import {positive} from "../../middleware/utils/notify";
+import {negative, positive} from "../../middleware/utils/notify";
 
 require('dotenv').config();
 
@@ -107,16 +107,17 @@ export default {
     ...mapState('auth', ['isPay', 'isFixed', 'user'])
   },
   methods: {
-    ...mapActions('auth', ['checkTerm', 'login', 'setTermService', 'isUserPayValidate']),
+    ...mapActions('auth', ['checkTerm', 'login', 'setTermService',]),
+    ...mapActions('businesses', ['isUserPayValidate']),
     ...mapMutations('auth', ['setUser']),
     ...mapActions('events', ['checkLastDayAuth']),
+
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
       await this.login(provider)
-      if (this.user) return
-      else return this.$q.notify(positive)
+      if (this.user) this.$q.notify(positive)
+      else return this.$q.notify(negative)
       this.choseRouter()
-
     },
 
     async confirmed() {

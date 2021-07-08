@@ -3,9 +3,7 @@ import 'firebase/storage';
 
 
 export default {
-    welcomeFunction: async  ({}, details) => {
-        await database.setParams({details})
-    },
+
     getLeads: async  () => {
         const leads = await database.getLeadsDetails()
         return leads

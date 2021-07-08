@@ -48,6 +48,7 @@
 
 <script>
 import {mapActions, mapMutations, mapState} from "vuex";
+import {isNotAcceptTerms} from "../../middleware/utils/notify/auth";
 
 export default {
   name: "registration",
@@ -74,7 +75,7 @@ export default {
     async registerWithMailAndPass() {
       console.log(this.accepted)
       if (this.isAcceptTerms === false) {
-        alert('יש לאשר את תנאי השימוש')
+       return this.$q.notify(isNotAcceptTerms)
         return console.error('יש לאשר את תנאי השימוש')
       }
       if (this.localUser.email && this.localUser.password) {

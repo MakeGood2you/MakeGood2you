@@ -1,7 +1,7 @@
 "use strict"
 
 
-export function getUserUid() {
+export function getUserFromLocalStorage() {
     const user = JSON.parse(localStorage.getItem('user'))
-    return user.uid
+    return user
 }

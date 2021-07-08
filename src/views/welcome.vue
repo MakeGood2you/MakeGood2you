@@ -11,27 +11,20 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
   name: "welcome",
-  computed:mapState('auth', ['user']),
-  methods:{
-    ...mapActions('events', ['welcomeFunction']),
-    setAndPush(){
+  methods: {
+    ...mapActions('businesses', ['setPayment']),
+    async setAndPush() {
 
-     const payload = {data: this.$route.query}
-     // await this.welcomeFunction(payload).then(() => {
-        if (this.user.isNewUser){
-          this.$router.push('/add-business-details')
-        }
-       else {
-         debugger
-         this.$router.push('/Home')
-        }
-     // })
+      const payload = {data: this.$route.query}
+      await this.setPayment(payload)
+      debugger
+      await this.$router.push('/add-business-details')
     }
-  },created() {
+  }, created() {
 
     this.setAndPush()
   }

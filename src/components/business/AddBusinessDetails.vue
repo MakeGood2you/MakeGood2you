@@ -101,7 +101,10 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-import {positive} from '../../middleware/utils/notify'
+import {positive , loading} from '../../middleware/utils/notify'
+import {getUserFromLocalStorage} from "../../middleware/utils";
+const user = getUserFromLocalStorage()
+
 export default {
   name: "AddBusinessDetails",
   data: () => ({
@@ -114,14 +117,19 @@ export default {
     tempLogo:null
   }),
   computed: {
-    ...mapState('auth', ['user']),
     ...mapState('businesses', ['businessDetails']),
   },
   methods: {
     ...mapActions('businesses', ['addBusinessDetails', 'getBusinessDetails']),
 
     async onSubmit() {
+      if (this.localInfoDetails.BEmail && this.localInfoDetails.BEmail !== user.email){
+        user.isNewUser = false
+        localStorage.setItem('user', JSON.stringify(user))
+      }
       await this.addBusinessDetails(this.localInfoDetails)
+      await this.$router.push('/home')
+      // this.$q.notify(loading(false))
       this.$q.notify(positive)
     },
 
@@ -133,9 +141,10 @@ export default {
   },
 
   async created() {
-    if (this.user.isNewUser) {
-      this.localInfoDetails.BEmail = this.user.email
+    if (user.isNewUser) {
+      this.localInfoDetails.BEmail = user.email
     } else {
+      debugger
       await this.getBusinessDetails()
       this.localInfoDetails = {...this.businessDetails}
     }
