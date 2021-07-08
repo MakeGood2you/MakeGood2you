@@ -3,7 +3,7 @@
     <div class="background">
       <div class="ori" dir="rtl">
         <form class="q-gutter-md column">
-          <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
+          <div id="image2"><img alt="user" src="../../assets/user.png" width="100"></div>
           <h5 class="witchSign">הרשמה </h5>
           <q-input v-model="localUser.email" placeholder="אימייל" style="margin-top: 60px" type="email"></q-input>
           <q-input placeholder="סיסמא" ref="password" id="password" v-model="localUser.password"

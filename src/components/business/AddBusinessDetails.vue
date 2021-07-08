@@ -101,7 +101,7 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-
+import {positive} from '../../middleware/utils/notify'
 export default {
   name: "AddBusinessDetails",
   data: () => ({
@@ -122,12 +122,7 @@ export default {
 
     async onSubmit() {
       await this.addBusinessDetails(this.localInfoDetails)
-      this.$q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Submitted'
-      })
+      this.$q.notify(positive)
     },
 
     onReset() {
@@ -136,6 +131,7 @@ export default {
       this.accept = false
     }
   },
+
   async created() {
     if (this.user.isNewUser) {
       this.localInfoDetails.BEmail = this.user.email

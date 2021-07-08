@@ -3,7 +3,7 @@
     <div class="background">
       <div class="ori" dir="rtl">
         <form class="q-gutter-md">
-          <div id="image2"><img alt="user" src="../assets/user.png" width="100"></div>
+          <div id="image2"><img alt="user" src="../../assets/user.png" width="100"></div>
           <h5 class="witchSign">התחברות</h5>
           <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" style="margin-top: 60px"
                    type="email"></q-input>
@@ -50,7 +50,7 @@
           <p style="text-align: center; margin-top: 20px; font-size: 17px">או באמצעות:</p>
           <div>
             <q-btn flat style="margin-left: 20px;" @click="getLogin('google')">
-              <img src="../assets/google.png" height="50" width="50"/>
+              <img src="../../assets/google.png" height="50" width="50"/>
             </q-btn>
             <q-btn flat icon="facebook" size="xl" style="display: inline; color: #0028ad; margin-right: 20px; "
                    @click="getLogin('facebook')"/>
@@ -67,6 +67,7 @@
 </template>
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
+import {positive} from "../../middleware/utils/notify";
 
 require('dotenv').config();
 
@@ -103,7 +104,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['isPay', 'isFixed'])
+    ...mapState('auth', ['isPay', 'isFixed', 'user'])
   },
   methods: {
     ...mapActions('auth', ['checkTerm', 'login', 'setTermService', 'isUserPayValidate']),
@@ -112,6 +113,8 @@ export default {
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
       await this.login(provider)
+      if (this.user) return
+      else return this.$q.notify(positive)
       this.choseRouter()
 
     },
@@ -143,11 +146,11 @@ export default {
   },
 
   async created() {
-    const user = JSON.parse(localStorage.getItem('user'))
-    if (user) {
-      this.setUser(user)
-      // const isUserPay = await this.isUserPayValidate(user.uid)
-    }
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // if (user) {
+    //   this.setUser(user)
+    // const isUserPay = await this.isUserPayValidate(user.uid)
+    // }
   }
 }
 

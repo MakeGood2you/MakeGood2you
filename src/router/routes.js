@@ -1,10 +1,10 @@
 // import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Register from '../views/Register.vue'
+import Register from '../views/auth/Register.vue'
 // import welcome from "../views/welcome";
 import leads from "../views/leads";
 const routes = [
-    {path: '/registration', name: 'registration', component: () => import(/* webpackChunkName: "about" */ '../views/registration.vue')},
+    {path: '/registration', name: 'registration', component: () => import(/* webpackChunkName: "about" */ '../views/auth/registration.vue')},
     {path: '/', name: 'Register', component: Register, meta: {authUserPayment: false}},
     {path: '/forgot', name: 'forgot', component: () => import(/* webpackChunkName: "about" */ '../views/forgot.vue'), meta: {authUserPayment: false}},
 

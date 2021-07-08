@@ -6,19 +6,17 @@ import './quasar'
 import firebaseInstance from './middleware/firebase'
 import notify from 'vue-notification'
 
-import {
-  Quasar,
-  Loading
-} from 'quasar'
+import {Loading, Quasar} from 'quasar'
 
-Vue.use(Quasar, {
-  config: {
-    loading: { Loading , }
-  },
-  plugins: {
-    Loading,
-  }
-})
+Vue.use(
+    Quasar, {
+    //   config: {
+    //     loading: {Loading,}
+    //   },
+    //   plugins: {
+    //     Loading,
+    //   }
+    })
 Vue.config.productionTip = false
 firebaseInstance.firebase.auth().onAuthStateChanged((user )=>{
   window.user=user;

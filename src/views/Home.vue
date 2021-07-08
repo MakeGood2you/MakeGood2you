@@ -23,7 +23,7 @@ import AddEvent from '../components/AddEvent'
 import TableViewer from '../components/TableViewer'
 import EventPage from './EventPage'
 import pictureAdded from "./pictureAdded"
-import Register from "./Register"
+import Register from "./auth/Register"
 import leads from "./leads"
 import {mapActions, mapMutations, mapState} from 'vuex'
 
