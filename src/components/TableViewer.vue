@@ -1,5 +1,4 @@
 <template dir="rtl">
-
   <div class="q-pa-md">
     <q-table
         :columns="columns"
@@ -8,9 +7,7 @@
         class="table1"
         row-key="name"
         style="direction: rtl; padding: 20px 0px"
-
     >
-
       <template v-slot:header="props">
         <q-tr :props="props" class="table-head-row">
           <q-th
@@ -31,6 +28,18 @@
           <q-td key="presents" :props="props" @click="goToEvent(props.row.id)">{{ props.row.presents }}</q-td>
           <q-td key="place" :props="props" @click="goToEvent(props.row.id)">{{ props.row.place }}</q-td>
           <q-td key="imgLimit" :props="props" @click="goToEvent(props.row.id)">{{ props.row.imgLimit }}</q-td>
+          <q-td key="usersPermission" :props="props">
+
+            <q-btn
+                :props="props"
+                flat
+                :color="props.row.isOpen ? 'green' : 'red'"
+                v-if="getPermission(props.row) != '-'"
+                :label="props.row.isOpen ? 'הרשאות פתוחות' : 'הרשאות סגורות'"
+                @click="closePermission(props.row)"
+            />
+            <span v-else>-</span>
+          </q-td>
           <q-td key="Qrcode" class="text-center" :props="props">
             <q-btn :props="props" @click="qrBool = !qrBool" v-show="qrBool === false" class="qr-hover"
                    icon="qr_code_scanner" flat></q-btn>
@@ -72,8 +81,6 @@ import Vue from 'vue';
 import VueClipboard from 'vue-clipboard2'
 
 Vue.use(VueClipboard);
-
-
 Vue.use(Quasar, {
   plugins: {
     Notify
@@ -89,12 +96,17 @@ export default {
 
   data() {
     return {
+      text: '',
       qrBool: false,
       selected_data: '',
       data: '',
       testingCode: "1234",
       message: 'Copy These Text',
+      trueOrFalse: '',
+      isTheSameDate: false,
       persistent: false,
+      usersPermission: false,
+      btnPermission: '',
       columns: [
 
         {name: 'organizer', align: 'center', label: 'בעל האירוע', field: 'organizer'},
@@ -102,6 +114,7 @@ export default {
         {name: 'date', align: 'center', label: 'מועד האירוע', field: 'date', sortable: true},
         {name: 'place', align: 'center', label: 'מקום האירוע', field: 'place', sortable: true},
         {name: 'imgLimit', align: 'center', label: 'הגבלת תמונות', field: 'imgLimit'},
+        {name: 'usersPermission', align: 'center', label: 'הרשאות', field: 'usersPermission'},
         {name: 'Qrcode', align: 'center', label: 'QRcode', field: 'Qrcode'},
         {
           name: 'actions',
@@ -116,13 +129,35 @@ export default {
   },
 
   computed: {
-    ...mapState('events', ['editedEventId', 'events', 'contacts']),
+    ...mapState('events', ['editedEventId', 'document', 'events', 'contacts']),
   },
 
   methods: {
-    ...mapActions('events', ['deleteEvent', 'getEvents']),
+
+    ...mapActions('events', ['deleteEvent', 'getEvents', 'changePermissionValue']),
     ...mapMutations('events', ['setEventId']),
 
+    ///updated functions///
+    async closePermission(params) {
+      await this.changePermissionValue(params.id)
+      console.log(params)
+      await this.getEvents()
+    },
+
+    getPermission(params) {
+
+      let year = new Date().toLocaleString('en', {year: 'numeric'});
+      let month = new Date().toLocaleString('en', {month: '2-digit'});
+      let day = new Date().toLocaleString('en', {day: '2-digit'});
+      var todayDate = `${year}-${month}-${day}`
+
+      if (todayDate != params.date) {
+        return '-'
+      }
+    },
+
+
+    ///old functions///
 
     qrcode() {
 
@@ -158,7 +193,6 @@ export default {
             })
       }
     },
-
     remove(id) {
       this.deleteEvent(id);
     },
@@ -185,13 +219,11 @@ export default {
       return joinArray;
     }
   },
-
   async created() {
     await this.getEvents()
     await this.qrcode()
-  }
+  },
 }
-
 
 </script>
 

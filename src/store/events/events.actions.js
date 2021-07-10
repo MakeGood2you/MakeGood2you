@@ -1,8 +1,23 @@
 import database from "../../middleware/firebase/database";
+import updatedDatabase from "../../middleware/firebase/database/api"
 import 'firebase/storage';
 
 
 export default {
+
+    ///updated database///
+    changePermissionValue:async ({stat,commit},id)=>{
+        const entity = `users/${window.user.uid}/data/events/${id}/isOpen`
+        const document = await updatedDatabase.get(entity)
+        await updatedDatabase.set(entity, !document)
+        commit('addPermission', document)
+    },
+
+    ///database///
+
+    welcomeFunction: async  ({}, details) => {
+        await database.setParams({details})
+    },
 
     getLeads: async  () => {
         const leads = await database.getLeadsDetails()

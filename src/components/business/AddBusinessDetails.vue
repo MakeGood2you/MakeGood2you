@@ -80,7 +80,7 @@
         >
           <template v-slot:prepend>
             <q-avatar>
-              <img src="../../assets/camera-plus.png">
+<!--              <img src="../../assets/camera-plus.png">-->
             </q-avatar>
           </template>
         </q-file>
