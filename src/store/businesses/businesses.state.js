@@ -1,6 +1,7 @@
 export default {
-  businessDetails: null,
+  businessDetails: {},
   isPay:false,
+  currentImageProfile: '',
 
 }
 

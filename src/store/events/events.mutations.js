@@ -3,6 +3,8 @@ export default {
 
     setEvents: ((state, events) => state.events = events ),
 
+    setLeads: ((state, leads) => state.leads = leads ),
+
     setEventId: ((state, eventId)=> state.eventId = eventId),
 
     setEventQr: ((state, qrCode)=> state.qrCode = qrCode),

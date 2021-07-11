@@ -129,7 +129,7 @@ export default {
     },
 
     choseRouter() {
-      if (!this.isPay) return
+      // if (!this.isPay) return
       this.isPay ? this.$router.push('/Home') : this.$router.push('/payment');
     },
     goToForgot() {

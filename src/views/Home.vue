@@ -1,21 +1,10 @@
 <template>
-  <div>
-    <q-btn
-        class="absolute-top-right homePage"
-        @click="goLeads"
-        icon="people"
-        color="black"
-        flat
-        dense
-        label="לידים"
-    />
     <q-layout>
       <q-page-container>
         <AddEvent :tableName="'events'"/>
         <TableViewer :tableName="'events'"/>
       </q-page-container>
     </q-layout>
-  </div>
 </template>
 
 <script>
@@ -32,26 +21,16 @@ export default {
   data() {
     return {
       validationNumber: '',
-      informationHome: ''
     }
   },
   components: {
     AddEvent, TableViewer, EventPage, pictureAdded, Register, leads
   },
-  computed:mapState('auth',['isPay', 'user']),
+  computed:mapState('auth',['user']),
   methods: {
     ...mapMutations('auth', ['setUser']),
-    ...mapActions('events', ['checkPackage', 'setPackagePayment', 'getLeads', 'checkLastDayForUse', 'checkPayTrue']),
+    ...mapActions('events', ['checkPackage', 'setPackagePayment', 'checkLastDayForUse', 'checkPayTrue']),
 
-    async goLeads() {
-      this.informationHome = await this.getLeads()
-      console.log(this.informationHome)
-      if (this.informationHome === null) {
-        alert('אין לידים להציג')
-      } else {
-       await this.$router.push('leads')
-      }
-    }
   },
    created() {
      const user = JSON.parse(localStorage.getItem('user'))

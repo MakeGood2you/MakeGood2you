@@ -14,7 +14,6 @@ async function create(entity, document) {
 }
 
 async function set(entity, document) {
-  debugger
   return await db.ref(entity).set(document)
 }
 
@@ -25,6 +24,6 @@ async function get(entity) {
 
 //
 async function remove(entity, id) {
-  await db.ref(`${entity}/${id}`).remove()
+  await db.ref(`${entity}`).remove()
   return {id}
 }

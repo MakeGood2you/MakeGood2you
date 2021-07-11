@@ -4,7 +4,7 @@ export default {
     loginProvider,
     loginWithMailAndPass,
     registerWithPassAndEmail,
-    signOut
+    signOut,updatePassword
 }
 
 async function loginProvider(provider) {
@@ -92,5 +92,20 @@ function signOut() {
          self.setUser(null)
     }).catch((error) => {
         // An error happened.
+    });
+}
+
+export async function updatePassword(newPassword) {
+    const user = firebaseInstance.authentication().currentUser;
+    // const newPassword = getASecureRandomPassword();
+
+    user.updatePassword(newPassword).then((res) => {
+        // Update successful.
+        console.log(res)
+        return ' Update successful.'
+    }).catch((error) => {
+        console.log(error)
+        // An error ocurred
+        // ...
     });
 }

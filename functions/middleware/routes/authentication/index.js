@@ -7,10 +7,8 @@ const router = express.Router({mergeParams:true})
 
 // Get all todos
 router.get('/',async (req, res, next) => {
-  debugger
   try {
     const result = await logic.get()
-    debugger
     return res.json(result)
   } catch (e) {
     return next(e)
@@ -20,11 +18,9 @@ router.get('/',async (req, res, next) => {
 
 // // Create a new todo
 router.post('/', async (req, res, next) => {
-  debugger
   try {
     // console.log(req.body)
     console.log(req.body)
-    debugger
     const result = await logic.createUser(req.body, req.body.uid)
     if (!result) return res.sendStatus(409)
     return res.status(201).json(result)

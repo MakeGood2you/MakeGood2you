@@ -10,6 +10,7 @@
           @reset="onReset"
           class="q-gutter-md"
       >
+        <AddImage v-if="businessDetails.BName" :url="localInfoDetails.photoURL" ref="addImage"/>
         <p>הזן פרטי עסק:</p>
         <q-input
             v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
@@ -86,14 +87,22 @@
         </q-file>
         </div>
 
-        <div class="column items-center">
+
+        <div class="row justify-around">
           <q-btn
               class="width-50 -align-center"
               label="עדכן" type="submit" color="primary">
-
+          </q-btn>
+          <q-btn
+              class="self-start"
+              label="חזור"
+              @click="$router.push('/home')"
+              color="primary">
           </q-btn>
         </div>
       </q-form>
+
+
     </div>
 
   </div>
@@ -101,12 +110,15 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-import {positive , loading} from '../../middleware/utils/notify'
+import {positive} from '../../middleware/utils/notify'
 import {getUserFromLocalStorage} from "../../middleware/utils";
+import AddImage from "./AddImage";
+
 const user = getUserFromLocalStorage()
 
 export default {
   name: "AddBusinessDetails",
+  components: {AddImage},
   data: () => ({
     localInfoDetails: {
       BName: '',
@@ -114,7 +126,7 @@ export default {
       BPhone: '',
       logo: ''
     },
-    tempLogo:null
+    tempLogo: null
   }),
   computed: {
     ...mapState('businesses', ['businessDetails']),
@@ -123,11 +135,14 @@ export default {
     ...mapActions('businesses', ['addBusinessDetails', 'getBusinessDetails']),
 
     async onSubmit() {
-      if (this.localInfoDetails.BEmail && this.localInfoDetails.BEmail !== user.email){
+      if (this.localInfoDetails.BEmail && this.localInfoDetails.BEmail !== user.email) {
         user.isNewUser = false
         localStorage.setItem('user', JSON.stringify(user))
       }
+      await this.$refs.addImage.userDetails()
+      debugger
       await this.addBusinessDetails(this.localInfoDetails)
+      debugger
       await this.$router.push('/home')
       // this.$q.notify(loading(false))
       this.$q.notify(positive)
@@ -144,9 +159,11 @@ export default {
     if (user.isNewUser) {
       this.localInfoDetails.BEmail = user.email
     } else {
-      debugger
       await this.getBusinessDetails()
       this.localInfoDetails = {...this.businessDetails}
+      console.log(this.localInfoDetails)
+      debugger
+
     }
   }
 }

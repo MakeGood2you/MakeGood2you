@@ -8,6 +8,7 @@ export default {
     contactId: null,
     contact: '',
     editedContactId: '',
+    leads:{},
     editedEvent: {
         editedContact: {
             name: '',

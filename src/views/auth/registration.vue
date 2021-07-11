@@ -79,7 +79,6 @@ export default {
         return console.error('יש לאשר את תנאי השימוש')
       }
       if (this.localUser.email && this.localUser.password) {
-        debugger
         await this.register(this.localUser)
         if (this.user) {
           await this.$router.push('/payment');

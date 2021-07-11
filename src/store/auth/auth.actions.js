@@ -76,5 +76,10 @@ export default {
 
         await database.setTerm(uid)
     },
+    updatePassword: async ({state, commit}, newPassword) => {
+        const result = await authApi.updatePassword(newPassword)
+        console.log(result)
+        return result
+    }
 
 }

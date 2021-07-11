@@ -39,7 +39,6 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     console.log(req.body)
-    debugger
     const result = await logic.set({data: req.body, id: req.params.id})
     if (!result) return res.sendStatus(409)
     return res.status(201).json(result)
@@ -68,7 +67,6 @@ router.patch('/', async (req, res, next) => {
 
     const doc = await logic.getById(id)
     if (!doc) return res.sendStatus(404)
-    debugger
     // Merge existing fields with the ones to be updated
     Object.keys(data).forEach((key) => doc[key] = data[key])
 

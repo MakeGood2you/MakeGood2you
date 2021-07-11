@@ -21,7 +21,6 @@ export default {
 
       const payload = {data: this.$route.query}
       await this.setPayment(payload)
-      debugger
       await this.$router.push('/add-business-details')
     }
   }, created() {

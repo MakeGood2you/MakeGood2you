@@ -12,9 +12,7 @@ export default {
     },
 
     post: async (options) => {
-        debugger
         const result = await axios.post(`${options.api}/${options.entity}`, options.data)
-        debugger
         return result.data
     },
 

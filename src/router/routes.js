@@ -19,7 +19,11 @@ const routes = [
         meta: {authUserIsPayment: true}},
     {path: '/add-business-details', name: 'addBusinessDetails', component: () => import('../components/business/AddBusinessDetails.vue'),
         meta: {authUserIsPayment: true}},
+    {path: '/settings', name: 'Settings', component: () => import('../views/app/UserSetting'),
+        meta: {authUserIsPayment: true}},
     {path: '/leads', name: 'leads', component: leads,
+        meta: {authUserPayment: true}},
+    {path: '/help', name: 'Help',  component: () => import('../views/app/HelpAndSupport.vue'),
         meta: {authUserPayment: true}},
 
     {path: '/event-page/:eid', name: 'EventPage', component: () => import('../views/EventPage.vue'),

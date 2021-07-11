@@ -6,45 +6,73 @@
            color="black"
            flat
            dense
-           label="הגדרות">
+           label="חשבון">
       <q-menu class="">
 
         <div class="row no-wrap q-pa-md">
           <div class="column">
-            <div class="text-h6 q-mb-md ">הגדרות</div>
+            <div dir="rtl" class="text-h6 q-mb-md "> היי, {{businessDetails.BName}}</div>
             <div class="self-end column">
 
-            <q-btn
-                   class="self-end"
-                   @click="billingRecurringCancelClient"
+
+              <q-btn
+                  class="self-end"
+                  @click="goLeads"
                    no-caps
                    color="black"
                    flat
                    dense
                    v-model="mobileData">
-              <span>התנתקות מהשירות</span><q-icon name="account_circle"></q-icon>
+              <span>לידים</span><q-icon name="people"></q-icon>
             </q-btn>
+              <q-btn
+                  @click="goEditBusinessDetails"
+                  class="self-end"
+                  no-caps
+                  color="black"
+                  flat
+                  dense
+                  v-model="mobileData">
+                <span> פרטי העסק</span><q-icon name="edit"></q-icon>
+              </q-btn>
 
-            <q-btn
-                @click="goEditBusinessDetails"
-                class="self-end"
-                no-caps
-                color="black"
-                flat
-                dense
-                v-model="mobileData">
-              <span> פרטי העסק</span><q-icon name="edit"></q-icon>
-            </q-btn>
-          </div>
+
+              <q-btn
+                  class="self-end"
+                  no-caps
+                  color="black"
+                  @click="$router.push('/help')"
+                  flat
+                  dense
+                  v-model="mobileData">
+                <span>תמיכה\עזרה  </span>
+                <q-icon color="black" size="1.5rem" name="svguse:icons.svg#help"/>
+
+                <!--                <q-icon name="mdi-account-question"></q-icon>-->
+              </q-btn>
+              <q-btn
+                  class="self-end"
+                  @click=""
+                  no-caps
+                  color="black"
+                  flat
+                  dense
+                  @click="$router.push('/settings')"
+                  v-model="mobileData">
+                <span>הגדרות משתמש</span><q-icon name="account_circle"></q-icon>
+              </q-btn>
+
+            </div>
           </div>
           <q-separator vertical inset class="q-mx-lg"/>
 
           <div class="column items-center">
+            <div class="q-mt-xl">
             <q-avatar size="72px">
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
+              <img :src="businessDetails.photoURL">
             </q-avatar>
 
-            <div class="text-subtitle1 q-mt-md q-mb-xs">kobi peretz</div>
+            <div class="text-subtitle1 q-mt-md q-mb-xs">{{ businessDetails.BName }}</div>
 
             <q-btn
                 color="primary"
@@ -54,6 +82,7 @@
                 @click="signOut"
                 v-close-popup
             />
+            </div>
           </div>
         </div>
       </q-menu>
@@ -68,26 +97,40 @@ export default {
   data() {
     return {
       mobileData: true,
-      bluetooth: false
+      bluetooth: false,
+      informationHome:null
     }
 
   },
-  computed: mapState('auth', ['user']),
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('businesses', ['businessDetails']),
+  },
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
-    ...mapActions('businesses', ['billingRecurringCancelAction']),
+    ...mapActions('events', ['getLeads']),
+    ...mapActions('businesses', ['billingRecurringCancelAction', 'getBusinessDetails']),
     goEditBusinessDetails() {
       this.$router.push('/add-business-details')
-    },
-   async billingRecurringCancelClient() {
-      await this.billingRecurringCancelAction()
-     console.log('costumer as deleted')
     },
 
     async signOut() {
       await this.firebaseLogout()
       await this.$router.push(`/`)
     },
+
+    async goLeads() {
+      this.informationHome = await this.getLeads()
+      console.log(this.informationHome)
+      if (this.informationHome === null) {
+        alert('אין לידים להציג')
+      } else {
+        await this.$router.push('leads')
+      }
+    }
+  },
+  created() {
+    this.getBusinessDetails()
   }
 
 }

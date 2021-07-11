@@ -70,34 +70,26 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
         const CustomerID = userPaymentDetailsFromDB['OG-CustomerID']
 
         data = getUserEntity(CompanyID, APIKey, EntityID)
+        functions.logger.log('getUserEntity', data)
         entity = '/crm/data/getentity/'
         return axios.post(api + entity, data).then((userEntity) => {
-            console.log('///////////////////////////////////////////'
-                ,userEntity.data.Data,
-                '//////////////////////////////////////////////////////')
-            console.log('///////////////////////////////////////////'
-                ,userEntity.data.Data.Entity,
-                '//////////////////////////////////////////////////////')
-            console.log('///////////////////////////////////////////'
-                ,userEntity.data.Data.Entity.Billing_CustomerItems,
-                '//////////////////////////////////////////////////////')
+            functions.logger.log('userEntity', userEntity.data)
 
-            let RecurringCustomerItemID = userEntity.data['Data']['Entity']['Billing_CustomerItems']['ID']
+            console.log('///////////////////////////////////////////'
+                , userEntity.data['Data']['Entity']['Billing_CustomerItems']['ID'],
+                '//////////////////////////////////////////////////////')
+            console.log('/////////////////////////////////////////// user ID RCUURIING//////////////////////////////////////////////////////')
+
+            let RecurringCustomerItemID = userEntity.data['Data']['Entity']['Billing_CustomerItems'][0]['ID']
             data = cancelRecurringCustomer(CompanyID, APIKey, CustomerID, RecurringCustomerItemID)
+            functions.logger.log('cancelRecurringCustomer', data)
+
             entity = '/billing/recurring/cancel/'
             return axios.post(api + entity, data).then((result) => {
-
                 console.log(result.data, '////////////////////// result.data///////////////')
-            }).catch(err => {
-                console.log(err)
-                return res.status(500).json({
-                    error: err
-                })
-            })
-        }).catch(err => {
-            console.log(err)
-            return res.status(500).json({
-                error: err
+                entity = `users/${uid}/data/package/paymentDetails/`
+                db.remove(entity, uid)
+                return result.data
             })
         })
     })

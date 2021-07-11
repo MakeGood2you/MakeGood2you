@@ -1,15 +1,18 @@
 import database from "../../middleware/firebase/database";
-import updatedDatabase from "../../middleware/firebase/database/api"
+import db from "../../middleware/firebase/database/api";
 import 'firebase/storage';
 
+import {getUserFromLocalStorage} from '../../middleware/utils'
+
+const user = getUserFromLocalStorage()
 
 export default {
 
     ///updated database///
     changePermissionValue:async ({stat,commit},id)=>{
         const entity = `users/${window.user.uid}/data/events/${id}/isOpen`
-        const document = await updatedDatabase.get(entity)
-        await updatedDatabase.set(entity, !document)
+        const document = await db.get(entity)
+        await db.set(entity, !document)
         commit('addPermission', document)
     },
 
@@ -19,8 +22,10 @@ export default {
         await database.setParams({details})
     },
 
-    getLeads: async  () => {
-        const leads = await database.getLeadsDetails()
+    getLeads: async ({state, commit}) => {
+        const entity = `users/${user.uid}/data/leads`
+        const leads = await db.get(entity)
+        commit('setLeads', leads)
         return leads
     },
 
