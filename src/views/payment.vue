@@ -71,6 +71,12 @@
         <p style="font-size: 32px; color: white"><b>2,850 ש"ח</b><br><p
             style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">4200 ש"ח</p>
       </q-btn>
+      <q-btn @click="day" class="day" style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);"
+             dir="rtl">
+        <p style="font-size: 32px; color: white"><br> יומי לבדיקה
+        <p style="font-size: 32px; color: white"><b>1 ש"ח</b><br><p
+          style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">2 ש"ח</p>
+      </q-btn>
     </div>
   </div>
 </template>
@@ -100,6 +106,11 @@ export default {
       let paymentMethod = 'year'
       this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5ju/1le617/payment/';
+    },
+    day(){
+      let paymentMethod = 'day'
+      this.setPackagePayment(paymentMethod)
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1lmm5p/1lmmcy/payment/';
     }
   },
   created() {

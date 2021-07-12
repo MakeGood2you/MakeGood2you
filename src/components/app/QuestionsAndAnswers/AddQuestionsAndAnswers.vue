@@ -3,7 +3,7 @@
     <q-card>
       <q-toolbar>
         <q-avatar>
-          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" alt="defaultImg">
         </q-avatar>
 
         <q-toolbar-title><span class="text-weight-bold">PicPic</span> for fun</q-toolbar-title>
