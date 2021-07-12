@@ -16,6 +16,19 @@ export default {
         commit('addPermission', document)
     },
 
+    setQrF:async ({stat,commit},id)=>{
+        const entity = `users/${window.user.uid}/data/events/${id}/QR`
+        const document = false
+        await db.set(entity, document)
+        commit('setQrF', document)
+    },
+    setQrTF:async ({stat,commit},id)=>{
+        const entity = `users/${window.user.uid}/data/events/${id}/QR`
+        const document = await db.get(entity)
+        await db.set(entity, !document)
+        commit('setQrTF', document)
+        return document
+    },
     ///database///
 
     welcomeFunction: async  ({}, details) => {

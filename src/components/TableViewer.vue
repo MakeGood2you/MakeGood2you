@@ -41,11 +41,24 @@
             <span v-else>-</span>
           </q-td>
           <q-td key="Qrcode" class="text-center" :props="props">
-            <q-btn :props="props" @click="qrBool = !qrBool" v-show="qrBool === false" class="qr-hover"
-                   icon="qr_code_scanner" flat></q-btn>
-            <div :props="props" v-show="qrBool" @click="qrBool = !qrBool">
-              <canvas class="qr" :id="`${props.row.id}`"></canvas>
-              <p class="copy" @click="copy" :props="props" v-clipboard:copy="props.row.canvas"
+            <q-btn
+                :props="props"
+                @click="getOneCode(props.row)"
+                icon="qr_code_scanner"
+                class="qr-hover"
+                v-if="!props.row.QR===true"
+                flat
+            />
+            <div>
+              <canvas
+                  class="qr"
+                  :props="props"
+                  @click="getOneCode(props.row)"
+                  :id="`${props.row.id}`"
+                  v-if="props.row.QR===true"
+
+              />
+              <p :props="props"class="copy" @click="copy"  v-if="props.row.QR===true" v-clipboard:copy="props.row.canvas"
                  style="text-align: center; font-size: 15px; color: #000090">העתק קישור</p>
             </div>
           </q-td>
@@ -100,9 +113,11 @@ export default {
       qrBool: false,
       selected_data: '',
       data: '',
+      canvas: false,
       testingCode: "1234",
       message: 'Copy These Text',
       trueOrFalse: '',
+      skip: false,
       isTheSameDate: false,
       persistent: false,
       usersPermission: false,
@@ -129,18 +144,17 @@ export default {
   },
 
   computed: {
-    ...mapState('events', ['editedEventId', 'document', 'events', 'contacts']),
+    ...mapState('events', ['editedEventId', 'document', 'qrT', 'events', 'contacts']),
   },
 
   methods: {
 
-    ...mapActions('events', ['deleteEvent', 'getEvents', 'changePermissionValue']),
+    ...mapActions('events', ['deleteEvent', 'getEvents', 'setQrF', 'setQrTF', 'changePermissionValue']),
     ...mapMutations('events', ['setEventId']),
 
     ///updated functions///
     async closePermission(params) {
       await this.changePermissionValue(params.id)
-      console.log(params)
       await this.getEvents()
     },
 
@@ -154,6 +168,13 @@ export default {
       if (todayDate != params.date) {
         return '-'
       }
+    },
+
+    async getOneCode(params) {
+      await this.setQrTF(params.id)
+      await this.getEvents()
+      this.skip = true
+      await this.qrcode()
     },
 
 
@@ -191,6 +212,9 @@ export default {
             function (err, code) {
               if (err) return console.log("error occurred")
             })
+        if (!this.skip) {
+          this.setQrF(id)
+        }
       }
     },
     remove(id) {

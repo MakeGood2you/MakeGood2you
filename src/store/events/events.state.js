@@ -4,6 +4,8 @@ export default {
     editedEventId: '',
     eventId:null,
     event: {},
+    qrtF:'',
+    qrF:false,
     contacts: [],
     contactId: null,
     contact: '',
