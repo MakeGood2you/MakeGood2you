@@ -1,25 +1,6 @@
 <template>
   <div class="background3">
-    <q-btn
-        class="absolute-top-right homePage"
-        style="margin-right: 1px"
-        @click="closeEve"
-        color="red"
-        v-if="isclose===true"
-        flat
-        dense
-        label="סגור הרשאות"
-    />
-    <q-btn
-        class="absolute-top-right homePage"
-        style="margin-right: 1px"
-        @click="openEve"
-        color="green"
-        v-if="isclose===false"
-        flat
-        dense
-        label=" פתח הרשאות "
-    />
+
     <h5>דף אירוע</h5>
 
     <div class="main3" dir="rtl">
@@ -44,16 +25,11 @@ export default {
   components: {
     pictureAdded,
   },
-  data() {
-    return {
-      isOpen: '',
-      isclose: true
-    }
-  },
+
   computed: mapState('events', ['event']),
 
   methods: {
-    ...mapActions('events', ['getEventsById', 'setIsOpen','whatIsHisBulian']),
+    ...mapActions('events', ['getEventsById']),
 
     goBack() {
       this.$router.push('/home',)
@@ -62,25 +38,6 @@ export default {
     updateFromEvent() {
       const id = this.$route.params.eid
       this.$router.push({name: 'Item', params: {id: id}})
-    },
-
-    closeEve(){
-      this.isclose=false
-      this.isOpen=false
-      this.setEventIsOpen()
-    },
-    openEve(){
-
-      this.isclose=true
-      this.isOpen=true
-      this.setEventIsOpen()
-    },
-    setEventIsOpen() {
-      const id = this.$route.params.eid
-      const params = this.isOpen
-      const obj = {id, params}
-
-      this.setIsOpen(obj)
     },
 
     goToId() {
@@ -104,11 +61,6 @@ export default {
       await this.$router.push('/')
     }
     await this.getEventsById()
-    const id = this.$route.params.eid
-    this.isclose= await this.whatIsHisBulian(id)
-    if (this.isclose===null){
-       this.isclose=true
-    }
   }
 }
 

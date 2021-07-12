@@ -193,18 +193,18 @@ export default {
 }
 
 .homePage {
-  margin-top: 8px;
-  margin-right: 10px;
+  margin-top: 9px;
+  margin-right: 80px;
 }
 
 .downloadPic {
-  margin-top: 8px;
-  margin-right: 100px;
+  margin-top: 9px;
+  margin-right: 180px;
 }
 
 .countPhoto {
   margin-top: -241px;
-  margin-right: 200px;
+  margin-right: 280px;
   margin-bottom: 220px;
   color: #008e24;
 }
