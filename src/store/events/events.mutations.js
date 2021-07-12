@@ -44,6 +44,10 @@ export default {
 
     setContactEvent: ((state, contactsEvent)=> state.contactsEvent = contactsEvent),
 
+    setQrTF:((state, qrTF)=> state.qrTF = qrTF),
+
+    setQrF:((state, qrF)=> state.qrF = qrF),
+
     setContact: ((state, contact)=> state.contact = contact),
 
     setEditedContactId: ((state, id) => state.editedContactId= id),

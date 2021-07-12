@@ -113,8 +113,6 @@ export default {
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1lmm5p/1lmmcy/payment/';
     }
   },
-  created() {
-  }
 }
 </script>
 
