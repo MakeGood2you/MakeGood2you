@@ -286,7 +286,6 @@ export default {
   methods: {
     ...mapActions('auth', ['updatePassword']),
     async setPassword() {
-      debugger
       if (this.password.length && this.password.length >= 6) {
         await this.updatePassword(this.password)
         this.$q.notify(positive(('הססמא שונתה בהצלחה')))

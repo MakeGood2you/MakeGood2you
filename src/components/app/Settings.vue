@@ -1,5 +1,5 @@
 <template>
-    <q-btn v-show="user"
+    <q-btn v-if="isPay"
            class="absolute-right q-pr-sm"
            icon="settings"
            no-caps
@@ -11,20 +11,22 @@
 
         <div class="row no-wrap q-pa-md">
           <div class="column">
-            <div dir="rtl" class="text-h6 q-mb-md "> היי, {{businessDetails.BName}}</div>
+            <div dir="rtl" class="text-h6 q-mb-md "> היי, {{  businessDetails ? businessDetails.BName :'חבוב'}}</div>
             <div class="self-end column">
 
 
               <q-btn
                   class="self-end"
                   @click="goLeads"
-                   no-caps
-                   color="black"
-                   flat
-                   dense
-                   v-model="mobileData">
-              <span>לידים</span><q-icon name="people"></q-icon>
-            </q-btn>
+                  no-caps
+                  color="black"
+                  flat
+                  dense
+                  v-model="mobileData"
+              >
+                <span>לידים</span>
+                <q-icon name="people"></q-icon>
+              </q-btn>
               <q-btn
                   @click="goEditBusinessDetails"
                   class="self-end"
@@ -52,7 +54,6 @@
               </q-btn>
               <q-btn
                   class="self-end"
-                  @click=""
                   no-caps
                   color="black"
                   flat
@@ -68,11 +69,13 @@
 
           <div class="column items-center">
             <div class="q-mt-xl">
-            <q-avatar size="72px">
-              <img :src="businessDetails.photoURL">
-            </q-avatar>
+              <q-avatar size="72px">
+                <img v-if="businessDetails" :src="businessDetails.photoURL">
+                <q-icon v-else color="accent" size="5rem" name="svguse:icons.svg#person"/>
 
-            <div class="text-subtitle1 q-mt-md q-mb-xs">{{ businessDetails.BName }}</div>
+              </q-avatar>
+
+              <div class="text-subtitle1 text-center q-mt-md q-mb-xs">{{ businessDetails.BName }}</div>
 
             <q-btn
                 color="primary"
@@ -90,7 +93,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapMutations, mapState} from 'vuex'
 
 export default {
   name: "Settings",
@@ -104,12 +107,13 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user']),
-    ...mapState('businesses', ['businessDetails']),
+    ...mapState('businesses', ['businessDetails', 'isPay']),
   },
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
     ...mapActions('events', ['getLeads']),
     ...mapActions('businesses', ['billingRecurringCancelAction', 'getBusinessDetails']),
+    ...mapMutations('businesses', ['addDetails']),
     goEditBusinessDetails() {
       this.$router.push('/add-business-details')
     },
@@ -129,8 +133,9 @@ export default {
       }
     }
   },
-  created() {
-    this.getBusinessDetails()
+  async created() {
+   await this.getBusinessDetails()
+
   }
 
 }

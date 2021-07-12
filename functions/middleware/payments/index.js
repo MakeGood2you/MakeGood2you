@@ -10,18 +10,43 @@ const CompanyID = 91849298
 const APIKey = "e3cPUXi0jn3Gpn3mHwDmFnMnOaCSWb7lL0GNuGobaen4nIc4bS"
 
 exports.validatePayment = functions.https.onCall(async (data, context) => {
+    if (!context.auth.uid) return false
     const uid = context.auth.uid;
-    const entity = `users/${uid}/data/package/paymentDetails/data/OG-CustomerID`
-    const isUserPay = await db.get(entity)
-
-    if (!isUserPay) {
+    const entity = `users/${uid}/data/package/paymentDetails/`
+    const result = await db.get(entity)
+    functions.logger.log(result)
+    let isUserPay = false
+    // !!result.data['OG-CustomerID']
+    let lastDate = null
+    // result['last_date']
+    for (const details in result) {
+        if (details === 'last_date') {
+            lastDate = result[details]
+            functions.logger.log(lastDate)
+            break;
+        }
+        if (details === 'data') {
+            isUserPay = true
+            functions.logger.log(isUserPay)
+            break;
+        }
+    }
+    if (!lastDate && !isUserPay) {
         console.log(`////////////////////////////// IS USER PAY? /////////////////////////////`)
         console.log(`////////////////////////////// FALSE /////////////////////////////`)
         return false
+    } else if (lastDate && !isUserPay) {
+        const isLastDate = new Date(lastDate).getTime() > new Date().getTime()
+
+        console.log(`////////////////////////////// IS USER last date is ? ${lastDate} /////////////////////////////`)
+        console.log(`////////////////////////////// ${isLastDate} /////////////////////////////`)
+        return isLastDate
+    } else {
+        console.log(`////////////////////////////// IS USER PAY? /////////////////////////////`)
+        console.log(`////////////////////////////// TRUE /////////////////////////////`)
+        return true
     }
-    console.log(`////////////////////////////// IS USER PAY? /////////////////////////////`)
-    console.log(`////////////////////////////// TRUE /////////////////////////////`)
-    return true
+
 })
 
 
@@ -60,6 +85,7 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
                 message: "Not allowed"
             });
         }
+
         const uid = req.body.uid
         console.log(uid)
         let entity = `users/${uid}/data/package/paymentDetails/data`
@@ -69,34 +95,57 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
         const EntityID = userPaymentDetailsFromDB['OG-PaymentID']
         const CustomerID = userPaymentDetailsFromDB['OG-CustomerID']
 
-        data = getUserEntity(CompanyID, APIKey, EntityID)
+        data = getUserEntityObj(CompanyID, APIKey, EntityID)
         functions.logger.log('getUserEntity', data)
+
         entity = '/crm/data/getentity/'
-        return axios.post(api + entity, data).then((userEntity) => {
-            functions.logger.log('userEntity', userEntity.data)
+        const userEntity = await axios.post(api + entity, data)
+        functions.logger.log('userEntity', userEntity.data['Data']['Entity']['Billing_CustomerItems'][0])
+        let RecurringCustomerItemID = userEntity.data['Data']['Entity']['Billing_CustomerItems'][0]['ID']
+        console.log(`/////////////////////////////////////////// ${RecurringCustomerItemID}//////////////////////////////////////////////////////`)
+        data = recurringList(CompanyID, APIKey, CustomerID)
+        entity = '/billing/recurring/listforcustomer'
+        const getRecurringItems = await axios.post(api + entity, data)
+        const customerItem = getRecurringItems.data['Data']['RecurringItems']
+        functions.logger.log(customerItem)
 
-            console.log('///////////////////////////////////////////'
-                , userEntity.data['Data']['Entity']['Billing_CustomerItems']['ID'],
-                '//////////////////////////////////////////////////////')
-            console.log('/////////////////////////////////////////// user ID RCUURIING//////////////////////////////////////////////////////')
+        for (const item of customerItem) {
+            if (item['ID'] === RecurringCustomerItemID) {
+                functions.logger.log('item[ID]', item['ID'])
+                functions.logger.log(`item['Date_NextBilling']`, item['Date_NextBilling'])
+                let res = item['Date_NextBilling']
+                entity = `users/${uid}/data/package/paymentDetails/last_date`
+                await db.set(entity, res)
+            }
+        }
+        // customerItem.find(item => item['Item']['ID'] === RecurringCustomerItemID)
 
-            let RecurringCustomerItemID = userEntity.data['Data']['Entity']['Billing_CustomerItems'][0]['ID']
-            data = cancelRecurringCustomer(CompanyID, APIKey, CustomerID, RecurringCustomerItemID)
-            functions.logger.log('cancelRecurringCustomer', data)
 
-            entity = '/billing/recurring/cancel/'
-            return axios.post(api + entity, data).then((result) => {
-                console.log(result.data, '////////////////////// result.data///////////////')
-                entity = `users/${uid}/data/package/paymentDetails/`
-                db.remove(entity, uid)
-                return result.data
-            })
-        })
+        data = cancelRecurringCustomerObj(CompanyID, APIKey, CustomerID, RecurringCustomerItemID)
+        functions.logger.log('cancelRecurringCustomer', data)
+        entity = '/billing/recurring/cancel/'
+        const result = await axios.post(api + entity, data)
+        console.log(result.data, '////////////////////// result.data///////////////')
+
+        entity = `users/${uid}/data/package/paymentDetails/data`
+        await db.remove(entity, uid)
+        return res.status(200).json(result.data)
+        //     }).catch(err => {
+        //         console.log(err)
+        //         return res.status(500).json({
+        //             error: err
+        //         })
+        //     })
+        // }).catch(err => {
+        //     console.log(err)
+        //     return res.status(500).json({
+        //         error: err
+        //     })
     })
 });
 
 
-const getUserEntity = (CompanyID, APIKey, EntityID) => {
+const getUserEntityObj = (CompanyID, APIKey, EntityID) => {
     return {
         Credentials: {
             CompanyID: CompanyID,
@@ -107,7 +156,8 @@ const getUserEntity = (CompanyID, APIKey, EntityID) => {
         IncludeFields: true
     }
 }
-const cancelRecurringCustomer = (CompanyID, APIKey, CustomerID, RecurringCustomerItemID) => {
+
+const cancelRecurringCustomerObj = (CompanyID, APIKey, CustomerID, RecurringCustomerItemID) => {
     return {
         Credentials: {
             CompanyID,
@@ -117,5 +167,17 @@ const cancelRecurringCustomer = (CompanyID, APIKey, CustomerID, RecurringCustome
             ID: CustomerID,
         },
         RecurringCustomerItemID
+    }
+}
+
+const recurringList = (CompanyID, APIKey, CustomerID, RecurringCustomerItemID) => {
+    return {
+        Credentials: {
+            CompanyID,
+            APIKey
+        },
+        Customer: {
+            ID: CustomerID,
+        }
     }
 }

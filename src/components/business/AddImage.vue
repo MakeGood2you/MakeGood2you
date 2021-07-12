@@ -2,9 +2,9 @@
   <div class="column">
     <div
         class="column items-center">
-      <q-icon v-show="!localImage || !businessDetails.photoURL" class="" color="accent" size="10rem" name="svguse:icons.svg#person"/>
+      <q-icon v-show="!localImage" class="" color="accent" size="10rem" name="svguse:icons.svg#person"/>
       <div class="animated">
-        <q-img v-if="localImage || businessDetails.photoURL" class="circle" :src="localImage"></q-img>
+        <q-img v-if="localImage" class="circle" :src="localImage"></q-img>
 
         <!--        <q-btn class="q-mb-xl"  round color="grey" icon="add_a_photo" size="12px"/>-->
         <q-file
@@ -27,6 +27,7 @@ import {mapActions, mapState} from "vuex";
 
 export default {
   name: "AddImage",
+  props: ['url'],
   data: () => ({
     imageProfile: undefined,
     localImage: null,
@@ -36,6 +37,7 @@ export default {
     ...mapState('businesses', ['currentImageProfile', 'businessDetails']),
   },
   methods: {
+    ...mapActions('businesses', ['uploadProfileImage']),
     ...mapActions('businesses', ['uploadProfileImage']),
 
     onFileChange(e) {
@@ -48,17 +50,19 @@ export default {
       if (this.imageProfile) {
         await this.uploadProfileImage(this.imageProfile)
       } else {
-        await this.uploadProfileImage(false)
+
       }
     },
 
     checkIfImageExist() {
-      if (this.businessDetails.photoURL) {
-        this.localImage = this.businessDetails.photoURL
+      if (this.url) {
+        debugger
+        this.localImage = this.url
       }
-    },
+    }
   },
   created() {
+    debugger
     this.checkIfImageExist()
   }
 }

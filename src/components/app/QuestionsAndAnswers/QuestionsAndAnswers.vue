@@ -2,10 +2,11 @@
   <div class="column items-center">
     <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
     <span class="text-h6">שאלות ותשובות</span>
-    <div dir="rtl">
+    <div dir="rtl" class="full-width">
       <div class="q-pa-md">
-        <q-list padding bordered class="rounded-borders">
+        <q-list  padding bordered class="rounded-borders">
           <q-expansion-item
+              class="full-width"
               v-for="(item, key) in questionsAndAnswers.data" :key="key"
               dense
               dense-toggle

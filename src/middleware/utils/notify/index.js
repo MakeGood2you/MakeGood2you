@@ -14,8 +14,8 @@ export const negative = (message = `This is a "negative" type notification.`) =>
         type: 'negative',
         message
     }
-
 }
+
 export const loading = (bol) => {
     return {
         spinner: QSpinnerGears,

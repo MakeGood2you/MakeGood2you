@@ -18,7 +18,6 @@ export default {
   methods: {
     ...mapActions('businesses', ['setPayment']),
     async setAndPush() {
-
       const payload = {data: this.$route.query}
       await this.setPayment(payload)
       await this.$router.push('/add-business-details')

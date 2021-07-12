@@ -10,7 +10,7 @@
           @reset="onReset"
           class="q-gutter-md"
       >
-        <AddImage v-if="businessDetails.BName" :url="localInfoDetails.photoURL" ref="addImage"/>
+        <AddImage :url="localInfoDetails.photoURL" ref="addImage"/>
         <p>הזן פרטי עסק:</p>
         <q-input
             v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
@@ -72,20 +72,6 @@
             />
           </template>
         </q-input>
-        <div class="items-center">
-        <q-file
-            aria-placeholder="אימייל"
-            class=""
-            v-model="tempLogo"
-            filled
-        >
-          <template v-slot:prepend>
-            <q-avatar>
-<!--              <img src="../../assets/camera-plus.png">-->
-            </q-avatar>
-          </template>
-        </q-file>
-        </div>
 
 
         <div class="row justify-around">
@@ -124,7 +110,6 @@ export default {
       BName: '',
       BEmail: '',
       BPhone: '',
-      logo: ''
     },
     tempLogo: null
   }),
@@ -135,34 +120,40 @@ export default {
     ...mapActions('businesses', ['addBusinessDetails', 'getBusinessDetails']),
 
     async onSubmit() {
-      if (this.localInfoDetails.BEmail && this.localInfoDetails.BEmail !== user.email) {
-        user.isNewUser = false
-        localStorage.setItem('user', JSON.stringify(user))
-      }
+      this.isNewUser()
       await this.$refs.addImage.userDetails()
-      debugger
       await this.addBusinessDetails(this.localInfoDetails)
-      debugger
       await this.$router.push('/home')
       // this.$q.notify(loading(false))
-      this.$q.notify(positive)
+      this.$q.notify(positive('הפרטים עודכנו בהצלחה :)'))
     },
 
     onReset() {
       this.name = null
       this.age = null
       this.accept = false
+    },
+    isNewUser(){
+      if (user.isNewUser) {
+        for (const key in this.localInfoDetails) {
+          if (this.localInfoDetails[key] && this.localInfoDetails[key] !== user[key]) {
+            user.isNewUser = false
+            localStorage.setItem('user', JSON.stringify(user))
+            break;
+          }else return
+        }
+      }
     }
   },
 
   async created() {
     if (user.isNewUser) {
       this.localInfoDetails.BEmail = user.email
+      this.localInfoDetails.photoURL = window.user.photoURL
     } else {
       await this.getBusinessDetails()
       this.localInfoDetails = {...this.businessDetails}
       console.log(this.localInfoDetails)
-      debugger
 
     }
   }

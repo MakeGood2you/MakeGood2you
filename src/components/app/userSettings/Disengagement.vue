@@ -22,14 +22,9 @@ export default {
     ...mapActions('businesses', ['billingRecurringCancelAction']),
     ...mapMutations('app', ['isOpenDialog','setMessage']),
 
-    async billingRecurringCancelClient() {
+     billingRecurringCancelClient() {
       this.isOpenDialog()
       this.setMessage('האם אתה בטוח שאתה רוצה להתנתק מהשירות?')
-      debugger
-      if (!this.confirmDialog.result) return console.log('ohhhh almost')
-      debugger
-      await this.billingRecurringCancelAction()
-      console.log('costumer as deleted')
     },
 
   }

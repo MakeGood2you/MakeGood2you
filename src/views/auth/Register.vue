@@ -290,20 +290,25 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['isFixed', 'user']),
-    ...mapState('businesses', ['isPay'])
+    ...mapState('auth', ['isFixed', 'user','isAcceptTerms','isUserExist']),
+    ...mapState('businesses', ['isPay']),
+    ...mapState('app', ['error'])
   },
   methods: {
-    ...mapActions('auth', ['checkTerm', 'login', 'setTermService',]),
+    ...mapActions('auth', ['checkTerm', 'login', 'setTermService']),
     ...mapActions('businesses', ['isUserPayValidate']),
     ...mapMutations('auth', ['setUser']),
     ...mapActions('events', ['checkLastDayAuth']),
 
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
-      await this.login(provider)
-      if (this.user) this.$q.notify(positive)
-      else return this.$q.notify(negative)
+     const result = await this.login(provider)
+      if (!this.isUserExist) {
+        debugger
+        return this.$q.notify(negative(result))
+      }
+      if (this.isAcceptTerms) this.$q.notify(positive('התחברת בהצלחה :)'))
+      else return this.$q.notify(negative('יש לאשר תנאי שימוש'))
       this.choseRouter()
     },
 

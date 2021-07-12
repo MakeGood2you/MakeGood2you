@@ -15,7 +15,6 @@ const router = express.Router({mergeParams: true})
 // })
 router.get('/', async (req, res, next) => {
   try {
-    debugger
     const result = await logic.getById(req.params.id)
     if (!result) return res.sendStatus(404)
     return res.json(result)

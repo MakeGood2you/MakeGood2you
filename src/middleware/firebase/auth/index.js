@@ -60,6 +60,7 @@ function loginWithMailAndPass(options) {
             var errorMessage = error.message;
             console.error(errorCode)
             console.error(errorMessage)
+            return errorMessage
         });
 }
 

@@ -29,11 +29,13 @@ export default {
   computed:mapState('auth',['user']),
   methods: {
     ...mapMutations('auth', ['setUser']),
+    ...mapMutations('businesses', ['isUserPay']),
     ...mapActions('events', ['checkPackage', 'setPackagePayment', 'checkLastDayForUse', 'checkPayTrue']),
 
   },
    created() {
      const user = JSON.parse(localStorage.getItem('user'))
+     this.isUserPay(true)
      if (user) {
        this.setUser(user)
        // const isUserPay = await this.isUserPayValidate(user.uid)

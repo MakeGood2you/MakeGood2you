@@ -14,7 +14,12 @@ async function create(entity, document) {
 }
 
 async function set(entity, document) {
-  return await db.ref(entity).set(document)
+  const result = await db.ref(entity).set(document)
+  try {
+    return result
+  } catch (err) {
+    return err
+  }
 }
 
 async function get(entity) {

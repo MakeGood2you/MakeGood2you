@@ -8,11 +8,13 @@ export default {
         //check login provider
 
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
-        if (!firebaseAuthUser) {
+        if (typeof firebaseAuthUser === 'string') {
             console.error('there is not chosen provider')
-            return undefined
+            return firebaseAuthUser
         }
         commit('setUser', firebaseAuthUser)
+        commit('isUserExist',true)
+        debugger
         localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
         // set the user in state and localstorage
@@ -25,6 +27,7 @@ export default {
         if (isAcceptTerms) {
             await dispatch('businesses/isUserPayValidate', uid, {root: true})
             commit('setUser', firebaseAuthUser)
+            commit('setPropertyTrueOrFalse', 'isAcceptTerms')
             localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
         } else {
             commit('setPropertyTrueOrFalse', 'isFixed')
@@ -73,6 +76,8 @@ export default {
         uid = state.user.uid ||
             JSON.parse(localStorage.getItem('user')) ||
             window.user.uid || uid
+        commit('setPropertyTrueOrFalse', 'isFixed')
+
 
         await database.setTerm(uid)
     },

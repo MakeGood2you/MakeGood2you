@@ -22,40 +22,28 @@ const router = new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
     routes
 })
+
 router.beforeEach(async (to, from, next) => {
-    const isAuthenticated = getUserFromLocalStorage() || false
+    const isAuthenticated = getUserFromLocalStorage() ? true : false
+    let condition = to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'
     if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && !isAuthenticated) {
         console.log('is user  not login ')
         next({name: 'Login'})
-    } else next()
-    const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-    if (to.name !== 'Login' && to.name !== 'Registration' &&
-        to.name !== 'Forgot' && to.name !== 'Payment' && !isUserPay) {
-        console.log('is user pay ?', isUserPay)
-        next({name: 'Payment'})
+    } else {
+        if (to.name === 'Login' && isAuthenticated){
+            debugger
+            next({name: 'Home'})
+        }
+        next()
+    }
+
+    if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && to.name !== 'Payment') {
+        const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+        if (!isUserPay) {
+            next({name: 'Payment'})
+            console.log('is user pay ?', isUserPay)
+        }
     } else next()
 
-    // else if (to.name === 'Payment' && isAuthenticated) {
-    //     next()
-    // } else {
-    //     if (!isAuthenticated) {
-    //         next({name: 'Login'})
-    //
-    //     } else {
-    //         return functions.callableFunction({isAuthenticated}, 'payment-validatePayment').then(isUserPay => {
-    //             console.log('is user pay', isUserPay)
-    //             if (to.meta.authUserIsPayment === false && isUserPay === false) {
-    //                 next({name: 'Payment'})
-    //             } else {
-    //                 next()
-    //             }
-    //         }).catch(err => {
-    //             console.log(err)
-    //             if (isAuthenticated) {
-    //                 next({name: 'Login'})
-    //             }
-    //         })
-    //     }
-    // }
 })
 export default router

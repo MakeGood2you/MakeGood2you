@@ -20,9 +20,11 @@ export default {
     getBusinessDetails: async ({commit, state, getters}) => {
         // if (!state.user.uid) return
         const user = getUserFromLocalStorage()
+        if (!user) return
         const entity = `users/${user.uid}/data/businessInfo`
         const businessDetails = await db.get(entity)
-        console.log(businessDetails)
+        console.log('businessDetails ',businessDetails)
+        if (!businessDetails) return
         commit('addDetails', businessDetails)
     },
 
@@ -33,9 +35,10 @@ export default {
         commit('isUserPay', isUserPay)
     },
 
-    setPayment: async ({}, details) => {
+    setPayment: async ({commit}, details) => {
         const entity = `users/${user.uid}/data/package/paymentDetails`
-        await db.set(entity, details)
+        let isUserPay = await db.set(entity, details)
+        commit('isUserPay', true)
         localStorage.setItem('isPay', JSON.stringify(true))
     },
     billingRecurringCancelAction: async () => {
@@ -44,6 +47,7 @@ export default {
         const data = {uid: getUserFromLocalStorage().uid}
         const options = {api, entity, data}
         await axios.post(options)
+
         console.log('is canceling')
     },
     uploadProfileImage: async ({rootState, dispatch, state, commit}, file) => {
