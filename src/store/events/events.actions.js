@@ -136,13 +136,15 @@ export default {
         Object.assign(event, state.editedEvent)
 
         //save in database
-        event.id = (await database.create({entity: 'events', event})).key
+        debugger
         let qrCode = `https://picpic-guests.web.app/#/${user.uid}/${event.id}`
-        await database.setDataLink({entity: 'events', eventId: event.id, qrCode: qrCode})
-        //save in store
-
         event.canvas = qrCode
+        event.id = (await database.create({entity: 'events', event})).key
+        debugger
 
+
+        //save in store
+debugger
         commit('resetEditedEvent')
         commit('setEventId', event.id)
         commit('setEventQr', qrCode)

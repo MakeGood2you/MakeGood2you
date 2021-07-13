@@ -88,8 +88,8 @@
 
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex'
-import {event, Notify, Quasar} from "quasar";
+import {mapActions, mapMutations, mapState} from 'vuex'
+import {Notify, Quasar} from "quasar";
 import Vue from 'vue';
 import VueClipboard from 'vue-clipboard2'
 
@@ -159,7 +159,6 @@ export default {
     },
 
     getPermission(params) {
-
       let year = new Date().toLocaleString('en', {year: 'numeric'});
       let month = new Date().toLocaleString('en', {month: '2-digit'});
       let day = new Date().toLocaleString('en', {day: '2-digit'});
@@ -181,18 +180,21 @@ export default {
     ///old functions///
 
     qrcode() {
-
+      const self = this
 // Require the package
       const QRCode = require('qrcode')
 
 // Creating the data
-      for (let event in this.events) {
-        const data = (this.events[event].canvas)
-        const id = this.events[event].id
+      for (let event of self.events) {
+        debugger
+        const data = event.canvas
+        const id = event.id
+        debugger
 // Converting the data into String format
         let stringdata = JSON.stringify(data)
 
 // Print the QR code to terminal
+        debugger
         QRCode.toString(stringdata, {type: 'terminal'},
             function (err, QRcode) {
 

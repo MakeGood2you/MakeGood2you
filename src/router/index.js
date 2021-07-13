@@ -25,7 +25,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = getUserFromLocalStorage() ? true : false
-    let condition = to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'
+    // let condition = to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'
     if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && !isAuthenticated) {
         console.log('is user  not login ')
         next({name: 'Login'})

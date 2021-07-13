@@ -31,6 +31,7 @@ export default {
   data: () => ({
     imageProfile: undefined,
     localImage: null,
+    isFileChange:false
   }),
   computed: {
     ...mapState('auth', ['user']),
@@ -44,6 +45,9 @@ export default {
       const file = e
       this.imageProfile = file
       this.localImage = URL.createObjectURL(file);
+      this.isFileChange = true
+      debugger
+      this.$emit('fileChange')
     },
 
     async userDetails() {
@@ -62,8 +66,13 @@ export default {
     }
   },
   created() {
-    debugger
     this.checkIfImageExist()
+  },
+  watch:{
+    url(){
+      this.localImage = this.url
+    },
+
   }
 }
 </script>

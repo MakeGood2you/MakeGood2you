@@ -7,7 +7,7 @@
            flat
            dense
            label="חשבון">
-      <q-menu class="">
+      <q-menu class="settings-container">
 
         <div class="row no-wrap q-pa-md">
           <div class="column">
@@ -142,5 +142,8 @@ export default {
 </script>
 
 <style scoped>
+.settings-container , .q-menu{
+  max-width: 400px !important;
+}
 
 </style>

@@ -10,7 +10,7 @@
           @reset="onReset"
           class="q-gutter-md"
       >
-        <AddImage :url="localInfoDetails.photoURL" ref="addImage"/>
+        <AddImage :url="localInfoDetails.photoURL" @fileChange="isFileChange = true" ref="addImage"/>
         <p>הזן פרטי עסק:</p>
         <q-input
             v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
@@ -111,7 +111,8 @@ export default {
       BEmail: '',
       BPhone: '',
     },
-    tempLogo: null
+    tempLogo: null,
+    isFileChange:false
   }),
   computed: {
     ...mapState('businesses', ['businessDetails']),
@@ -121,7 +122,11 @@ export default {
 
     async onSubmit() {
       this.isNewUser()
-      await this.$refs.addImage.userDetails()
+      if (this.isFileChange){
+        await this.$refs.addImage.userDetails()
+      }
+      console.log(this.localInfoDetails)
+      debugger
       await this.addBusinessDetails(this.localInfoDetails)
       await this.$router.push('/home')
       // this.$q.notify(loading(false))
