@@ -31,7 +31,6 @@ router.beforeEach(async (to, from, next) => {
         next({name: 'Login'})
     } else {
         if (to.name === 'Login' && isAuthenticated){
-            debugger
             next({name: 'Home'})
         }
         next()

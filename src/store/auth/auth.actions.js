@@ -14,7 +14,6 @@ export default {
         }
         commit('setUser', firebaseAuthUser)
         commit('isUserExist',true)
-        debugger
         localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
         // set the user in state and localstorage

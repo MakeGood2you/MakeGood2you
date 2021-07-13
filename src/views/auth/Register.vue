@@ -304,7 +304,6 @@ export default {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
      const result = await this.login(provider)
       if (!this.isUserExist) {
-        debugger
         return this.$q.notify(negative(result))
       }
       if (this.isAcceptTerms) this.$q.notify(positive('התחברת בהצלחה :)'))

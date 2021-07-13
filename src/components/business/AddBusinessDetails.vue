@@ -126,7 +126,6 @@ export default {
         await this.$refs.addImage.userDetails()
       }
       console.log(this.localInfoDetails)
-      debugger
       await this.addBusinessDetails(this.localInfoDetails)
       await this.$router.push('/home')
       // this.$q.notify(loading(false))

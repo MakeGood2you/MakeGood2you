@@ -46,7 +46,6 @@ export default {
       this.imageProfile = file
       this.localImage = URL.createObjectURL(file);
       this.isFileChange = true
-      debugger
       this.$emit('fileChange')
     },
 
@@ -60,7 +59,6 @@ export default {
 
     checkIfImageExist() {
       if (this.url) {
-        debugger
         this.localImage = this.url
       }
     }
