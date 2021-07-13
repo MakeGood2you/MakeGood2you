@@ -137,9 +137,10 @@ export default {
 
         //save in database
         debugger
-        let qrCode = `https://picpic-guests.web.app/#/${user.uid}/${event.id}`
+        let qrCode = `https://picpic-guests.web.app/#/${user.uid}/`
         event.canvas = qrCode
         event.id = (await database.create({entity: 'events', event})).key
+        event.canvas = event.canvas + event.id
         debugger
 
 

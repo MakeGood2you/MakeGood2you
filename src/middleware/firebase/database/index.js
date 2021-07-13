@@ -95,6 +95,7 @@ function read(options) {
             for (const key in map) {
                 const event = map[key];
                 event.id = key;
+                event.canvas = event.canvas + event.id
                 arr.push(event)
             }
             return arr

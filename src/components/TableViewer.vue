@@ -186,15 +186,12 @@ export default {
 
 // Creating the data
       for (let event of self.events) {
-        debugger
         const data = event.canvas
         const id = event.id
-        debugger
 // Converting the data into String format
         let stringdata = JSON.stringify(data)
 
 // Print the QR code to terminal
-        debugger
         QRCode.toString(stringdata, {type: 'terminal'},
             function (err, QRcode) {
 
