@@ -1,9 +1,9 @@
 import firebaseInstance from '../';
 export default {
-    setFileByRef
+    getStorageRef
 }
-async function setFileByRef(options) {// (entity,file) options
+async function getStorageRef(entity) {// (entity,file) options
     return firebaseInstance.firebase
         .storage()
-        .ref(options.entity).put(options.file)
+        .ref(entity)
 }

@@ -56,7 +56,7 @@ export default {
         if (typeof file === 'object') {
             if (file.name) {
             }
-            const result = await storage.setFileByRef({entity, file})
+            const result = await storage.getStorageRef(entity).put(file)
             photoURL = await result.ref.getDownloadURL()
             console.log(photoURL)
             commit('setImage', photoURL)

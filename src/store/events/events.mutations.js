@@ -1,6 +1,7 @@
 
 export default {
-
+    setImagesCounter:(state, length) =>(state.imagesCounter = length),
+    setImages:(state, data) =>(state.pics = data),
     setEvents: ((state, events) => state.events = events ),
 
     setLeads: ((state, leads) => state.leads = leads ),

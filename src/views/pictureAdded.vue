@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <FsLightbox
-        :toggler="toggler"
+        :toggler="isFullScreen"
         :sources="[chosenPic]"
     />
     <q-btn
@@ -25,38 +25,36 @@
         label="הורד תמונות"
     />
 
-    <div>
-      <div class="row justify-center q-gutter-sm">
-        <q-intersection
-            v-for="(pic, index) of pics"
-            :key="index"
-            class="crop"
-            once
-            transition="scale"
-        >
-          <q-card>
-            <q-img
-                :src="pic.src"
-                id="pic"
-                :ratio="4/3"
-                v-show="pic.isDownload===false"
-                @click="getAlbum(pic)"
-                v-lazy-load
-            />
-            <q-btn class="download" v-show="pic.isDownload===false" style="width: 100%; background-color: #ded6d6" @click="downloadPrivetly(pic)">הורד
-              תמונה
-            </q-btn>
-          </q-card>
-        </q-intersection>
+    <div class="row justify-center q-gutter-sm">
+      <div
+          v-for="(pic, index) of localPics"
+          v-show="!pic.isDownload"
+          :key="index"
+          class="crop"
+      >
+        <q-card>
+          <q-img
+              :src="pic.url"
+              id="pic"
+              :ratio="4/3"
+              @click="showFullPic(pic)"
+          />
+          <q-btn class="download" v-show="pic.isDownload===false" style="width: 100%; background-color: #ded6d6"
+                 @click="downloadPrivetly(pic)">הורד
+            תמונה
+          </q-btn>
+        </q-card>
+
       </div>
     </div>
+    <div v-intersection="onIntersection"></div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
 import 'firebase/storage';
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import FsLightbox from "fslightbox-vue";
 import InfiniteLoading from 'vue-infinite-loading'
 import lazyLoad from '../directives/lazyload'
@@ -65,42 +63,53 @@ export default {
   components: {FsLightbox, InfiniteLoading},
   data() {
     return {
-      pics: [],
-      downloadedPics: [],
-      display: true,
-      firebaseStorage: [],
-      guestName: '',
-      photoPaths: [],
+      localPics: [],
+      start: 0,
+      end: 8,
+      limit: 8,
       countPhoto: '',
       eid: this.$route.params.eid,
-      opened: false,
       chosenPic: '',
-      toggler: false,
+      isFullScreen: false,
+      options: {
+        handler: this.onIntersection,
+      }
     }
   },
-
+  computed: {
+    ...mapGetters('events', {pics: 'getPhotos'}),
+    pics() {
+      return this.$store.getters["events/getPhotos"](this.eid)
+    }
+  },
   methods: {
-    ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase']),
-
+    ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase', 'getLimitCounter']),
+    test(val) {
+      console.log('lalalal')
+      console.log(val)
+    },
     async downloadPrivetly(pic) {
       const eid = this.eid
-      var details = {pic, eid}
-      await this.updatePhotosToFirebase(details)
-      await this.downloadUrl(pic.src, pic.name)
+      var options = {pic, eid}
+      await this.updatePhotosToFirebase(options)
+
+      await this.downloadUrl(pic.url, pic.name)
       pic.isDownload = true
     },
-    getAlbum(pic) {
-      this.chosenPic = pic.src
-      this.toggler = !this.toggler
+
+    showFullPic(pic) {
+      this.chosenPic = pic.url
+      this.isFullScreen = !this.isFullScreen
     },
+
     async downloadUrl(url, filename) {
       this.countPhoto++
-
+      const self = this
       await fetch(url).then(function (t) {
         return t.blob().then((b) => {
               var a = document.createElement("a");
               a.href = URL.createObjectURL(b);
-              a.setAttribute("download", filename);
+              a.setAttribute("download", self.countPhoto);
               a.click();
             }
         );
@@ -108,12 +117,13 @@ export default {
     },
 
     async download(pics) {
+      this.countPhoto++
       for (const pic of pics) {
-        const eid = this.eid
-        var details = {pic, eid}
-        if (pic.isDownload != true) {
-          await this.downloadUrl(pic.src, pic.name)
-          await this.updatePhotosToFirebase(details)
+        const options = {pic, eid: this.eid}
+
+        if (pic.isDownload !== true) {
+          await this.downloadUrl(pic.url, this.countPhoto++)
+          await this.updatePhotosToFirebase(options)
           pic.isDownload = true
         }
       }
@@ -122,63 +132,29 @@ export default {
     goHome() {
       this.$router.push(`/event-page/${this.eid}`)
     },
+    onIntersection(entry) {
+      if (this.localPics.length && entry.isIntersecting) {
+        const counter = 8
+        const length = this.pics.length
+        if (this.localPics.length <= (length - counter)) {
+          const setPics = this.pics.slice((this.start + counter),( this.end + counter))
+          this.localPics = this.localPics.concat(setPics)
+        } else {
+          const setPics = this.pics.slice((this.localPics.length), (this.pics.length))
+          this.localPics = this.localPics.concat(setPics)
+        }
 
-    async createdFunction() {
-      const eid = this.$route.params.eid
-      const photoName = await this.getPhotosToFirebase(eid)
-      const photoNameOk = {photoName}.photoName
-
-      const ref = firebase.storage().ref(`${this.eid}/`)
-      ref.list()
-          .then(url => {
-            const paths = url._delegate.items
-            paths.forEach(path => {
-              const newPhoto = {}
-              newPhoto.src = path._location.path_
-              newPhoto.name = path.name
-              newPhoto.path = path.fullPath
-              if (newPhoto.path.includes('..')) {
-                return
-              }
-              this.firebaseStorage.push(newPhoto)
-            })
-            this.firebaseStorage.forEach(src => {
-              firebase.storage().ref(`${src.src}`).getDownloadURL().then(url => {
-                const obj = {
-                  src: url,
-                  name: src.name,
-                  path: src.path,
-                  isDownload: false
-                }
-                var exist = false
-                for (var photoNameO in photoNameOk) {
-                  const downloadPhotos = photoNameOk[photoNameO]
-                  if (obj.name === downloadPhotos) {
-                    exist = true
-                  }
-                }
-                if (exist === false) {
-                  this.pics.push(obj)
-                }
-              })
-            })
-            this.countPhoto = Object.keys(photoName).length
-          })
-          .catch(e => {
-            console.log(e);
-          })
+        // this.getNext()
+        console.log(entry)
+        console.log(entry.isIntersecting)
+      }
     }
   },
-
   async created() {
-    if (!window.user) {
-      await this.$router.push('/')
-    }
-    await this.createdFunction()
+    await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
+    this.localPics = this.pics.slice(this.start, this.end)
+    console.log(this.localPics )
   },
-  directives: {
-    lazyLoad
-  }
 }
 </script>
 

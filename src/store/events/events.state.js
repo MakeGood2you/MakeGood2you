@@ -1,5 +1,7 @@
 
 export default {
+    pics:[],
+    imagesCounter:0,
     events: [],
     editedEventId: '',
     eventId:null,

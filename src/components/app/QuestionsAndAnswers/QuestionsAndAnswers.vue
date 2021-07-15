@@ -6,7 +6,7 @@
       <div class="q-pa-md">
         <q-list  padding bordered class="rounded-borders">
           <q-expansion-item
-              class="full-width"
+              class="full-width q-pa-xs"
               v-for="(item, key) in questionsAndAnswers.data" :key="key"
               dense
               dense-toggle
@@ -22,6 +22,7 @@
                 <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>
               </q-card-actions>
             </q-card>
+            <hr>
 
           </q-expansion-item>
         </q-list>

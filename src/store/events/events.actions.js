@@ -1,4 +1,5 @@
 import database from "../../middleware/firebase/database";
+import storage from "../../middleware/firebase/storage";
 import db from "../../middleware/firebase/database/api";
 import 'firebase/storage';
 
@@ -9,14 +10,42 @@ const user = getUserFromLocalStorage()
 export default {
 
     ///updated database///
-    changePermissionValue:async ({stat,commit},id)=>{
+    // test: async ({}) =>{
+    //     let childRef2 = [your firebase storage path]
+    //     storageRef.child(UserDetails.username+"profilepic.jpg");
+    //     Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+    //     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //     bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+    //     byte[] data = baos.toByteArray();
+    //     //uploading the image
+    //     UploadTask uploadTask2 = childRef2.putBytes(data);
+    //     uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    //     @Override
+    //         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+    //             Toast.makeText(Profilepic.this, "Upload successful", Toast.LENGTH_LONG).show();
+    //         }
+    //     }).addOnFailureListener(new OnFailureListener() {
+    //     @Override
+    //         public void onFailure(@NonNull Exception e) {
+    //             Toast.makeText(Profilepic.this, "Upload Failed -> " + e, Toast.LENGTH_LONG).show();
+    //         }
+    //     });`
+    // },
+    getLimitCounter: async ({stat, commit, getters}, options) => {
+        let entity = `users/${options.uid}/events/${options.eid}`
+        const storageRef = await storage.getStorageRef(entity)
+        let listResult = await storageRef.listAll()//// check the object
+        let length = listResult.items.length
+        commit('setImagesCounter', length)
+    },
+    changePermissionValue: async ({stat, commit}, id) => {
         const entity = `users/${window.user.uid}/data/events/${id}/isOpen`
         const document = await db.get(entity)
         await db.set(entity, !document)
         commit('addPermission', document)
     },
 
-    setQrF:async ({stat,commit},id)=>{
+    setQrF: async ({stat, commit}, id) => {
         const entity = `users/${window.user.uid}/data/events/${id}/QR`
         const document = false
         await db.set(entity, document)
@@ -70,8 +99,9 @@ export default {
         }
         console.log(checkWelcomePay)
     },
-    updatePhotosToFirebase: async ({commit}, details)=>{
-       await database.pushPhotos({entity: 'events', eventId:details.eid, photoName: details.pic.name});
+    updatePhotosToFirebase: async ({commit}, options)=>{
+        const entity = `users/${window.user.uid}/data/events/${options.eid}/photos`
+       await db.create(entity,options.url);
     },
     getPhotosToFirebase: async ({},eid)=>{
         var photos = await database.getPhotos({entity: 'events', eventId: eid });
