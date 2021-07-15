@@ -22,7 +22,7 @@
       </template>
       <template v-slot:body="props" dir="ltr">
         <q-tr :props="props">
-          <q-td key="organizer" :props="props" @click="goToEvent(props.row.id)">{{ props.row.organizer }}</q-td>
+          <q-td key="organizer"  :props="props" @click="goToEvent(props.row.id)">{{ props.row.organizer }}</q-td>
           <q-td key="eventStyle" :props="props" @click="goToEvent(props.row.id)"> {{ props.row.eventStyle }}</q-td>
           <q-td key="date" :props="props" @click="goToEvent(props.row.id)">{{ reverseString(props.row.date) }}</q-td>
           <q-td key="presents" :props="props" @click="goToEvent(props.row.id)">{{ props.row.presents }}</q-td>
@@ -62,7 +62,7 @@
                  style="text-align: center; font-size: 15px; color: #000090">העתק קישור</p>
             </div>
           </q-td>
-          <q-td key="actions" :props="props">
+          <q-td key="actions" :props="props" >
             <q-btn class="trash-hover" icon="delete" flat @click="del(props.row)"></q-btn>
             <q-dialog v-model="persistent" transition-hide="scale">
               <q-card class=" bg-blue-9 text-white" style="width: 300px">

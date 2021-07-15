@@ -42,7 +42,6 @@ export default {
         const entity = `users/${window.user.uid}/data/events/${id}/isOpen`
         const document = await db.get(entity)
         await db.set(entity, !document)
-        commit('addPermission', document)
     },
 
     setQrF: async ({stat, commit}, id) => {

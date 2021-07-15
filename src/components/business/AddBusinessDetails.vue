@@ -1,10 +1,10 @@
 <template>
   <div class="q-mb-xl">
     <div class=" column items-center">
-      <h4> פרטי העסק </h4>
+      <h4 class="top"> פרטי העסק </h4>
       <p> (יפורסם אצל המשתמשים) </p>
     </div>
-    <div class="radius-3 q-pa-xl shadow-4 column center max-width-1 " dir="rtl">
+    <div class=" q-pa-xl column center max-width-1 background back"  dir="rtl">
       <q-form
           @submit="onSubmit"
           @reset="onReset"
@@ -76,14 +76,14 @@
 
         <div class="row justify-around">
           <q-btn
-              class="width-50 -align-center"
-              label="עדכן" type="submit" color="primary">
+              class="width-50 -align-center btn1"
+              label="עדכן" type="submit">
           </q-btn>
           <q-btn
-              class="self-start"
+              class="self-start btn1 btn2"
               label="חזור"
               @click="$router.push('/home')"
-              color="primary">
+              color="gray">
           </q-btn>
         </div>
       </q-form>
@@ -112,7 +112,7 @@ export default {
       BPhone: '',
     },
     tempLogo: null,
-    isFileChange:false
+    isFileChange: false
   }),
   computed: {
     ...mapState('businesses', ['businessDetails']),
@@ -122,7 +122,7 @@ export default {
 
     async onSubmit() {
       this.isNewUser()
-      if (this.isFileChange){
+      if (this.isFileChange) {
         await this.$refs.addImage.userDetails()
       }
       console.log(this.localInfoDetails)
@@ -137,14 +137,14 @@ export default {
       this.age = null
       this.accept = false
     },
-    isNewUser(){
+    isNewUser() {
       if (user.isNewUser) {
         for (const key in this.localInfoDetails) {
           if (this.localInfoDetails[key] && this.localInfoDetails[key] !== user[key]) {
             user.isNewUser = false
             localStorage.setItem('user', JSON.stringify(user))
             break;
-          }else return
+          } else return
         }
       }
     }
@@ -166,4 +166,27 @@ export default {
 
 <style scoped>
 
+.top {
+  margin-top: -100px;
+}
+.back{
+  background-color: rgba(255, 255, 255, 0.43);
+}
+.btn1 {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-bottom: 50px;
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-size: 20px;
+  background-color: #000023;
+  color: antiquewhite;
+}
+
+.btn2 {
+  margin-top: -30px;
+  background-color: #6c6c6c;
+}
 </style>
