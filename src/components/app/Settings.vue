@@ -7,13 +7,12 @@
            flat
            dense
            label="חשבון">
-      <q-menu class="settings-container">
 
-        <div class="row no-wrap q-pa-md">
+      <q-menu class="settings-container">
+        <div class="row no-wrap q-pa-lg setting-container">
           <div class="column">
             <div dir="rtl" class="text-h6 q-mb-md "> היי, {{  businessDetails ? businessDetails.BName :'חבוב'}}</div>
             <div class="self-end column">
-
 
               <q-btn
                   class="self-end"
@@ -24,8 +23,8 @@
                   dense
                   v-model="mobileData"
               >
-                <span>לידים</span>
-                <q-icon name="people"></q-icon>
+                <span> לידים  </span>
+                <q-icon name="people" ></q-icon>
               </q-btn>
               <q-btn
                   @click="goEditBusinessDetails"
@@ -35,7 +34,7 @@
                   flat
                   dense
                   v-model="mobileData">
-                <span> פרטי העסק</span><q-icon name="edit"></q-icon>
+                <span> פרטי העסק </span><q-icon name="edit"></q-icon>
               </q-btn>
 
 
@@ -47,7 +46,7 @@
                   flat
                   dense
                   v-model="mobileData">
-                <span>תמיכה\עזרה  </span>
+                <span>תמיכה\עזרה </span>
                 <q-icon color="black" size="1.5rem" name="svguse:icons.svg#help"/>
 
                 <!--                <q-icon name="mdi-account-question"></q-icon>-->
@@ -63,9 +62,17 @@
                 <span>הגדרות משתמש</span><q-icon name="account_circle"></q-icon>
               </q-btn>
 
+              <q-btn
+                  color="primary"
+                  label="התנתק"
+                  push
+                  size="sm"
+                  @click="signOut"
+                  v-close-popup
+              />
             </div>
           </div>
-          <q-separator vertical inset class="q-mx-lg"/>
+          <q-separator vertical inset class="q-mx-lg line "/>
 
           <div class="column items-center">
             <div class="q-mt-xl">
@@ -77,14 +84,6 @@
 
               <div class="text-subtitle1 text-center q-mt-md q-mb-xs">{{ businessDetails.BName }}</div>
 
-            <q-btn
-                color="primary"
-                label="התנתק"
-                push
-                size="sm"
-                @click="signOut"
-                v-close-popup
-            />
             </div>
           </div>
         </div>
@@ -144,6 +143,13 @@ export default {
 <style scoped>
 .settings-container , .q-menu{
   max-width: 400px !important;
+}
+
+.setting-container{
+  width: 400px;
+}
+.line{
+  margin-left: 100px;
 }
 
 </style>

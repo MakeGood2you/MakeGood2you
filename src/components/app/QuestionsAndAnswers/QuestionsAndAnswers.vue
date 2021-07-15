@@ -1,17 +1,16 @@
 <template>
   <div class="column items-center">
     <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
-    <span class="text-h6">שאלות ותשובות</span>
+    <span class="text-h6" style="margin-top: -35%">שאלות ותשובות</span>
     <div dir="rtl" class="full-width">
       <div class="q-pa-md">
-        <q-list  padding bordered class="rounded-borders">
+        <q-list  padding bordered class="rounded-borders ladder">
           <q-expansion-item
-              class="full-width"
               v-for="(item, key) in questionsAndAnswers.data" :key="key"
               dense
               dense-toggle
               expand-separator
-              icon="perm_identity"
+              icon="help_outline"
               :label="item.question"
           >
             <q-card>
@@ -66,4 +65,12 @@ export default {
 
 <style scoped>
 
+
+.ladder {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.43);
+}
 </style>

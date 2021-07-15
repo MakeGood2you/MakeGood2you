@@ -38,7 +38,7 @@
             <q-img
                 :src="pic.src"
                 id="pic"
-                :ratio="4/3"
+                :ratio="3/2"
                 v-show="pic.isDownload===false"
                 @click="getAlbum(pic)"
                 v-lazy-load
@@ -185,13 +185,12 @@ export default {
 <style scoped>
 
 .crop {
-  width: 270px;
+  width: 570px;
 }
 
 #pic:hover {
   filter: opacity(70%);
 }
-
 .homePage {
   margin-top: 9px;
   margin-right: 80px;
