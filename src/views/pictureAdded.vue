@@ -54,7 +54,7 @@
 <script>
 import firebase from "firebase";
 import 'firebase/storage';
-import {mapActions, mapGetters, mapState} from 'vuex';
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 import FsLightbox from "fslightbox-vue";
 import InfiniteLoading from 'vue-infinite-loading'
 import lazyLoad from '../directives/lazyload'
@@ -63,10 +63,10 @@ export default {
   components: {FsLightbox, InfiniteLoading},
   data() {
     return {
-      localPics: [],
+
       start: 0,
-      end: 8,
-      limit: 8,
+      end: 10,
+      limit: 10,
       countPhoto: '',
       eid: this.$route.params.eid,
       chosenPic: '',
@@ -78,12 +78,14 @@ export default {
   },
   computed: {
     ...mapGetters('events', {pics: 'getPhotos'}),
+    ...mapState('events', ['localPics']),
     pics() {
       return this.$store.getters["events/getPhotos"](this.eid)
     }
   },
   methods: {
     ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase', 'getLimitCounter']),
+    ...mapMutations('events', ['setLocalImages']),
     test(val) {
       console.log('lalalal')
       console.log(val)
@@ -134,17 +136,18 @@ export default {
     },
     onIntersection(entry) {
       if (this.localPics.length && entry.isIntersecting) {
-        const counter = 8
+        const counter = 10
         const length = this.pics.length
         if (this.localPics.length <= (length - counter)) {
-          const setPics = this.pics.slice((this.start + counter),( this.end + counter))
-          this.localPics = this.localPics.concat(setPics)
+          debugger
+          const setPics = this.pics.slice((this.start + counter), (this.end + counter))
+          this.setLocalImages(setPics)
+          // this.localPics = this.localPics.concat(setPics)
         } else {
           const setPics = this.pics.slice((this.localPics.length), (this.pics.length))
-          this.localPics = this.localPics.concat(setPics)
+          this.setLocalImages(setPics)
+          // this.localPics = this.localPics.concat(setPics)
         }
-
-        // this.getNext()
         console.log(entry)
         console.log(entry.isIntersecting)
       }
@@ -152,16 +155,25 @@ export default {
   },
   async created() {
     await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
-    this.localPics = this.pics.slice(this.start, this.end)
+    const setPics = this.pics.slice(this.start, this.end)
+    this.setLocalImages(setPics)
+
     console.log(this.localPics )
   },
+  watch:{
+    localPics(){
+      console.log(this.localPics,'lalala')
+      console.log(this.localPics.length)
+  debugger
+    }
+  }
 }
 </script>
 
 <style scoped>
 
 .crop {
-  width: 270px;
+  width: 400px;
 }
 
 #pic:hover {

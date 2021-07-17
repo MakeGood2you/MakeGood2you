@@ -1,14 +1,19 @@
 
 export default {
-    setImagesCounter:(state, length) =>(state.imagesCounter = length),
-    setImages:(state, data) =>(state.pics = data),
-    setEvents: ((state, events) => state.events = events ),
+    setLocalImages: (state, setPics) => {
+        state.localPics = [...state.localPics ]
+        Array.prototype.push.apply(state.localPics, setPics)
+            // this.localPics = this.localPics.concat(setPics
+    },
+    setImagesCounter: (state, length) => (state.imagesCounter = length),
+    setImages: (state, data) => (state.pics = data),
+    setEvents: ((state, events) => state.events = events),
 
-    setLeads: ((state, leads) => state.leads = leads ),
+    setLeads: ((state, leads) => state.leads = leads),
 
-    setEventId: ((state, eventId)=> state.eventId = eventId),
+    setEventId: ((state, eventId) => state.eventId = eventId),
 
-    setEventQr: ((state, qrCode)=> state.qrCode = qrCode),
+    setEventQr: ((state, qrCode) => state.qrCode = qrCode),
 
     setEvent: ((state, event)=> state.event = event),
 

@@ -50,9 +50,9 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
         const thumbPath = join(workingDir, thumbName)
         functions.logger.info('pass 11 thumbName', thumbPath)
         //resize the image
-
-        await sharp(tmpFilePath)
-            .resize(size, size).toFile(thumbPath)
+        //
+        // await sharp(tmpFilePath)
+        //     .resize(size, size).toFile(thumbPath)
 
         const metadata = {contentType: object.contentType};
         const newFilePath = filePath + '/resizes'

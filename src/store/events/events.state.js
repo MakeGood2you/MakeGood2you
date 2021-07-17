@@ -1,6 +1,6 @@
 
 export default {
-    pics:[],
+    pics:[], localPics: [],
     imagesCounter:0,
     events: [],
     editedEventId: '',
