@@ -50,12 +50,14 @@ export default {
         await db.set(entity, document)
         commit('setQrF', document)
     },
-    setQrTF:async ({stat,commit},id)=>{
-        const entity = `users/${window.user.uid}/data/events/${id}/QR`
-        const document = await db.get(entity)
-        await db.set(entity, !document)
-        commit('setQrTF', document)
-        return document
+    setQrTF: async ({state, commit}, eid) => {
+        const entity = `users/${window.user.uid}/data/events/${eid}/QR`
+        const index = state.events.findIndex(event => event.id === eid)
+        let QR = state.events[index].QR
+        QR = !QR
+        await db.set(entity, QR)
+        commit('setQrCanvas', {eid,QR, index})
+        return QR
     },
     ///database///
 
@@ -144,12 +146,10 @@ export default {
     },
 
     updateEvent: async ({state, commit}) => {
-
         const event = {}
-
         Object.assign(event, state.editedEvent)
         event.id = state.editedEventId;
-
+        debugger
         //save in database
         await database.update({entity: 'events', id: event.id, item: event})
 
@@ -169,8 +169,10 @@ export default {
         //save in database
         let qrCode = `https://picpic-guests.web.app/#/${user.uid}/`
         event.canvas = qrCode
+        debugger
         event.id = (await database.create({entity: 'events', event})).key
         event.canvas = event.canvas + event.id
+        debugger
 
 
         //save in store

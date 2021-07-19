@@ -17,7 +17,7 @@
 
     <q-btn
         class="absolute-top-right downloadPic"
-        @click="download(pics)"
+        @click="download(event.photos)"
         icon="file_download"
         color="black"
         flat
@@ -102,7 +102,7 @@ export default {
       this.isFullScreen = !this.isFullScreen
     },
 
-    async downloadUrl(url, filename) {
+    async downloadUrl(url) {
       this.countPhoto++
       const self = this
       await fetch(url).then(function (t) {
@@ -117,16 +117,15 @@ export default {
     },
 
     async download(pics) {
-      this.countPhoto++
-      for (const pic of pics) {
-        const options = {pic, eid: this.eid}
+      for (const pic in pics) {
+        const options = {pics: pics[pic], eid: this.eid}
 
-        if (pic.isDownload !== true) {
-          await this.downloadUrl(pic.url, this.countPhoto++)
-          await this.updatePhotosToFirebase(options)
-          pic.isDownload = true
+        if (pics[pic].isDownload !== true) {
+          pics[pic].isDownload = false
+          await this.downloadUrl(pics[pic].photoURL)
         }
       }
+      await this.updatePhotosToFirebase(options)
     },
 
     goHome() {

@@ -71,10 +71,13 @@ export default {
     ...mapActions('events', ['insertEvent', 'updateEvent','setInfoData', 'setEditEventById']),
     ...mapMutations('events', ['setEditedEvent', 'setEditedEventId', 'setEventId']),
     localSetEditedEvent() {
+      debugger
       if (this.localEditedEvent.imgLimit > 10) {
+        debugger
         alert('לא ניתן להזין מעבר ל 10 תמונות')
         return false
       } else {
+        debugger
         this.setEditedEvent(this.localEditedEvent)
       }
     },

@@ -46,7 +46,7 @@
                 @click="getOneCode(props.row)"
                 icon="qr_code_scanner"
                 class="qr-hover"
-                v-if="!props.row.QR===true"
+                v-if="!props.row.QR"
                 flat
             />
             <div>
@@ -55,10 +55,10 @@
                   :props="props"
                   @click="getOneCode(props.row)"
                   :id="`${props.row.id}`"
-                  v-if="props.row.QR===true"
+                  v-if="props.row.QR"
 
               />
-              <p :props="props"class="copy" @click="copy"  v-if="props.row.QR===true" v-clipboard:copy="props.row.canvas"
+              <p :props="props"class="copy" @click="copy"  v-if="props.row.QR" v-clipboard:copy="props.row.canvas"
                  style="text-align: center; font-size: 15px; color: #000090">העתק קישור</p>
             </div>
           </q-td>
@@ -171,7 +171,6 @@ export default {
 
     async getOneCode(params) {
       await this.setQrTF(params.id)
-      await this.getEvents()
       this.skip = true
       await this.qrcode()
     },
@@ -194,7 +193,6 @@ export default {
 // Print the QR code to terminal
         QRCode.toString(stringdata, {type: 'terminal'},
             function (err, QRcode) {
-
               if (err) return console.log("error occurred")
               // Printing the generated code
             })

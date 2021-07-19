@@ -50,37 +50,42 @@ export default {
         state.events.splice(index, 1)
     }),
 
-    insertEvent:((state, event)=>{
+    insertEvent: ((state, event) => {
         state.events.push(event)
     }),
 
-    setDate: ((state, sameDate) => state.sameDate = sameDate ),
+    setDate: ((state, sameDate) => state.sameDate = sameDate),
 
-    setContacts: ((state, contacts) => state.contacts = contacts ),
+    setContacts: ((state, contacts) => state.contacts = contacts),
 
-    setContactEvent: ((state, contactsEvent)=> state.contactsEvent = contactsEvent),
+    setContactEvent: ((state, contactsEvent) => state.contactsEvent = contactsEvent),
 
-    setQrTF:((state, qrTF)=> state.qrTF = qrTF),
+    setQrCanvas: ((state, options) => {
+        const event = state.events[options.index]
+        event.QR = options.QR
+        event.canvas = event.canvas + `${options.eid}`
+    }),
 
-    setQrF:((state, qrF)=> state.qrF = qrF),
 
-    setContact: ((state, contact)=> state.contact = contact),
+    setQrF: ((state, qrF) => state.qrF = qrF),
 
-    setEditedContactId: ((state, id) => state.editedContactId= id),
+    setContact: ((state, contact) => state.contact = contact),
 
-    resetEditedContact:((state) =>{
-        for (const key in state.editedContact){
-            state.editedContact[key]=''
+    setEditedContactId: ((state, id) => state.editedContactId = id),
+
+    resetEditedContact: ((state) => {
+        for (const key in state.editedContact) {
+            state.editedContact[key] = ''
         }
         delete state.editedContact
     }),
 
-    editContact: ((state, contact)=>{
+    editContact: ((state, contact) => {
         const index = state.contacts.findIndex(p => p.id === contact.id)
-        state.contacts.splice (index, 1, contact)
+        state.contacts.splice(index, 1, contact)
     }),
 
-    deleteContact: ((state, id)=>{
+    deleteContact: ((state, id) => {
         const index = state.contacts.findIndex(p => p.id === id)
         state.contacts.splice (index, 1)
     }),

@@ -95,7 +95,6 @@ function read(options) {
             for (const key in map) {
                 const event = map[key];
                 event.id = key;
-                event.canvas = event.canvas + event.id
                 arr.push(event)
             }
             return arr
@@ -155,6 +154,7 @@ function remove(options) {
 }
 
 function update(options) {
+    debugger
     return firebaseInstance.firebase.database().ref(`users/${window.user.uid}/data/${options.entity}/${options.id}`).update(options.item);
 }
 
