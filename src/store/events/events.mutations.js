@@ -1,13 +1,21 @@
 
 export default {
     setLocalImages: (state, setPics) => {
-        state.localPics = [...state.localPics ]
+        state.localPics = [...state.localPics]
         Array.prototype.push.apply(state.localPics, setPics)
-            // this.localPics = this.localPics.concat(setPics
+        // this.localPics = this.localPics.concat(setPics
     },
+
     setImagesCounter: (state, length) => (state.imagesCounter = length),
     setImages: (state, data) => (state.pics = data),
     setEvents: ((state, events) => state.events = events),
+    updatePhoto: ((state, options) => {
+        // const index = state.events.findIndex(event => event.id === options.id)
+        debugger
+        state.event.photos[options.key].isDownload = options.isDownload
+        state.event = {...state.event}
+        // state.events[index] = state.event
+    }),
 
     setLeads: ((state, leads) => state.leads = leads),
 
@@ -15,29 +23,31 @@ export default {
 
     setEventQr: ((state, qrCode) => state.qrCode = qrCode),
 
-    setEvent: ((state, event)=> state.event = event),
+    setEvent: ((state, event) => {
+        state.event = event
+    }),
 
-    setEditedEventId: ((state, id) => state.editedEventId= id),
+    setEditedEventId: ((state, id) => state.editedEventId = id),
 
-    setEditedEvent: ((state,event) => state.editedEvent= event),
+    setEditedEvent: ((state, event) => state.editedEvent = event),
 
-    resetEditedEventId: ((state) => state.editedEventId= ''),
+    resetEditedEventId: ((state) => state.editedEventId = ''),
 
-     resetEditedEvent:((state,) =>{
-        for (const key in state.editedEvent){
-            state.editedEvent[key]=''
+    resetEditedEvent: ((state,) => {
+        for (const key in state.editedEvent) {
+            state.editedEvent[key] = ''
         }
         delete state.editedEvent.id;
     }),
 
-    editEvent: ((state, event)=>{
+    editEvent: ((state, event) => {
         const index = state.events.findIndex(p => p.id === event.id)
-        state.events.splice (index, 1, event)
+        state.events.splice(index, 1, event)
     }),
 
-    deleteEvent: ((state, id)=>{
+    deleteEvent: ((state, id) => {
         const index = state.events.findIndex(p => p.id === id)
-        state.events.splice (index, 1)
+        state.events.splice(index, 1)
     }),
 
     insertEvent:((state, event)=>{

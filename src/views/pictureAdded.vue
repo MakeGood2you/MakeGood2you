@@ -27,20 +27,20 @@
 
     <div class="row justify-center q-gutter-sm">
       <div
-          v-for="(pic, index) of localPics"
-          v-show="!pic.isDownload"
-          :key="index"
+          v-for="(pic, key) in event.photos"
+          :key="key"
           class="crop"
+          v-if="!pic.isDownload"
       >
         <q-card>
           <q-img
-              :src="pic.url"
+              :src="pic.thumbs['256']"
               id="pic"
-              :ratio="4/3"
+              :ratio="3/2"
               @click="showFullPic(pic)"
           />
           <q-btn class="download" v-show="pic.isDownload===false" style="width: 100%; background-color: #ded6d6"
-                 @click="downloadPrivetly(pic)">הורד
+                 @click="downloadPrivetly(pic,key)">הורד
             תמונה
           </q-btn>
         </q-card>
@@ -78,29 +78,27 @@ export default {
   },
   computed: {
     ...mapGetters('events', {pics: 'getPhotos'}),
-    ...mapState('events', ['localPics']),
+    ...mapState('events', ['localPics', 'event']),
     pics() {
       return this.$store.getters["events/getPhotos"](this.eid)
     }
   },
   methods: {
-    ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase', 'getLimitCounter']),
-    ...mapMutations('events', ['setLocalImages']),
+    ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase', 'getLimitCounter', 'getEventsById']),
+    ...mapMutations('events', ['setLocalImages', 'setEvent']),
     test(val) {
       console.log('lalalal')
       console.log(val)
     },
-    async downloadPrivetly(pic) {
+    async downloadPrivetly(pic,key) {
       const eid = this.eid
-      var options = {pic, eid}
+      var options = {pic:pic.photoURL, eid, key}
       await this.updatePhotosToFirebase(options)
-
-      await this.downloadUrl(pic.url, pic.name)
-      pic.isDownload = true
+      await this.downloadUrl(pic.photoURL, key)
     },
 
     showFullPic(pic) {
-      this.chosenPic = pic.url
+      this.chosenPic = pic.photoURL
       this.isFullScreen = !this.isFullScreen
     },
 
@@ -135,11 +133,10 @@ export default {
       this.$router.push(`/event-page/${this.eid}`)
     },
     onIntersection(entry) {
-      if (this.localPics.length && entry.isIntersecting) {
+      if (entry.isIntersecting) {
         const counter = 10
         const length = this.pics.length
         if (this.localPics.length <= (length - counter)) {
-          debugger
           const setPics = this.pics.slice((this.start + counter), (this.end + counter))
           this.setLocalImages(setPics)
           // this.localPics = this.localPics.concat(setPics)
@@ -151,29 +148,23 @@ export default {
         console.log(entry)
         console.log(entry.isIntersecting)
       }
-    }
+    },
+
   },
   async created() {
+    // this.getEventLocal()
+    await this.getEventsById(this.eid)
     await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
     const setPics = this.pics.slice(this.start, this.end)
     this.setLocalImages(setPics)
-
-    console.log(this.localPics )
   },
-  watch:{
-    localPics(){
-      console.log(this.localPics,'lalala')
-      console.log(this.localPics.length)
-  debugger
-    }
-  }
 }
 </script>
 
 <style scoped>
 
 .crop {
-  width: 400px;
+  width: 25%;
 }
 
 #pic:hover {

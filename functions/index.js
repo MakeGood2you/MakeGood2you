@@ -14,6 +14,7 @@ const functions = require('firebase-functions')
 // exports.functionsTimeOut = functions.runWith({
 //     timeoutSeconds: 300
 // })
+
 exports.payment = require("./middleware/payments");
 exports.storage = require("./middleware/storage");
 

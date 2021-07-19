@@ -150,7 +150,7 @@ export default {
   methods: {
 
     ...mapActions('events', ['deleteEvent', 'getEvents', 'setQrF', 'setQrTF', 'changePermissionValue']),
-    ...mapMutations('events', ['setEventId']),
+    ...mapMutations('events', ['setEventId', 'setEvent']),
 
     ///updated functions///
     async closePermission(params) {
@@ -221,6 +221,7 @@ export default {
     },
     goToEvent(id) {
       this.setEventId(id)
+      this.setEvent(id)
       this.$router.push(`/event-page/${id}`);
     },
     del(row) {

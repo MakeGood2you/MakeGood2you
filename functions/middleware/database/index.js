@@ -7,7 +7,7 @@ const admin = require("firebase-admin");
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
     databaseURL: "https://osher-project-default-rtdb.europe-west1.firebasedatabase.app"
-});
+})
 
 const db = admin.database()
 
@@ -19,6 +19,9 @@ async function create(entity, document) {
 async function set(entity, document) {
     return await db.ref(entity).set(document)
 
+}
+async function update(entity, document) {
+    return await db.ref(entity).update(document)
 }
 
 async function get(entity) {

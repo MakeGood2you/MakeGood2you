@@ -99,29 +99,31 @@ export default {
         console.log(checkWelcomePay)
     },
     updatePhotosToFirebase: async ({commit}, options)=>{
-        const entity = `users/${window.user.uid}/data/events/${options.eid}/photos`
-       await db.create(entity,options.url);
+        const entity = `users/${window.user.uid}/data/events/${options.eid}/photos/${options.key}/isDownload`
+        await db.set(entity, true);
+        commit('updatePhoto', {isDownload: true, key: options.key, id: options.eid})
     },
-    getPhotosToFirebase: async ({},eid)=>{
-        var photos = await database.getPhotos({entity: 'events', eventId: eid });
+    getPhotosToFirebase: async ({}, eid) => {
+        var photos = await database.getPhotos({entity: 'events', eventId: eid});
         return photos
     },
     getEvents: async ({commit}) => {
         const events = await database.read({entity: 'events'});
+        console.log(events)
         commit('setEvents', events)
     },
 
-    getEventsById: async ({state, commit}) => {
-
-        const event = await database.getItemById({entity: 'events', id: state.eventId});
+    getEventsById: async ({state, commit}, id) => {
+        const event = await database.getItemById({entity: 'events', id});
+        console.log(event)
         commit('setEvent', event)
 
     },
     setIsOpen: async ({}, obj) => {
-       await database.setOpen({entity: 'events', params: obj.params, id: obj.id });
+        await database.setOpen({entity: 'events', params: obj.params, id: obj.id});
     },
     whatIsHisBulian: async ({}, id) => {
-        const isOpen= await database.checkOpen({entity: 'events', id: id })
+        const isOpen = await database.checkOpen({entity: 'events', id: id})
         return isOpen
     },
 
