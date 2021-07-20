@@ -1,10 +1,14 @@
 <template>
     <q-layout>
       <q-page-container>
-        <q-dialog v-model="isClicked">
+        <q-dialog class="" v-model="isClicked">
           <AddEvent/>
         </q-dialog>
-        <q-icon @click="isClicked = true" class="absolute-center" size="8rem" color="primary" name="add_circle_outline"></q-icon>
+        <q-icon
+            @click="isClicked = true"
+            :class="`${events.length === 0 ?'absolute-center' :'fixed-bottom-right'} q-pa-lg` "
+            :size="events.length === 0 ?'8rem': '9rem'" color="primary"
+            name="add_circle_outline"></q-icon>
         <TableViewer/>
 
       </q-page-container>
@@ -32,6 +36,7 @@ export default {
   computed: {
     ...mapState('auth', ['user']),
     ...mapState('businesses', ['isPay']),
+    ...mapState('events', ['events']),
   },
   methods: {
     ...mapMutations('auth', ['setUser']),
