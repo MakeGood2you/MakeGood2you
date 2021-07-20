@@ -15,7 +15,7 @@ const routes = [
         meta: {authUserIsPayment: false}},
     {path: '/welcome', name: 'welcome', component: () => import('../views/welcome.vue'),},
 
-    {path: '/Home', name: 'Home', component: Home,
+    {path: '/home', name: 'Home', component: Home,
         meta: {authUserIsPayment: true}},
     {path: '/add-business-details', name: 'addBusinessDetails', component: () => import('../components/business/AddBusinessDetails.vue'),
         meta: {authUserIsPayment: true}},
@@ -30,7 +30,7 @@ const routes = [
         meta: {authUserIsPayment: true}},
     {path: '/event-page/:eid/pictureAdded', name: 'pictureAdded', component: () => import('../views/pictureAdded.vue'),
         meta: {authUserIsPayment: true}},
-    {path: '/item/:id', name: 'Item', component: () => import('../views/Item.vue'),
+    {path: '/event/:id', name: 'Event', component: () => import('../views/Event.vue'),
         meta: {authUserIsPayment: true}},
 ]
 

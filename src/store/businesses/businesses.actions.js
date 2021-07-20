@@ -5,23 +5,27 @@ import storage from "../../middleware/firebase/storage";
 import {getUserFromLocalStorage} from '../../middleware/utils'
 
 const user = getUserFromLocalStorage()
+const tableName = 'businessInfo'
 
+const paymentPath = (uid) => `payments/${uid}/package`
+const businessesPath = (uid) => `users/${user.uid}/data/${tableName}`
 export default {
 
     addBusinessDetails: async ({commit, state}, businessDetails) => {
-        const uid = getUserFromLocalStorage().uid
-        const entity = `users/${uid}/data/businessInfo`
-        businessDetails.photoURL = state.currentImageProfile
-
+        const entity = `${businessesPath(user.uid)}`
+        if (state.currentImageProfile) {
+            businessDetails.photoURL = state.currentImageProfile
+        }
         await db.set(entity, businessDetails)
         commit('addDetails', businessDetails)
     },
 
     getBusinessDetails: async ({commit, state, getters}) => {
         // if (!state.user.uid) return
+
         const user = getUserFromLocalStorage()
         if (!user) return
-        const entity = `users/${user.uid}/data/businessInfo`
+        const entity = businessesPath(user.uid)
         const businessDetails = await db.get(entity)
         console.log('businessDetails ',businessDetails)
         if (!businessDetails) return
@@ -29,17 +33,15 @@ export default {
     },
 
     isUserPayValidate: async ({commit}, uid) => {
-        const isUserPay = await functions.callableFunction({you: 'got', it: 'bro', uid,}, 'payment-validatePayment')
+        const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
         console.log('is user pay? ', isUserPay)
-        localStorage.setItem('isPay', JSON.stringify(isUserPay))
         commit('isUserPay', isUserPay)
     },
 
     setPayment: async ({commit}, details) => {
-        const entity = `users/${user.uid}/data/package/paymentDetails`
-        let isUserPay = await db.set(entity, details)
+        const entity = `${paymentPath(user.uid)}/paymentDetails`
+        await db.set(entity, details.data)
         commit('isUserPay', true)
-        localStorage.setItem('isPay', JSON.stringify(true))
     },
     billingRecurringCancelAction: async () => {
         const api = 'https://europe-west1-osher-project.cloudfunctions.net'
@@ -50,18 +52,22 @@ export default {
 
         console.log('is canceling')
     },
+
+
     uploadProfileImage: async ({rootState, dispatch, state, commit}, file) => {
-        const entity = `users/${user.uid}/data/businessInfo/businessesLogo`
+        const entity = `users/${user.uid}/business/profilePic`
         let photoURL = null
-        if (typeof file === 'object') {
-            if (file.name) {
-            }
-            const result = await storage.getStorageRef(entity).put(file)
+        const ref = await storage.getStorageRef(entity)
+        await ref.put(file).then(async (result) => {
             photoURL = await result.ref.getDownloadURL()
             console.log(photoURL)
             commit('setImage', photoURL)
-        }
+        })
+
     },
 
-
+    setPackagePayment: async ({state, commit}, paymentMethod) => {
+        const entity = `${paymentPath(user.uid)}/selected`
+        await db.set(entity, paymentMethod)
+    },
 }

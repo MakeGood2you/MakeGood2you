@@ -6,7 +6,6 @@ const router = express.Router({mergeParams: true})
 // Get all todos
 // router.get('/', async (req, res, next) => {
 //   try {
-//     debugger
 //     const result = await logic.getById(req.params.id)
 //     return res.json(result)
 //   } catch (e) {

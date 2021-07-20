@@ -1,5 +1,5 @@
 export default {
-  businessDetails: {},
+  businessDetails: null,
   isPay:false,
   currentImageProfile: '',
 

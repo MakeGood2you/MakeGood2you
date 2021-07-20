@@ -1,6 +1,12 @@
 <template dir="rtl">
-  <div class="q-pa-md">
+  <div
+      v-if="isEventExist"
+      class="q-pa-md">
     <q-table
+        v-if="events.length"
+        :filter="filter"
+        :rows-per-page-options="[]"
+        wrap-cells
         :columns="columns"
         :data="events"
         binary-state-sort
@@ -8,6 +14,14 @@
         row-key="name"
         style="direction: rtl; padding: 20px 0px"
     >
+      <template v-slot:top-left>
+          <q-input
+              outlined  debounce="300" v-model="filter" placeholder="  חפש אותי כאן  ">
+            <template v-slot:prepend>
+              <q-icon name="search"/>
+            </template>
+          </q-input>
+      </template>
       <template v-slot:header="props">
         <q-tr :props="props" class="table-head-row">
           <q-th
@@ -16,13 +30,19 @@
               :props="props"
               class="table-header"
           >
+            <q-tooltip v-if="col.name !== 'Qrcode' && col.name !== 'actions'"
+                       anchor="top end" self="center middle" transition-show="rotate" transition-hide="flip-left">
+              {{ col.title }}
+            </q-tooltip>
             {{ col.label }}
           </q-th>
         </q-tr>
       </template>
       <template v-slot:body="props" dir="ltr">
         <q-tr :props="props">
-          <q-td key="organizer"  :props="props" @click="goToEvent(props.row.id)">{{ props.row.organizer }}</q-td>
+          <q-td key="organizer" :props="props" @click="goToEvent(props.row.id)">
+            <div class="text-pre-wrap">{{ props.row.organizer }}</div>
+          </q-td>
           <q-td key="eventStyle" :props="props" @click="goToEvent(props.row.id)"> {{ props.row.eventStyle }}</q-td>
           <q-td key="date" :props="props" @click="goToEvent(props.row.id)">{{ reverseString(props.row.date) }}</q-td>
           <q-td key="presents" :props="props" @click="goToEvent(props.row.id)">{{ props.row.presents }}</q-td>
@@ -31,13 +51,15 @@
           <q-td key="usersPermission" :props="props">
 
             <q-btn
+                class="items-center"
                 :props="props"
                 flat
                 :color="props.row.isOpen ? 'green' : 'red'"
-                v-if="getPermission(props.row) != '-'"
-                :label="props.row.isOpen ? 'הרשאות פתוחות' : 'הרשאות סגורות'"
+                v-if="getPermission(props.row) && '-'"
                 @click="closePermission(props.row)"
-            />
+            >
+              <span class="text-center">{{ props.row.isOpen ? 'הרשאות פתוחות' : 'הרשאות סגורות' }}</span>
+            </q-btn>
             <span v-else>-</span>
           </q-td>
           <q-td key="Qrcode" class="text-center" :props="props">
@@ -45,25 +67,26 @@
                 :props="props"
                 @click="getOneCode(props.row)"
                 icon="qr_code_scanner"
-                class="qr-hover"
+                class="qr"
                 v-if="!props.row.QR"
                 flat
             />
             <div>
               <canvas
-                  class="qr"
+                  class="qr cursor-pointer"
                   :props="props"
                   @click="getOneCode(props.row)"
                   :id="`${props.row.id}`"
                   v-if="props.row.QR"
 
               />
-              <p :props="props"class="copy" @click="copy"  v-if="props.row.QR" v-clipboard:copy="props.row.canvas"
+              <p :props="props" class="copy cursor-pointer" @click="copy" v-if="props.row.QR"
+                 v-clipboard:copy="props.row.canvas"
                  style="text-align: center; font-size: 15px; color: #000090">העתק קישור</p>
             </div>
           </q-td>
           <q-td key="actions" :props="props" >
-            <q-btn class="trash-hover" icon="delete" flat @click="del(props.row)"></q-btn>
+            <q-btn class="trash-hover items-center" icon="delete" flat @click="del(props.row)"></q-btn>
             <q-dialog v-model="persistent" transition-hide="scale">
               <q-card class=" bg-blue-9 text-white" style="width: 300px">
 
@@ -83,6 +106,7 @@
         </q-tr>
       </template>
     </q-table>
+
   </div>
 </template>
 
@@ -109,6 +133,8 @@ export default {
 
   data() {
     return {
+      filter: '',
+      isEventExist: true,
       text: '',
       qrBool: false,
       selected_data: '',
@@ -124,21 +150,40 @@ export default {
       btnPermission: '',
       columns: [
 
-        {name: 'organizer', align: 'center', label: 'בעל האירוע', field: 'organizer'},
-        {name: 'eventStyle', align: 'center', label: 'סוג אירוע', field: 'eventStyle', sortable: true},
-        {name: 'date', align: 'center', label: 'מועד האירוע', field: 'date', sortable: true},
-        {name: 'place', align: 'center', label: 'מקום האירוע', field: 'place', sortable: true},
-        {name: 'imgLimit', align: 'center', label: 'הגבלת תמונות', field: 'imgLimit'},
-        {name: 'usersPermission', align: 'center', label: 'הרשאות', field: 'usersPermission'},
-        {name: 'Qrcode', align: 'center', label: 'QRcode', field: 'Qrcode'},
         {
-          name: 'actions',
-          required: true,
-          label: 'מחיקת אירוע',
+          name: 'organizer',
+          title: ' מיון לפי א עד ת',
           align: 'center',
-          field: 'actions',
-          sortable: true,
+          label: 'בעל האירוע',
+          field: 'organizer',
+          sortable: true
         },
+        {
+          name: 'eventStyle',
+          title: ' מיון לפי אירוע',
+          align: 'center',
+          label: 'סוג אירוע',
+          field: 'eventStyle',
+          sortable: true
+        },
+        {
+          name: 'date', title: ' מיון לפי תאריך',
+          align: 'center', label: 'מועד האירוע', field: 'date', sortable: true
+        },
+        {
+          name: 'place', title: ' מיון לפי מקום',
+          align: 'center', label: 'מקום האירוע', field: 'place', sortable: true
+        },
+        {
+          name: 'imgLimit', title: ' מיון מהקטן / לגדול',
+          align: 'center', label: 'הגבלת תמונות', field: 'imgLimit', sortable: true
+        },
+        {
+          name: 'usersPermission', title: ` מיון לפי אירועים פתוחים / סגורים`,
+          align: 'center', label: 'הרשאות', field: 'usersPermission', sortable: true
+        },
+        {name: 'Qrcode', align: 'center', label: 'QRcode', field: 'Qrcode'},
+        {name: 'actions', label: 'מחיקת אירוע', align: 'center', field: 'actions'},
       ],
     }
   },
@@ -155,7 +200,6 @@ export default {
     ///updated functions///
     async closePermission(params) {
       await this.changePermissionValue(params.id)
-      await this.getEvents()
     },
 
     getPermission(params) {
@@ -165,8 +209,9 @@ export default {
       var todayDate = `${year}-${month}-${day}`
 
       if (todayDate != params.date) {
-        return '-'
+        return false
       }
+      return true
     },
 
     async getOneCode(params) {
@@ -267,7 +312,12 @@ export default {
   margin: auto;
 }
 
+.qr:hover {
+  color: deepskyblue;
+}
+
 .copy:hover {
+
   filter: opacity(55%);
 }
 
@@ -285,8 +335,5 @@ q-th {
   color: red;
 }
 
-.qr-hover:hover {
-  color: deepskyblue;
-}
 </style>
 

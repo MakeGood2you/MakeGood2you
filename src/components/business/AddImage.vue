@@ -52,8 +52,6 @@ export default {
     async userDetails() {
       if (this.imageProfile) {
         await this.uploadProfileImage(this.imageProfile)
-      } else {
-
       }
     },
 

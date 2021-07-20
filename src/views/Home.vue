@@ -1,70 +1,45 @@
 <template>
     <q-layout>
       <q-page-container>
-        <AddEvent :tableName="'events'"/>
-        <TableViewer :tableName="'events'"/>
+        <q-dialog v-model="isClicked">
+          <AddEvent/>
+        </q-dialog>
+        <q-icon @click="isClicked = true" class="absolute-center" size="8rem" color="primary" name="add_circle_outline"></q-icon>
+        <TableViewer/>
+
       </q-page-container>
     </q-layout>
 </template>
 
 <script>
-import AddEvent from '../components/AddEvent'
-import TableViewer from '../components/TableViewer'
-import EventPage from './EventPage'
-import pictureAdded from "./pictureAdded"
-import Register from "./auth/Register"
-import leads from "./leads"
+import AddEvent from '../components/Home/AddEvent'
+import TableViewer from '../components/Home/TableViewer'
+
 import {mapActions, mapMutations, mapState} from 'vuex'
 
 export default {
   name: 'Home',
   data() {
     return {
+      isClicked:false,
       validationNumber: '',
     }
   },
+
   components: {
-    AddEvent, TableViewer, EventPage, pictureAdded, Register, leads
+    AddEvent, TableViewer,
   },
-  computed:mapState('auth',['user']),
+  computed: {
+    ...mapState('auth', ['user']),
+    ...mapState('businesses', ['isPay']),
+  },
   methods: {
     ...mapMutations('auth', ['setUser']),
-    ...mapMutations('businesses', ['isUserPay']),
-    ...mapActions('events', ['checkPackage', 'setPackagePayment', 'checkLastDayForUse', 'checkPayTrue']),
-
   },
-   created() {
-     const user = JSON.parse(localStorage.getItem('user'))
-     this.isUserPay(true)
-     if (user) {
-       this.setUser(user)
-       // const isUserPay = await this.isUserPayValidate(user.uid)
-     }
-    // todo: check date validation (if validation exist keep home if not: set limited date for use)
-    // const pay = await this.checkPayTrue()
-    // if (!this.user){
-    //    this.$router.push('/payment')
-    // }
-    // if (!window.user) {
-    //   await this.$router.push('/')
-    // }
-    //
-    // const pack = await this.checkPackage()
-    //
-    // if (pack === 'month') {
-    //   this.validationNumber = 37
-    // }
-    // if (pack === 'halfYear') {
-    //   this.validationNumber = 194
-    // }
-    // if (pack === 'year') {
-    //   this.validationNumber = 395
-    // }
-    //
-    // const valid = await this.checkLastDayForUse(this.validationNumber)
-    // if (valid === false) {
-    //   await this.$router.push('/payment')
-    // }
+  created() {
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // user ? this.setUser(user) : this.$router.push('/')
+    // this.isPay ? null : this.$router.push('/payment')
   }
 }
 

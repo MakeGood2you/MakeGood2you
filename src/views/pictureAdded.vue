@@ -25,21 +25,25 @@
         label="הורד תמונות"
     />
 
-    <div class="row justify-center q-gutter-sm">
+    <div class="row justify-center q-gutter-sm"
+         v-if="event"
+    >
       <div
           v-for="(pic, key) in event.photos"
           :key="key"
+          v-if="pic.isDownload && isDownload(pic)"
           class="crop"
-          v-if="!pic.isDownload"
       >
-        <q-card>
+        <q-card
+
+        >
           <q-img
               :src="pic.thumbs['256']"
               id="pic"
               :ratio="3/2"
               @click="showFullPic(pic)"
           />
-          <q-btn class="download" v-show="pic.isDownload===false" style="width: 100%; background-color: #ded6d6"
+          <q-btn class="download" style="width: 100%; background-color: #ded6d6"
                  @click="downloadPrivetly(pic,key)">הורד
             תמונה
           </q-btn>
@@ -52,22 +56,17 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import 'firebase/storage';
 import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 import FsLightbox from "fslightbox-vue";
 import InfiniteLoading from 'vue-infinite-loading'
-import lazyLoad from '../directives/lazyload'
 
 export default {
   components: {FsLightbox, InfiniteLoading},
   data() {
     return {
-
       start: 0,
       end: 10,
-      limit: 10,
-      countPhoto: '',
+      countPhoto: 0,
       eid: this.$route.params.eid,
       chosenPic: '',
       isFullScreen: false,
@@ -84,15 +83,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions('events', ['updatePhotosToFirebase', 'getPhotosToFirebase', 'getLimitCounter', 'getEventsById']),
+    ...mapActions('events', ['updatePhotosToFirebase', 'getLimitCounter', 'getEventById']),
     ...mapMutations('events', ['setLocalImages', 'setEvent']),
-    test(val) {
-      console.log('lalalal')
-      console.log(val)
+    isDownload(pic) {
+      if (this.event.picCounter >= this.countPhoto && pic.isDownload) {
+        this.countPhoto++
+      }
+      return true
     },
-    async downloadPrivetly(pic,key) {
+
+    async downloadPrivetly(pic, key) {
       const eid = this.eid
-      var options = {pic:pic.photoURL, eid, key}
+      var options = {pic: pic.photoURL, eid, key}
       await this.updatePhotosToFirebase(options)
       await this.downloadUrl(pic.photoURL, key)
     },
@@ -151,11 +153,12 @@ export default {
 
   },
   async created() {
-    // this.getEventLocal()
-    await this.getEventsById(this.eid)
-    await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
-    const setPics = this.pics.slice(this.start, this.end)
-    this.setLocalImages(setPics)
+    if (!this.event) {
+      await this.getEventById(this.eid)
+    }
+    // await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
+    // const setPics = this.pics.slice(this.start, this.end)
+    // this.setLocalImages(setPics)
   },
 }
 </script>

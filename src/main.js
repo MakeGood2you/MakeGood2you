@@ -20,6 +20,7 @@ Vue.use(
 Vue.config.productionTip = false
 firebaseInstance.firebase.auth().onAuthStateChanged((user )=>{
   window.user=user;
+
   new Vue({
     router,
     notify,

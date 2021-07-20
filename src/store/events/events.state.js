@@ -6,33 +6,13 @@ export default {
     events: [],
     editedEventId: '',
     eventId:null,
-    event: {},
+    event: null,
     qrtF:'',
     qrF:false,
     contacts: [],
     contactId: null,
     contact: '',
     editedContactId: '',
-    leads:{},
-    editedEvent: {
-        editedContact: {
-            name: '',
-            lastName: '',
-            contactsEvent: '',
-            phone: '',
-        },
-        eventStyle: '',
-        place: '',
-        qrCode:'',
-        date: '',
-        organizer:'',
-        presents: '',
-        music: '',
-        musicLimit: '',
-        img: '',
-        imgLimit: '',
-        guestsAmount: '',
-
-    }
+    editedEvent: null
 }
 

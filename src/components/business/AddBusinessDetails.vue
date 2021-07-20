@@ -115,7 +115,7 @@ export default {
     isFileChange: false
   }),
   computed: {
-    ...mapState('businesses', ['businessDetails']),
+    ...mapState('businesses', ['businessDetails', 'currentImageProfile']),
   },
   methods: {
     ...mapActions('businesses', ['addBusinessDetails', 'getBusinessDetails']),
@@ -124,6 +124,7 @@ export default {
       this.isNewUser()
       if (this.isFileChange) {
         await this.$refs.addImage.userDetails()
+        this.localInfoDetails.photoURL = this.currentImageProfile
       }
       console.log(this.localInfoDetails)
       await this.addBusinessDetails(this.localInfoDetails)

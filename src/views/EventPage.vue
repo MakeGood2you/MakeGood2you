@@ -1,16 +1,18 @@
 <template>
-  <div class="background3">
+  <div class="column items-center">
+  <div class="main column items-center">
 
     <h5>דף אירוע</h5>
 
-    <div class="main3" dir="rtl">
+    <div class="main2" dir="rtl">
 
-      <q-btn id="me7" label="תמונות מוזמנים" @click="picAdd"/>
+      <q-btn class="me" label="תמונות מוזמנים" @click="picAdd"/>
       <br>
-      <q-btn id="me8" label="ערוך אירוע" @click="updateFromEvent"/>
+      <q-btn class="me" label="ערוך אירוע" @click="updateFromEvent"/>
       <br>
-      <q-btn id="me9" label="חזור" @click="goBack()"/>
+      <q-btn class="me9" label="חזור" @click="goBack()"/>
     </div>
+  </div>
   </div>
 </template>
 
@@ -29,7 +31,7 @@ export default {
   computed: mapState('events', ['event']),
 
   methods: {
-    ...mapActions('events', ['getEventsById']),
+    ...mapActions('events', ['getEventById']),
 
     goBack() {
       this.$router.push('/home',)
@@ -37,7 +39,7 @@ export default {
 
     updateFromEvent() {
       const id = this.$route.params.eid
-      this.$router.push({name: 'Item', params: {id: id}})
+      this.$router.push({name: 'Event', params: {id: id}})
     },
 
     goToId() {
@@ -60,22 +62,26 @@ export default {
     if (!window.user) {
       await this.$router.push('/')
     }
-    await this.getEventsById()
+    await this.getEventById()
   }
 }
 
 </script>
 
 <style scoped>
-
-.main3 {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
+.main{
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.62);
+  padding-top: 10px;
+  padding-bottom: 50px;
+  width: 50vw;
 }
 
-#me7 {
+.main2 {
+  width: 90%;
+}
+
+.me {
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -88,20 +94,7 @@ export default {
 
 }
 
-#me8 {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 90%;
-  height: 50px;
-  border: none;
-  font-size: 15px;
-  border-radius: 10px;
-
-}
-
-#me9 {
+.me9 {
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -116,14 +109,9 @@ export default {
 }
 
 .background3 {
-  margin-top: 20px;
-  margin-left: 500px;
-  margin-right: 500px;
-  padding-top: 10px;
-  padding-bottom: 50px;
+
   text-align: center;
   background-color: rgba(255, 255, 255, 0.62);
-  border-radius: 10px;
 
 }
 

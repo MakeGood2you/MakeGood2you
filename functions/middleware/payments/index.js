@@ -8,11 +8,12 @@ const cors = require('cors')({origin: true});
 
 const CompanyID = 91849298
 const APIKey = "e3cPUXi0jn3Gpn3mHwDmFnMnOaCSWb7lL0GNuGobaen4nIc4bS"
+const paymentPath = (uid) => `payments/${uid}/package`
 
 exports.validatePayment = functions.https.onCall(async (data, context) => {
     if (!context.auth.uid) return false
     const uid = context.auth.uid;
-    const entity = `users/${uid}/data/package/paymentDetails/`
+    const entity = `${paymentPath(uid)}`
     const result = await db.get(entity)
     functions.logger.log(result)
     let isUserPay = false
@@ -20,23 +21,24 @@ exports.validatePayment = functions.https.onCall(async (data, context) => {
     let lastDate = null
     // result['last_date']
     for (const details in result) {
+        if (details === 'paymentDetails') {
+            isUserPay = true
+            functions.logger.log(isUserPay)
+            break;
+        }
         if (details === 'last_date') {
             lastDate = result[details]
             functions.logger.log(lastDate)
             break;
         }
-        if (details === 'data') {
-            isUserPay = true
-            functions.logger.log(isUserPay)
-            break;
-        }
+
     }
     if (!lastDate && !isUserPay) {
         console.log(`////////////////////////////// IS USER PAY? /////////////////////////////`)
         console.log(`////////////////////////////// FALSE /////////////////////////////`)
         return false
     } else if (lastDate && !isUserPay) {
-        const isLastDate = new Date(lastDate).getTime() > new Date().getTime()
+        const isLastDate = new Date().getTime() < new Date(lastDate).getTime()
 
         console.log(`////////////////////////////// IS USER last date is ? ${lastDate} /////////////////////////////`)
         console.log(`////////////////////////////// ${isLastDate} /////////////////////////////`)
@@ -88,9 +90,9 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
 
         const uid = req.body.uid
         console.log(uid)
-        let entity = `users/${uid}/data/package/paymentDetails/data`
+        let entity = `${paymentPath(uid)}/paymentDetails/`
         const userPaymentDetailsFromDB = await db.get(entity)
-        console.log(userPaymentDetailsFromDB)
+        functions.logger.log(userPaymentDetailsFromDB,'userPaymentDetailsFromDB')
 
         const EntityID = userPaymentDetailsFromDB['OG-PaymentID']
         const CustomerID = userPaymentDetailsFromDB['OG-CustomerID']
@@ -114,7 +116,7 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
                 functions.logger.log('item[ID]', item['ID'])
                 functions.logger.log(`item['Date_NextBilling']`, item['Date_NextBilling'])
                 let res = item['Date_NextBilling']
-                entity = `users/${uid}/data/package/paymentDetails/last_date`
+                entity = `payments/${uid}/package/paymentDetails/last_date`
                 await db.set(entity, res)
             }
         }
@@ -127,7 +129,7 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
         const result = await axios.post(api + entity, data)
         console.log(result.data, '////////////////////// result.data///////////////')
 
-        entity = `users/${uid}/data/package/paymentDetails/data`
+        entity = `${paymentPath(uid)}/paymentDetails`
         await db.remove(entity, uid)
         return res.status(200).json(result.data)
         //     }).catch(err => {

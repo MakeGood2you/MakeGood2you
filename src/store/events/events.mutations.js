@@ -9,15 +9,23 @@ export default {
     setImagesCounter: (state, length) => (state.imagesCounter = length),
     setImages: (state, data) => (state.pics = data),
     setEvents: ((state, events) => state.events = events),
-    updatePhoto: ((state, options) => {
-        // const index = state.events.findIndex(event => event.id === options.id)
-        debugger
-        state.event.photos[options.key].isDownload = options.isDownload
-        state.event = {...state.event}
-        // state.events[index] = state.event
+
+    changePermissionState: ((state, options) => {
+        const event = state.events[options.index]
+        event.isOpen = options.isOpen
     }),
 
-    setLeads: ((state, leads) => state.leads = leads),
+    setQrCanvas: (state, options) => {
+        const event = state.events[options.index]
+        event.QR = options.QR
+        event.canvas = event.canvas + `${options.eid}`
+    },
+
+    updatePhoto: ((state, options) => {
+        state.event.photos[options.key].isDownload = options.isDownload
+        state.event = {...state.event}
+    }),
+
 
     setEventId: ((state, eventId) => state.eventId = eventId),
 
@@ -59,12 +67,6 @@ export default {
     setContacts: ((state, contacts) => state.contacts = contacts),
 
     setContactEvent: ((state, contactsEvent) => state.contactsEvent = contactsEvent),
-
-    setQrCanvas: ((state, options) => {
-        const event = state.events[options.index]
-        event.QR = options.QR
-        event.canvas = event.canvas + `${options.eid}`
-    }),
 
 
     setQrF: ((state, qrF) => state.qrF = qrF),

@@ -21,7 +21,7 @@
     "fs": "0.0.2",
     "lazyload": "^2.0.0-rc.2",
     "qrcode": "^1.4.4",
-    "quasar": "1.15.1",
+    "quasar": "1.15.23",
     "vue": "2.6.12",
     "vue-clipboard2": "^0.3.1",
     "vue-confetti": "^2.2.1",

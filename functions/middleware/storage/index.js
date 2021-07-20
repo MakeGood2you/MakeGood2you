@@ -38,13 +38,21 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
         console.log('exiting function')
         return false
     }
+
+
     await fs.ensureDir(workingDir)
     await bucket.file(filePath).download({
         destination: tmpFilePath
     })
 
-    const sizes = [64, 128, 256]
-    const listOfThumbs = {}
+    let sizes = [64, 128, 256]
+    let listOfThumbs = {}
+    let isProfilePic = false
+    if (fileName.includes('profilePic') || !object.contentType.includes('image')) {
+        functions.logger.info('pass 8 profilePIc')
+        isProfilePic = true
+        sizes = [128]
+    }
     const uploadPromises = sizes.map(async size => {
         functions.logger.info('pass 9', 'size', size)
 
@@ -60,7 +68,11 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
 
         const metadata = {contentType: object.contentType};
         const thumbs = join(bucketDir, 'thumbs')
-        const newBucketDir = join(thumbs, fileName)
+        let newBucketDir = null
+
+        if (isProfilePic) newBucketDir = bucketDir
+        else newBucketDir = join(thumbs, fileName)
+
         return bucket.upload(thumbPath, { /// thumbPath
             destination: join(newBucketDir, thumbName),
             metadata: metadata
@@ -72,18 +84,22 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
             }).then((response) => {
                 const url = response[0];
                 functions.logger.info('pass 13 url', url)
-                if (!listOfThumbs[size]) {
+                if (!isProfilePic && !listOfThumbs[size]) {
                     listOfThumbs[size] = url
-                }
+                } else listOfThumbs = url
                 functions.logger.info('pass 13.5 listOfThumbs', listOfThumbs)
             })
 
             functions.logger.info('pass 14 listOfThumbs', listOfThumbs)
+
             const dbFileName = fileName < 10 ? `0${fileName}` : `${fileName}`
-            const entity = `users/${uid}/data/events/${eid}/photos/${dbFileName}/thumbs`
+            let entity = `users/${uid}/data/events/${eid}/photos/${dbFileName}/thumbs`
+            let entityProfilePic = `users/${uid}/data/businessInfo/thumbURL`
+            entity = !isProfilePic ? entity : entityProfilePic
+            functions.logger.info('pass 15  IS DONE ', entity)
             await db.set(entity, listOfThumbs)
         })
     })
-    functions.logger.info('pass 12 before promiseall ', uploadPromises)
     await Promise.all(uploadPromises)
+    functions.logger.info('pass 15  IS DONE ', uploadPromises)
 })

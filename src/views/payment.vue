@@ -90,8 +90,7 @@ export default {
     return {}
   },
   methods: {
-    ...mapActions('events', ['setPackagePayment',]),
-
+...mapActions('businesses', ['setPackagePayment']),
     month() {
       let paymentMethod = 'month'
       this.setPackagePayment(paymentMethod)

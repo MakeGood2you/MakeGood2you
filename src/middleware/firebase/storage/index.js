@@ -1,4 +1,6 @@
 import firebaseInstance from '../';
+import 'firebase/storage';
+
 export default {
     getStorageRef
 }

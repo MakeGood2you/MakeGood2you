@@ -4,6 +4,7 @@ import events from './events'
 import auth from './auth'
 import app from './app'
 import businesses from './businesses'
+import leads from './leads'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
         events,
         auth,
         app,
-        businesses
+        businesses,
+        leads
     }
 })
 

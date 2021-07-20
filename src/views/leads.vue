@@ -73,7 +73,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('events', ['getLeads', 'deleteLeadFromDB']),
+    ...mapActions('leads', ['getLeads', 'deleteLeadFromDB']),
 
     goback() {
       this.$router.push(`/home`)

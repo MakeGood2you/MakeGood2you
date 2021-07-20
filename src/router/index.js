@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {getUserFromLocalStorage} from "../middleware/utils";
+import store from '../store';
+import businesses from '../store/businesses';
 
 import routes from './routes'
 import functions from "../middleware/firebase/functions/index";
@@ -25,24 +27,38 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = getUserFromLocalStorage() ? true : false
+    let isUserPay = businesses.state.isPay
+
     // let condition = to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'
-    if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && !isAuthenticated) {
-        console.log('is user  not login ')
-        next({name: 'Login'})
+    if (to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot' && isAuthenticated) {
+        debugger
+        next({name: 'Home'})
     } else {
-        if (to.name === 'Login' && isAuthenticated){
+        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && !isAuthenticated) {
+            debugger
+            console.log('is user  not login ')
+            next({name: 'Login'})
+        }
+
+        if (to.name === 'Payment' && isUserPay) {
+            debugger
             next({name: 'Home'})
         }
-        next()
-    }
 
-    if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && to.name !== 'Payment') {
-        const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-        if (!isUserPay) {
-            next({name: 'Payment'})
-            console.log('is user pay ?', isUserPay)
+        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && to.name !== 'Payment') {
+            debugger
+            if (!isUserPay) {
+                const isCheck = await functions.callableFunction({}, 'payment-validatePayment')
+                if (!isCheck) {
+                    debugger
+                    next({name: 'Payment'})
+                    console.log('is user pay ?', isUserPay)
+                }
+            }
         }
-    } else next()
+        next()
+
+    }
 
 })
 export default router

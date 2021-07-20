@@ -1,12 +1,11 @@
 import authApi from '../../middleware/firebase/auth';
-import database from "../../middleware/firebase/database";
+import db from "../../middleware/firebase/database/api";
 
-
+const path = (uid) => `users/${uid}/data/`
 export default {
 //genric login functions
     login: async ({state, commit, dispatch}, provider) => {
         //check login provider
-
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
         if (typeof firebaseAuthUser === 'string') {
             console.error('there is not chosen provider')
@@ -16,12 +15,11 @@ export default {
         commit('isUserExist',true)
         localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
-        // set the user in state and localstorage
+        // set the user in s`tate and localstorage
 
         //chek if is accept terms
         const uid = firebaseAuthUser.uid
         const isAcceptTerms = await dispatch('checkTerm', uid)
-
         console.log('is Accept Terms ?', isAcceptTerms)
         if (isAcceptTerms) {
             await dispatch('businesses/isUserPayValidate', uid, {root: true})
@@ -67,18 +65,17 @@ export default {
     },
 
     checkTerm: async ({commit}, uid) => {
-        const term = await database.checkTermService(uid)
+        const entity = `${path(uid)}/terms/confirmed`
+        const term = await db.get(entity)
         return term
     },
 
     setTermService: async ({state, commit}, uid) => {
-        uid = state.user.uid ||
-            JSON.parse(localStorage.getItem('user')) ||
-            window.user.uid || uid
+        uid = window.user.uid
         commit('setPropertyTrueOrFalse', 'isFixed')
-
-
-        await database.setTerm(uid)
+        const entity = `${path(uid)}/terms/confirmed`
+        console.log(entity)
+        await db.set(entity, true)
     },
     updatePassword: async ({state, commit}, newPassword) => {
         const result = await authApi.updatePassword(newPassword)

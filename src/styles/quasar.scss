@@ -10,10 +10,13 @@
 //@import "borders/radius";
 
 * {
-  //margin: 0;
-  //padding: 0;
-  //box-sizing: unset;
+  margin: 0;
+  padding: 0;
+  box-sizing: unset;
+  font-family: 'Cousine', monospace;
+
 }
+
 a {
   text-decoration: none; /* no underline */
 }
@@ -34,9 +37,9 @@ a {
 }
 
 .btn {
-  border-radius: 12px;
-  width: $btn-ws-md;
-  height: $btn-hs-md;
+  //border-radius: 100%;
+  width: 100%;
+  //height: $btn-hs-md;
 }
 
 .btn-lg {
@@ -62,4 +65,11 @@ a {
 .span-bold{
   color: $primary;
   font-weight: bold;
+}
+.hr{
+  padding: 0;
+}
+
+.full-width-1 {
+  width: 100%;
 }

@@ -296,9 +296,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['checkTerm', 'login', 'setTermService']),
-    ...mapActions('businesses', ['isUserPayValidate']),
     ...mapMutations('auth', ['setUser']),
-    ...mapActions('events', ['checkLastDayAuth']),
 
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
@@ -338,11 +336,10 @@ export default {
   },
 
   async created() {
-    // const user = JSON.parse(localStorage.getItem('user'))
-    // if (user) {
-    //   this.setUser(user)
-    // const isUserPay = await this.isUserPayValidate(user.uid)
-    // }
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+
+    }
   }
 }
 

@@ -1,106 +1,141 @@
 <template>
-    <q-btn v-if="isPay"
-           class="absolute-right q-pr-sm"
-           icon="settings"
-           no-caps
-           color="black"
-           flat
-           dense
-           label="חשבון">
+  <q-btn v-if="isUserExist"
+         class="absolute-right q-mr-md q-pa-md "
+         icon="account_circle"
+         no-caps
+         color="black"
+         flat
+         dense
+         label="חשבון">
 
-      <q-menu class="settings-container">
-        <div class="row no-wrap q-pa-lg setting-container">
-          <div class="column">
-            <div dir="rtl" class="text-h6 q-mb-md "> היי, {{  businessDetails ? businessDetails.BName :'חבוב'}}</div>
-            <div class="self-end column">
-
-              <q-btn
-                  class="self-end"
-                  @click="goLeads"
-                  no-caps
-                  color="black"
-                  flat
-                  dense
+    <q-menu>
+      <div class="row no-wrap items-center q-pa-lg setting-container">
+        <div class="row no-wrap">
+          <div dir="rtl" class="column q-gutter-y-sm">
+            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+                 @click="goLeads"
+            >
+              <div class="self-center">
+                <q-icon size="1.3rem" name="people"></q-icon>
+              </div>
+              <div
+                  class="btn"
                   v-model="mobileData"
               >
-                <span> לידים  </span>
-                <q-icon name="people" ></q-icon>
-              </q-btn>
-              <q-btn
-                  @click="goEditBusinessDetails"
-                  class="self-end"
-                  no-caps
-                  color="black"
-                  flat
-                  dense
+                <span class="justify-end"> לידים  </span>
+              </div>
+            </div>
+
+            <hr class="hr">
+
+            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+                 @click="goEditBusinessDetails"
+            >
+              <div class="self-center">
+                <q-icon size="1.3rem" name="edit"></q-icon>
+              </div>
+              <div
+                  class="btn"
                   v-model="mobileData">
-                <span> פרטי העסק </span><q-icon name="edit"></q-icon>
-              </q-btn>
+                <div class="">
+                  <div class="">
+                    <span> פרטי העסק </span>
+                  </div>
+                </div>
+              </div>
 
+            </div>
+            <hr class="hr">
 
-              <q-btn
-                  class="self-end"
-                  no-caps
-                  color="black"
-                  @click="$router.push('/help')"
-                  flat
-                  dense
+            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+                 @click="$router.push('/help')"
+            >
+              <div class="self-center">
+                <q-icon color="black" size="1.3rem" name="svguse:icons.svg#help"/>
+              </div>
+              <div
+                  class="btn"
                   v-model="mobileData">
-                <span>תמיכה\עזרה </span>
-                <q-icon color="black" size="1.5rem" name="svguse:icons.svg#help"/>
+                <div class="">
+                  <div class="">
+                    <span>תמיכה\עזרה </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                <!--                <q-icon name="mdi-account-question"></q-icon>-->
-              </q-btn>
-              <q-btn
-                  class="self-end"
-                  no-caps
-                  color="black"
-                  flat
-                  dense
-                  @click="$router.push('/settings')"
+            <hr class="hr">
+
+            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+                 @click="$router.push('/settings')"
+            >
+              <div>
+                <q-icon size="1.3rem" name="settings"></q-icon>
+
+              </div>
+              <div
+                  class="btn"
                   v-model="mobileData">
-                <span>הגדרות משתמש</span><q-icon name="account_circle"></q-icon>
-              </q-btn>
+                <div class="">
+                  <span class=""> הגדרות </span>
+                </div>
+              </div>
+            </div>
 
-              <q-btn
-                  color="primary"
-                  label="התנתק"
-                  push
-                  size="sm"
+            <div class="btn">
+              <hr class="q-mb-md" color="red">
+            </div>
+
+            <div class="text-center">
+              <span
+                  class="text-bold cursor-pointer"
                   @click="signOut"
                   v-close-popup
-              />
+
+              > התנתק</span>
             </div>
           </div>
-          <q-separator vertical inset class="q-mx-lg line "/>
+          <!--          <div class="column q-gutter-y-lg q-pl-md">-->
+          <!--            <q-icon size="1.3rem" name="people"></q-icon>-->
+          <!--            <q-icon size="1.3rem" name="edit"></q-icon>-->
+          <!--            <q-icon color="black" size="1.3rem" name="svguse:icons.svg#help"/>-->
+          <!--            <q-icon size="1.3rem" name="settings"></q-icon>-->
+          <!--          </div>-->
+        </div>
+        <q-separator vertical inset class="q-mx-lg line "/>
 
-          <div class="column items-center">
-            <div class="q-mt-xl">
-              <q-avatar size="72px">
-                <img v-if="businessDetails" :src="businessDetails.photoURL">
-                <q-icon v-else color="accent" size="5rem" name="svguse:icons.svg#person"/>
-
-              </q-avatar>
-
-              <div class="text-subtitle1 text-center q-mt-md q-mb-xs">{{ businessDetails.BName }}</div>
-
+        <div class="img-container column items-center">
+          <div class="q-mt-md column">
+            <q-avatar class="content-start" size="8rem">
+              <q-icon v-if="!businessDetails" color="accent" size="8rem" name="svguse:icons.svg#person"/>
+              <q-img sizes="" v-else
+                     :src="businessDetails.thumbURL ?businessDetails.thumbURL: businessDetails.photoURL"/>
+            </q-avatar>
+            <div dir="rtl" class="text-h6 text-center text-bold q-pt-xl "> היי,
+              {{ businessDetails ? businessDetails.BName : 'חבוב' }}
             </div>
+
+            <!--              <div class="text-h6 text-center text-bold q-py-xl ">{{ businessDetails.BName }}</div>-->
+
           </div>
         </div>
+      </div>
       </q-menu>
     </q-btn>
 </template>
 
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
+import {getUserFromLocalStorage} from '../../middleware/utils/index'
 
 export default {
   name: "Settings",
   data() {
     return {
+      isUserExist:false,
       mobileData: true,
       bluetooth: false,
-      informationHome:null
+      informationHome: null
     }
 
   },
@@ -110,7 +145,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
-    ...mapActions('events', ['getLeads']),
+    ...mapActions('leads', ['getLeads']),
     ...mapActions('businesses', ['billingRecurringCancelAction', 'getBusinessDetails']),
     ...mapMutations('businesses', ['addDetails']),
     goEditBusinessDetails() {
@@ -133,23 +168,27 @@ export default {
     }
   },
   async created() {
-   await this.getBusinessDetails()
-
+    await this.getBusinessDetails()
+    console.log(this.businessDetails)
+    const user = window.user
+    if (user) this.isUserExist = true
+    else this.isUserExist = false
   }
 
 }
 </script>
 
 <style scoped>
-.settings-container , .q-menu{
-  max-width: 400px !important;
+.img-container {
+  width: 50%
 }
 
-.setting-container{
-  width: 400px;
+.setting-container {
+  width: 20rem !important;
 }
-.line{
-  margin-left: 100px;
+
+.line {
+  /*margin-left: 20px;*/
 }
 
 </style>
