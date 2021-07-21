@@ -27,14 +27,18 @@ export default {
         if (!user) return
         const entity = businessesPath(user.uid)
         const businessDetails = await db.get(entity)
-        console.log('businessDetails ',businessDetails)
+        console.log('businessDetails ', businessDetails)
         if (!businessDetails) return
         commit('addDetails', businessDetails)
     },
 
-    isUserPayValidate: async ({commit}, uid) => {
-        const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+    isUserPayValidate: async ({commit, state}, options) => {
+        let isUserPay
+        if (!state.isPay) {
+            isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+        }
         console.log('is user pay? ', isUserPay)
+        debugger
         commit('isUserPay', isUserPay)
     },
 

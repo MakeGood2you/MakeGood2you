@@ -1,12 +1,12 @@
 <template>
-      <q-input hint="מועד האירוע" filled v-model="date"  :rules="['DD-MM-YYYY']">
+      <q-input hint="מועד האירוע" filled v-model="date"  :rules="['YYYY-MM-DD']">
         <template v-slot:append>
           <q-icon name="event"  class="cursor-pointer">
             <q-popup-proxy ref="qDateProxy" transition-show="flip" transition-hide="scale">
               <q-date
                   name="wedding"
-                  class="date-picker  relative-position-center"
-                  mask="DD-MM-YYYY"
+                  class="date-picker "
+                  mask="YYYY-MM-DD"
                   today-btn
                   v-model="date"
               >

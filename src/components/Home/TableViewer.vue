@@ -13,13 +13,16 @@
         row-key="name"
         style="direction: rtl; padding: 20px 0px"
     >
+      <template v-slot:top-right>
+        <q-input
+            outlined debounce="300" v-model="filter" placeholder="  חפש אותי כאן  ">
+          <template v-slot:prepend>
+            <q-icon name="search"/>
+          </template>
+        </q-input>
+      </template>
       <template v-slot:top-left>
-          <q-input
-              outlined  debounce="300" v-model="filter" placeholder="  חפש אותי כאן  ">
-            <template v-slot:prepend>
-              <q-icon name="search"/>
-            </template>
-          </q-input>
+        <h4 class="text-center t-header" ><strong>טבלת האירועים שלי :)</strong></h4>
       </template>
       <template v-slot:header="props">
         <q-tr :props="props" class="table-head-row">
@@ -205,8 +208,7 @@ export default {
       let month = new Date().toLocaleString('en', {month: '2-digit'});
       let day = new Date().toLocaleString('en', {day: '2-digit'});
       var todayDate = `${year}-${month}-${day}`
-
-      if (todayDate != params.date) {
+      if (todayDate !== params.date) {
         return false
       }
       return true
@@ -292,13 +294,15 @@ export default {
 
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "src/styles/quasar.variables";
 .table1 {
   background-color: rgb(255, 255, 255);
   filter: opacity(80%);
 }
-
+.t-header{
+  color: $primary;
+}
 .q-table tbody td {
   font-size: 16px;
 }
@@ -315,7 +319,6 @@ export default {
 }
 
 .copy:hover {
-
   filter: opacity(55%);
 }
 

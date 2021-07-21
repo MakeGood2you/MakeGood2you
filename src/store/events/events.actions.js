@@ -36,8 +36,8 @@ export default {
         const entity = `${path(user.uid)}/${eid}/QR`
         const index = state.events.findIndex(event => event.id === eid)
         let QR = !state.events[index].QR
-        await db.set(entity, QR)
-        commit('setQrCanvas', {eid,QR, index})
+        // await db.set(entity, QR)
+        commit('setQr', {QR, index})
         return QR
     },
     ///database///

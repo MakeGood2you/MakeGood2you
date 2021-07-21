@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {getUserFromLocalStorage} from "../middleware/utils";
-import store from '../store';
+// import store from '../store';
 import businesses from '../store/businesses';
-
+import {mapActions} from "vuex";
 import routes from './routes'
 import functions from "../middleware/firebase/functions/index";
 
@@ -38,12 +38,9 @@ router.beforeEach(async (to, from, next) => {
                 next({name: 'Login'})
                 console.log('is user  not login ')
             } else {
-                debugger
                 if (to.name !== 'Payment' && !isPayState) {
                     const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-                    debugger
                     if (!isUserPay) {
-                        debugger
                         next({name: 'Payment'})
                         console.log('is user pay ?', isPayState)
                     }

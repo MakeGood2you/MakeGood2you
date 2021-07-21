@@ -12,31 +12,34 @@
     </div>
     <h5 class="text-center">  <strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
 
-    <div>
+    <div class="q-mt-lg">
       <q-form
           dir="rtl"
-          class="q-gutter-y-xl"
+          class="q-gutter-y-lg"
       >
-        <q-input v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
-                 :hint="localEditedEvent.id ? 'שם בעל האירוע': ''"    type="text"/>
-        <q-select v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
-                  :hint="localEditedEvent.id ? 'סוג האירוע': ''"      placeholder="סוג האירוע"></q-select>
-        <q-input v-model="localEditedEvent.place" :hint="localEditedEvent.id ? 'מקום האירוע': ''" class="" color="black" placeholder="מקום האירוע" type="text"/>
+        <q-input filled v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
+                 :hint="localEditedEvent.id ? 'שם בעל האירוע': ''" type="text"/>
+        <q-select filled v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
+                  :hint="localEditedEvent.id ? 'סוג האירוע': ''" placeholder="סוג האירוע"></q-select>
+        <q-input filled v-model="localEditedEvent.place" :hint="localEditedEvent.id ? 'מקום האירוע': ''" class=""
+                 color="black" placeholder="מקום האירוע" type="text"/>
         <DatePicker class="" @dateChange="dateChange" label="מועד האירוע" :editedDate="localEditedEvent.date"/>
-        <q-input v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black" type="number"
+        <q-input filled v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black"
+                 type="number"
                  :hint="localEditedEvent.id ? 'הגבלת תמונות': ''" placeholder="הגבלת תמונות"/>
       </q-form>
+
+
+      <br><br><br>
+
+      <div class="row no-wrap items-center q-mx-auto">
+        <q-btn v-if=" localEditedEvent.id" class="btn-submit column items-center" @click="update()"><span>עדכון</span>
+        </q-btn>
+        <q-btn v-if="! localEditedEvent.id" class="btn-submit column items-center" @click="blass(localEditedEvent)">
+          <span>צור אירוע</span>
+        </q-btn>
+      </div>
     </div>
-
-    <br><br><br>
-
-    <div class="row no-wrap items-center ">
-      <q-btn v-if=" localEditedEvent.id" class="btn-submit column items-center" @click="update()"><span>עדכון</span>
-      </q-btn>
-      <q-btn v-if="! localEditedEvent.id" class="btn-submit column items-center" @click="blass(localEditedEvent)"><span>צור אירוע</span>
-      </q-btn>
-    </div>
-
     <q-dialog v-model="persistent" transition-hide="scale">
       <q-card class="bg text-white" style="width: 800px">
 
@@ -154,7 +157,7 @@ export default {
 background-color: $accent;
 }
 .btn-submit {
-  width: 90%;
+  width: 100%;
   text-align: center;
   height: 50px;
   font-size: 20px;

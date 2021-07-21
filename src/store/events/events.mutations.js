@@ -15,10 +15,9 @@ export default {
         event.isOpen = options.isOpen
     }),
 
-    setQrCanvas: (state, options) => {
+    setQr: (state, options) => {
         const event = state.events[options.index]
         event.QR = options.QR
-        event.canvas = event.canvas + `${options.eid}`
     },
 
     updatePhoto: ((state, options) => {

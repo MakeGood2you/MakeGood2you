@@ -5,7 +5,8 @@
         <Setting class="absolute-top-right"></Setting>
       </q-toolbar>
 
-      <div id="image"><img alt="picPicLogo" src="../src/assets/osher.png" width="100"></div>
+      <img class="cursor-pointer " @click="goHome" id="image" alt="picPicLogo" src="../src/assets/osher.png"
+           width="100">
     </q-page-container>
     <q-page-container>
 
@@ -27,16 +28,19 @@ export default {
     ...mapState('businesses', ['isPay']),
   },
   methods: {
-    ...mapActions('businesses',['isUserPayValidate']),
-    ...mapMutations('auth',['setUser'])
+    ...mapActions('businesses', ['isUserPayValidate']),
+    ...mapMutations('auth', ['setUser']),
+    goHome() {
+      debugger
+      this.$router.push('/home')
+    }
   },
   created() {
     const user = JSON.parse(localStorage.getItem('user'))
     user && this.setUser(user)
+
     //
-    // if (!this.isPay){
-    // this.isUserPayValidate()
-    // }
+    this.isUserPayValidate()
   }
 }
 

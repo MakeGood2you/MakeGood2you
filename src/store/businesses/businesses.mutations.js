@@ -5,7 +5,9 @@ export default {
     isUserPay: (state, bool) => {
         state.isPay = bool
     },
+
     setImage: (state, photoURL) => {
         state.currentImageProfile = photoURL
     },
+
 }
