@@ -1,6 +1,5 @@
 <template dir="rtl">
   <div
-      v-if="isEventExist"
       class="q-pa-md">
     <q-table
         v-if="events.length"
@@ -134,7 +133,6 @@ export default {
   data() {
     return {
       filter: '',
-      isEventExist: true,
       text: '',
       qrBool: false,
       selected_data: '',

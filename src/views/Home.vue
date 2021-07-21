@@ -1,11 +1,11 @@
 <template>
     <q-layout>
       <q-page-container>
-        <q-dialog class="" v-model="isClicked">
-          <AddEvent/>
+        <q-dialog class="dialog" v-model="isShowDialog">
+          <AddEvent @closeDialog="isShowDialog=false"/>
         </q-dialog>
         <q-icon
-            @click="isClicked = true"
+            @click="isShowDialog = true"
             :class="`${events.length === 0 ?'absolute-center' :'fixed-bottom-right'} q-pa-lg` "
             :size="events.length === 0 ?'8rem': '9rem'" color="primary"
             name="add_circle_outline"></q-icon>
@@ -25,7 +25,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      isClicked:false,
+      isShowDialog: false,
       validationNumber: '',
     }
   },
@@ -50,9 +50,8 @@ export default {
 
 </script>
 
-<style>
-.homePage {
-  margin-top: 8px;
-  margin-right: 100px;
+<style scoped>
+.dialog {
 }
+
 </style>

@@ -13,8 +13,11 @@
   margin: 0;
   padding: 0;
   box-sizing: unset;
-  font-family: 'Cousine', monospace;
 
+}
+
+p {
+  margin: 0;
 }
 
 a {
@@ -32,6 +35,21 @@ a {
   //max-width: 50vh;
 }
 
+.q-date__view {
+  padding: 0;
+
+
+}
+.date-picker{
+}
+.q-mr-xxl {
+  margin-right: 5rem;
+}
+
+.text-opacity {
+  opacity: 0.5;
+}
+
 .btn-group {
   justify-items: end;
 }
@@ -42,17 +60,22 @@ a {
   //height: $btn-hs-md;
 }
 
+.btn:hover {
+  opacity: 0.5;
+}
+
 .btn-lg {
   border-radius: 12px;
   width: $btn-ws-xl;
   height: $btn-hs-md;
 }
-.btn-clicked{
+
+.btn-clicked {
   background-color: $hover-btn;
   border-radius: 20px;
 }
 
-.center {
+.q-m-a {
   margin: auto;
 }
 

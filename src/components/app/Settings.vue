@@ -1,6 +1,6 @@
 <template>
   <q-btn v-if="isUserExist"
-         class="absolute-right q-mr-md q-pa-md "
+         class="q-mr-md q-pa-sm q-pr-md"
          icon="account_circle"
          no-caps
          color="black"

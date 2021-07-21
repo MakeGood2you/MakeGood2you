@@ -4,32 +4,36 @@
         :toggler="isFullScreen"
         :sources="[chosenPic]"
     />
-    <q-btn
-        class="absolute-top-right homePage"
-        @click="goHome"
-        icon="home"
-        color="black"
-        flat
-        dense
-        label="דף הבית"
-    />
-    <p class="countPhoto" dir="rtl">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
+    <h1 class="text-center text-opacity" v-if="!localEvent.photos.length "> אין תמונות לאירוע זה</h1>
 
-    <q-btn
-        class="absolute-top-right downloadPic"
-        @click="download(event.photos)"
-        icon="file_download"
-        color="black"
-        flat
-        dense
-        label="הורד תמונות"
-    />
+    <div class="row no-wrap absolute-top-right q-mr-xxl ">
+      <p class="countPhoto self-center">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
+      <q-btn
+          class="q-pa-sm self-center"
+          @click="goHome"
+          icon="home"
+          color="black"
+          flat
+          dense
+          label="דף הבית"
+      />
 
+      <q-btn
+          class=" q-pa-sm self-center"
+          @click="download(localEvent.photos)"
+          icon="file_download"
+          color="black"
+          flat
+          dense
+          label="הורד תמונות"
+      />
+    </div>
     <div class="row justify-center q-gutter-sm"
-         v-if="event"
+         v-if="localEvent"
     >
+
       <div
-          v-for="(pic, key) in event.photos"
+          v-for="(pic, key) in localEvent.photos"
           :key="key"
           v-if="pic.isDownload && isDownload(pic)"
           class="crop"
@@ -64,6 +68,9 @@ export default {
   components: {FsLightbox, InfiniteLoading},
   data() {
     return {
+      localEvent: {
+        photos: []
+      },
       start: 0,
       end: 10,
       countPhoto: 0,
@@ -86,7 +93,7 @@ export default {
     ...mapActions('events', ['updatePhotosToFirebase', 'getLimitCounter', 'getEventById']),
     ...mapMutations('events', ['setLocalImages', 'setEvent']),
     isDownload(pic) {
-      if (this.event.picCounter >= this.countPhoto && pic.isDownload) {
+      if (this.localEvent.picCounter >= this.countPhoto && pic.isDownload) {
         this.countPhoto++
       }
       return true
@@ -150,12 +157,17 @@ export default {
         console.log(entry.isIntersecting)
       }
     },
+    async isEventExist() {
+      if (!this.event) {
+        await this.getEventById(this.eid)
+        if (!this.event) return
+      }
+      this.localEvent = {...this.event}
+    }
 
   },
   async created() {
-    if (!this.event) {
-      await this.getEventById(this.eid)
-    }
+    await this.isEventExist()
     // await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
     // const setPics = this.pics.slice(this.start, this.end)
     // this.setLocalImages(setPics)
@@ -173,20 +185,11 @@ export default {
   filter: opacity(70%);
 }
 
-.homePage {
-  margin-top: 9px;
-  margin-right: 80px;
-}
-
-.downloadPic {
-  margin-top: 9px;
-  margin-right: 180px;
-}
+/*.downloadPic {*/
+/*  margin-right: 180px;*/
+/*}*/
 
 .countPhoto {
-  margin-top: -241px;
-  margin-right: 280px;
-  margin-bottom: 220px;
   color: #008e24;
 }
 

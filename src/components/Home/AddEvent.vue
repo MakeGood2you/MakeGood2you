@@ -1,38 +1,53 @@
 <template>
-  <div  class="background2 q-px-xl q-pt-xl ">
-      <h5 class="creating">{{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</h5>
-    <div class="q-gutter-lg-y-lg">
-      <q-input v-model="localEditedEvent.organizer" class="inputs" color="black" label="שם בעל האירוע" type="text"/>
-      <q-select v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
-                label="סוג האירוע"></q-select>
-      <q-input v-model="localEditedEvent.place" class="inputs" color="black" label="מקום האירוע" type="text"/>
-      <q-input v-model="localEditedEvent.date" class="inputs" color="black" label="מועד האירוע" type="date"></q-input>
-      <q-input v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black" type="number"
-               label="הגבלת תמונות"/>
-    </div>
-      <br><br><br>
+  <div class="background2 q-px-xl q-py-xl q-my-auto q-mx-auto">
 
-    <q-btn v-if=" localEditedEvent.id" class="up" label="עדכון" @click="update()"/>
-    <q-btn v-if="! localEditedEvent.id" class="creatEvent" label="צור אירוע" @click="blass(localEditedEvent)"/>
+    <div class="row no-wrap justify-between  q-pb-md">
+      <q-btn v-if="localEditedEvent.id" color="primary" class="self-center" icon="arrow_back_ios" round @click="goToHome">
+        <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">
+
+          <strong>חזור הביתה</strong>
+          (<q-icon name="keyboard_arrow_down"/>)
+        </q-tooltip>
+      </q-btn>
+      <h5 class="text-center">  <strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
+    </div>
+
+    <div>
+      <q-form
+          dir="rtl"
+          class="q-gutter-y-xl"
+      >
+        <q-input v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
+                 type="text"/>
+        <q-select v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
+                  placeholder="סוג האירוע"></q-select>
+        <q-input v-model="localEditedEvent.place" class="inputs" color="black" placeholder="מקום האירוע" type="text"/>
+        <DatePicker class="" @dateChange="dateChange" label="מועד האירוע" :editedDate="localEditedEvent.date"/>
+        <q-input v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black" type="number"
+                 placeholder="הגבלת תמונות"/>
+      </q-form>
+    </div>
+
+    <br><br><br>
+
+    <div class="row no-wrap items-center ">
+      <q-btn v-if=" localEditedEvent.id" class="btn-submit column items-center" @click="update()"><span>עדכון</span>
+      </q-btn>
+      <q-btn v-if="! localEditedEvent.id" class="btn-submit column items-center" @click="blass(localEditedEvent)"><span>צור אירוע</span>
+      </q-btn>
+    </div>
 
     <q-dialog v-model="persistent" transition-hide="scale">
-      <q-card class="bg-teal text-white" style="width: 800px">
+      <q-card class="bg text-white" style="width: 800px">
 
         <q-card-section dir="rtl" style="text-align: center">
           <div class="text-h6">מזל טוב!!</div>
+          <span><strong>יצירת אירוע בוצעה בהצלחה! </strong></span>
         </q-card-section>
 
-        <q-card-section class="q-pt-none" style="text-align: center">
-          יצירת אירוע בוצעה בהצלחה!
-        </q-card-section>
-
-        <q-card-actions class="bg-white text-teal" style="text-align: center">
-          <div>
-            <q-btn v-close-popup flat label="המשך לדף האירוע" @click="insert()"/>
-          </div>
-        </q-card-actions>
       </q-card>
     </q-dialog>
+
   </div>
 </template>
 
@@ -40,11 +55,14 @@
 import Vue from 'vue';
 import VueConfetti from 'vue-confetti';
 import {mapState, mapActions, mapMutations} from 'vuex';
+import DatePicker from "../Inputs/DatePicker";
+import {positive} from "../../middleware/utils/notify";
 Vue.use(VueConfetti);
 
 export default {
 
   name: "AddItem",
+  components: {DatePicker},
   computed: mapState('events', ['editedEvent', 'editedEventId', 'eventId', 'editedEvent']),
   data() {
 
@@ -53,7 +71,14 @@ export default {
       small: false,
       text: '',
       eid: this.$route.params.id,
-      localEditedEvent: {},
+      localEditedEvent: {
+        eventStyle: 'סוג האירוע',
+        organizer:'',
+        place:'',
+        imgLimit:null,
+        date:'',
+
+      },
       all: null,
       options: ['אל תאפשר', 'אפשר'],
       options2: ['חתונה', 'אירוסים', 'חינה', 'בר מצווה',
@@ -64,7 +89,9 @@ export default {
 
     ...mapActions('events', ['insertEvent', 'updateEvent', 'setEditEventById']),
     ...mapMutations('events', ['setEditedEvent', 'setEditedEventId', 'setEventId']),
-
+    dateChange(val){
+      this.localEditedEvent.date = val
+    },
     localSetEditedEvent() {
       if (this.localEditedEvent.imgLimit > 10) {
         alert('לא ניתן להזין מעבר ל 10 תמונות')
@@ -76,7 +103,12 @@ export default {
     },
 
     goToHome() {
-      this.$router.push('/home');
+      debugger
+      if (this.localEditedEvent.id){
+        this.$router.push('/home');
+      }else {
+        this.$emit('closeDialog')
+      }
     },
 
     async blass() {
@@ -84,11 +116,16 @@ export default {
       if (check) {
         this.$confetti.start()
         this.persistent = true
+        setTimeout(async () =>{
+          this.$confetti.stop()
+          this.persistent = false
+          await this.insert()
+
+        }, 3000)
       }
     },
     async insert() {
       const eid = await this.insertEvent();
-      this.$confetti.stop()
       await this.$router.push(`/event-page/${eid}`);
     },
 
@@ -110,61 +147,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  width: 40vw;
+@import "src/styles/quasar.variables";
 
-}
 
-.inputs {
-  margin-bottom: 40px;
+.bg{
+background-color: $accent;
 }
-
-.label-wrapper {
-  margin: 0;
-  flex: 0 0 100%;
-  text-align: center;
-}
-.addInfo:hover{
-filter: opacity(55%);
-}
-.up {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-bottom: 50px;
-  margin-top: -70px;
+.btn-submit {
   width: 90%;
+  text-align: center;
   height: 50px;
   font-size: 20px;
-  background-color: #000023;
-  color: antiquewhite;
+  background-color: $primary;
+  color: $secondary;
   border-radius: 10px;
-}
-
-.creatEvent {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-bottom: 50px;
-  margin-top: -70px;
-  width: 90%;
-  height: 50px;
-  font-size: 20px;
-  background-color: #000023;
-  color: antiquewhite;
-  border-radius: 10px;
-}
-
-.creating {
-  margin-top: 10px;
-  text-align: center;
-
 }
 
 .background2 {
-  width: 50%;
-  background-color: rgba(255, 255, 255, 0.62);
-  color: #000023;
+  width:50vw;
+  background-color: #e8e3df;
+  //background-color: rgba(255, 255, 255, 0.62) !important;
+  color: $primary;
+  border-radius: 10px;
+  opacity: 1;
 }
 
 

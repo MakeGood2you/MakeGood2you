@@ -27,38 +27,31 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     const isAuthenticated = getUserFromLocalStorage() ? true : false
-    let isUserPay = businesses.state.isPay
+    let isPayState = businesses.state.isPay
 
-    // let condition = to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'
-    if (to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot' && isAuthenticated) {
-        debugger
+    if (to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot' && isAuthenticated && isPayState) {
+
         next({name: 'Home'})
     } else {
-        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && !isAuthenticated) {
-            debugger
-            console.log('is user  not login ')
-            next({name: 'Login'})
-        }
-
-        if (to.name === 'Payment' && isUserPay) {
-            debugger
-            next({name: 'Home'})
-        }
-
-        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot' && to.name !== 'Payment') {
-            debugger
-            if (!isUserPay) {
-                const isCheck = await functions.callableFunction({}, 'payment-validatePayment')
-                if (!isCheck) {
+        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot') {
+            if (!isAuthenticated) {
+                next({name: 'Login'})
+                console.log('is user  not login ')
+            } else {
+                debugger
+                if (to.name !== 'Payment' && !isPayState) {
+                    const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
                     debugger
-                    next({name: 'Payment'})
-                    console.log('is user pay ?', isUserPay)
+                    if (!isUserPay) {
+                        debugger
+                        next({name: 'Payment'})
+                        console.log('is user pay ?', isPayState)
+                    }
                 }
             }
+
         }
         next()
-
     }
-
 })
 export default router

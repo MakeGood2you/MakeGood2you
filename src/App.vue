@@ -1,11 +1,12 @@
 <template>
   <q-layout>
-    <q-toolbar>
-      <Setting class="absolute-right q-pr-sm"></Setting>
-    </q-toolbar>
+    <q-page-container class="">
+      <q-toolbar>
+        <Setting class="absolute-top-right"></Setting>
+      </q-toolbar>
 
-    <div id="image"><img alt="picPicLogo"   src="../src/assets/osher.png" width="160"></div>
-
+      <div id="image"><img alt="picPicLogo" src="../src/assets/osher.png" width="100"></div>
+    </q-page-container>
     <q-page-container>
 
       <router-view></router-view>
@@ -54,16 +55,7 @@ body
   /*backdrop-filter: blur(15px);*/
   background-color: $secondary
 
-//FONTS
-//@font-face
-//  font-family: yehuda-bold
-//  src: local("yehuda-bold"), url("./src/fonts/yehuda/yehuda-bold.ttf") format("truetype")
-//
-//
 
-@font-face
-  font-family: 'Cousine', monospace
-  src:  url("https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap") format("truetype")
 
 
 

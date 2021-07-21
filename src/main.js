@@ -5,12 +5,15 @@ import store from './store'
 import './quasar'
 import firebaseInstance from './middleware/firebase'
 import notify from 'vue-notification'
+import langHeb from 'quasar/lang/he'
 
 import {Loading, Quasar} from 'quasar'
 
 Vue.use(
     Quasar, {
-    //   config: {
+      lang: langHeb
+
+      //   config: {
     //     loading: {Loading,}
     //   },
     //   plugins: {

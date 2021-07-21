@@ -1,9 +1,11 @@
 <template>
   <div class="q-mb-xl">
+
     <div class=" column items-center">
       <h4 class="top"> פרטי העסק </h4>
       <p> (יפורסם אצל המשתמשים) </p>
     </div>
+
     <div class=" q-pa-xl column center max-width-1 background back"  dir="rtl">
       <q-form
           @submit="onSubmit"
@@ -11,18 +13,21 @@
           class="q-gutter-md"
       >
         <AddImage :url="localInfoDetails.photoURL" @fileChange="isFileChange = true" ref="addImage"/>
+
         <p>הזן פרטי עסק:</p>
         <q-input
             v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
             filled
             :rules="[ val => val && val.length > 0 || 'חביבי שחכת להזין את שם העסק']"
         >
+
           <template v-slot:prepend>
             <q-icon
                 class="cursor-pointer"
                 name="storefront"
             />
           </template>
+
           <template v-slot:append>
             <q-icon
                 v-if="localInfoDetails.BName !== ''"
@@ -38,6 +43,7 @@
             filled
             :rules="[ val => val && val.length > 0 || 'חביבי שחכת להזין אימייל']"
         >
+
           <template v-slot:append>
             <q-icon
                 v-if="localInfoDetails.BEmail !== ''"
@@ -46,6 +52,7 @@
                 @click.stop="localInfoDetails.BEmail = ''"
             />
           </template>
+
           <template v-slot:prepend>
             <q-icon
                 class="cursor-pointer"
@@ -53,10 +60,12 @@
             />
           </template>
         </q-input>
+
         <q-input
             v-model="localInfoDetails.BPhone" placeholder="טלפון" mask="###-###-####" filled
             :rules="[val => val.length > 0  || 'חביבי מה עם הפלאפון']"
         >
+
           <template v-slot:append>
             <q-icon
                 v-if="localInfoDetails.BPhone !== ''"
@@ -65,6 +74,7 @@
                 @click.stop="localInfoDetails.BPhone = ''"
             />
           </template>
+
           <template v-slot:prepend>
             <q-icon
                 class="cursor-pointer"
@@ -87,10 +97,7 @@
           </q-btn>
         </div>
       </q-form>
-
-
     </div>
-
   </div>
 </template>
 

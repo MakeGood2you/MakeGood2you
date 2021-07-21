@@ -89,7 +89,7 @@ export default {
         const event = {}
         Object.assign(event, state.editedEvent)
         //save in database
-        event.id = new Date().getTime()
+        event.id = `${new Date().getTime()}`
         event.canvas = `https://picpic-guests.web.app/#/${user.uid}/${event.id}`
 
         const entity = `${path(user.uid)}/${event.id}`

@@ -1,18 +1,21 @@
 <template>
-  <div class="column items-center">
-  <div class="main column items-center">
+  <div class="main q-py-lg q-px-xl q-m-a">
+  <div class="row q-py-lg no-wrap justify-around">
+<!--    <q-btn color="primary" class="self-center" icon="arrow_back_ios" round @click="goToHome">-->
+<!--      <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">-->
+<!--        <strong>חזור הביתה</strong>-->
+<!--        (<q-icon name="keyboard_arrow_down"/>)-->
+<!--      </q-tooltip>-->
+<!--    </q-btn>-->
 
-    <h5>דף אירוע</h5>
-
-    <div class="main2" dir="rtl">
-
-      <q-btn class="me" label="תמונות מוזמנים" @click="picAdd"/>
-      <br>
-      <q-btn class="me" label="ערוך אירוע" @click="updateFromEvent"/>
-      <br>
-      <q-btn class="me9" label="חזור" @click="goBack()"/>
-    </div>
+    <h5>    <strong>דף אירוע</strong></h5>
   </div>
+    <div class="column items-center q-gutter-y-md" dir="rtl">
+      <q-btn class="me"   label="תמונות מוזמנים" @click="picAdd"/>
+      <q-btn class="me"   label="ערוך אירוע" @click="updateFromEvent"/>
+      <q-btn class="me" color="primary"  label="חזור" @click="goBack"/>
+      <br>
+    </div>
   </div>
 </template>
 
@@ -68,50 +71,18 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "src/styles/quasar.variables";
 .main{
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.62);
-  padding-top: 10px;
-  padding-bottom: 50px;
   width: 50vw;
 }
 
-.main2 {
-  width: 90%;
-}
-
 .me {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
   width: 90%;
   height: 50px;
-  border: none;
-  font-size: 15px;
   border-radius: 10px;
-
-}
-
-.me9 {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 90%;
-  height: 50px;
-  border: none;
-  font-size: 15px;
-  border-radius: 10px;
-  background-color: #000023;
-  color: #faebd7;
-}
-
-.background3 {
-
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.62);
 
 }
 
