@@ -4,7 +4,7 @@
         :toggler="isFullScreen"
         :sources="[chosenPic]"
     />
-    <h1 class="text-center text-opacity" v-if="!localEvent.photos.length "> אין תמונות לאירוע זה</h1>
+    <h1 class="text-center text-opacity" v-if=" !localEvent.photos.length "> אין תמונות לאירוע זה</h1>
 
     <div class="row no-wrap absolute-top-right q-mr-xxl ">
       <p class="countPhoto self-center">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
@@ -29,7 +29,7 @@
       />
     </div>
     <div class="row justify-center q-gutter-sm"
-         v-if="localEvent"
+         v-if="localEvent.id"
     >
 
       <div
@@ -160,9 +160,9 @@ export default {
     async isEventExist() {
       if (!this.event) {
         await this.getEventById(this.eid)
-        if (!this.event) return
-      }
-      this.localEvent = {...this.event}
+       }
+      Object.assign(this.event, this.localEvent)
+      // this.localEvent = {...this.event}
     }
 
   },

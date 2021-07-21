@@ -9,8 +9,8 @@
           (<q-icon name="keyboard_arrow_down"/>)
         </q-tooltip>
       </q-btn>
-      <h5 class="text-center">  <strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
     </div>
+    <h5 class="text-center">  <strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
 
     <div>
       <q-form
@@ -18,13 +18,13 @@
           class="q-gutter-y-xl"
       >
         <q-input v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
-                 type="text"/>
+                 :hint="localEditedEvent.id ? 'שם בעל האירוע': ''"    type="text"/>
         <q-select v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
-                  placeholder="סוג האירוע"></q-select>
-        <q-input v-model="localEditedEvent.place" class="inputs" color="black" placeholder="מקום האירוע" type="text"/>
+                  :hint="localEditedEvent.id ? 'סוג האירוע': ''"      placeholder="סוג האירוע"></q-select>
+        <q-input v-model="localEditedEvent.place" :hint="localEditedEvent.id ? 'מקום האירוע': ''" class="" color="black" placeholder="מקום האירוע" type="text"/>
         <DatePicker class="" @dateChange="dateChange" label="מועד האירוע" :editedDate="localEditedEvent.date"/>
         <q-input v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black" type="number"
-                 placeholder="הגבלת תמונות"/>
+                 :hint="localEditedEvent.id ? 'הגבלת תמונות': ''" placeholder="הגבלת תמונות"/>
       </q-form>
     </div>
 
