@@ -12,7 +12,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: unset;
+  //box-sizing: unset;
 
 }
 
@@ -37,8 +37,6 @@ a {
 
 .q-date__view {
   padding: 0;
-
-
 }
 .date-picker{
 }
@@ -48,6 +46,12 @@ a {
 
 .text-opacity {
   opacity: 0.5;
+}
+.mouse-over:hover {
+  opacity: 0.5;
+  transition: opacity 0.3s ease-out;
+  cursor: pointer;
+
 }
 
 .btn-group {

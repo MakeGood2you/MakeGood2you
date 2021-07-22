@@ -6,7 +6,7 @@
         </q-dialog>
         <q-icon
             @click="isShowDialog = true"
-            :class="`${events.length === 0 ?'absolute-center' :'fixed-bottom-right'} q-pa-lg` "
+            :class="`${events.length === 0 ?'absolute-center' :'fixed-bottom-right'} mouse-over q-pa-lg` "
             :size="events.length === 0 ?'8rem': '9rem'" color="primary"
             name="add_circle_outline"></q-icon>
         <TableViewer/>

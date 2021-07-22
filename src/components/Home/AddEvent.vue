@@ -76,12 +76,13 @@ export default {
       eid: this.$route.params.id,
       localEditedEvent: {
         eventStyle: 'סוג האירוע',
-        organizer:'',
-        place:'',
-        imgLimit:null,
-        date:'',
+        organizer: '',
+        place: '',
+        imgLimit: null,
+        date: '',
 
       },
+      eventDate: '',
       all: null,
       options: ['אל תאפשר', 'אפשר'],
       options2: ['חתונה', 'אירוסים', 'חינה', 'בר מצווה',
@@ -93,6 +94,7 @@ export default {
     ...mapActions('events', ['insertEvent', 'updateEvent', 'setEditEventById']),
     ...mapMutations('events', ['setEditedEvent', 'setEditedEventId', 'setEventId']),
     dateChange(val){
+      debugger
       this.localEditedEvent.date = val
     },
     localSetEditedEvent() {
@@ -119,12 +121,12 @@ export default {
       if (check) {
         this.$confetti.start()
         this.persistent = true
-        setTimeout(async () =>{
+        setTimeout(async () => {
           this.$confetti.stop()
           this.persistent = false
           await this.insert()
 
-        }, 3000)
+        }, 2500)
       }
     },
     async insert() {
@@ -134,8 +136,9 @@ export default {
 
 
     update() {
+      // if (!this.localEditedEvent.date) this.localEditedEvent.date = this.eventDate
       this.localSetEditedEvent();
-      this.updateEvent();
+      this.updateEvent(this.localEditedEvent);
       this.goToHome()
     }
   },
@@ -143,6 +146,7 @@ export default {
   async created() {
     if (this.eid) {
       Object.assign(this.localEditedEvent, this.editedEvent)
+      // this.eventDate = this.localEditedEvent.date
     }
   }
 }

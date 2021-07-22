@@ -1,12 +1,13 @@
 
 export default {
-    pics:[],
+    photos:[],
     localPics: [],
     imagesCounter:0,
     events: [],
     editedEventId: '',
     eventId:null,
     event: null,
+    countPhoto: 0,
     qrtF:'',
     qrF:false,
     contacts: [],

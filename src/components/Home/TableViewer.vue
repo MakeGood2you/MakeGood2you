@@ -15,14 +15,14 @@
     >
       <template v-slot:top-right>
         <q-input
-            outlined debounce="300" v-model="filter" placeholder="  חפש אותי כאן  ">
+            outlined debounce="300" v-model="filter" placeholder="  חפש אירוע  ">
           <template v-slot:prepend>
             <q-icon name="search"/>
           </template>
         </q-input>
       </template>
       <template v-slot:top-left>
-        <h4 class="text-center t-header" ><strong>טבלת האירועים שלי :)</strong></h4>
+        <h4 class="text-center t-header" ><strong>טבלת האירועים שלי </strong></h4>
       </template>
       <template v-slot:header="props">
         <q-tr :props="props" class="table-head-row">
@@ -116,18 +116,6 @@
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
 import {Notify, Quasar} from "quasar";
-import Vue from 'vue';
-import VueClipboard from 'vue-clipboard2'
-
-Vue.use(VueClipboard);
-Vue.use(Quasar, {
-  plugins: {
-    Notify
-  },
-  config: {
-    notify: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */}
-  }
-})
 
 export default {
   name: "TableViewer",

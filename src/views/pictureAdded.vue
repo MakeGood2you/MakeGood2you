@@ -1,10 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <FsLightbox
-        :toggler="isFullScreen"
-        :sources="[chosenPic]"
-    />
-    <h1 class="text-center text-opacity" v-if=" !localEvent.photos.length "> אין תמונות לאירוע זה</h1>
+        <h1 class="text-center text-opacity" v-if=" !localEvent.photos ">
+           אין תמונות לאירוע זה {{ localEvent.photos }}
+        </h1>
 
     <div class="row no-wrap absolute-top-right q-mr-xxl ">
       <p class="countPhoto self-center">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
@@ -19,8 +17,8 @@
       />
 
       <q-btn
-          class=" q-pa-sm self-center"
-          @click="download(localEvent.photos)"
+          class=" q-pa-sm q-mr-lg self-center"
+          @click="download(localEvent)"
           icon="file_download"
           color="black"
           flat
@@ -28,52 +26,25 @@
           label="הורד תמונות"
       />
     </div>
-    <div class="row justify-center q-gutter-sm"
-         v-if="localEvent.id"
-    >
-
-      <div
-          v-for="(pic, key) in localEvent.photos"
-          :key="key"
-          v-if="pic.isDownload && isDownload(pic)"
-          class="crop"
-      >
-        <q-card
-
-        >
-          <q-img
-              :src="pic.thumbs['256']"
-              id="pic"
-              :ratio="3/2"
-              @click="showFullPic(pic)"
-          />
-          <q-btn class="download" style="width: 100%; background-color: #ded6d6"
-                 @click="downloadPrivetly(pic,key)">הורד
-            תמונה
-          </q-btn>
-        </q-card>
-
-      </div>
-    </div>
-    <div v-intersection="onIntersection"></div>
+    <PhotoList @onDownload="downloadPrivetly" :localEvent="localEvent"/>
+    <!--    <div v-intersection="onIntersection"></div>-->
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
-import FsLightbox from "fslightbox-vue";
 import InfiniteLoading from 'vue-infinite-loading'
+import PhotoList from "../components/photos/PhotoList";
 
 export default {
-  components: {FsLightbox, InfiniteLoading},
+  components: {PhotoList, InfiniteLoading},
   data() {
     return {
       localEvent: {
-        photos: []
+        photos: {}
       },
       start: 0,
       end: 10,
-      countPhoto: 0,
       eid: this.$route.params.eid,
       chosenPic: '',
       isFullScreen: false,
@@ -84,7 +55,7 @@ export default {
   },
   computed: {
     ...mapGetters('events', {pics: 'getPhotos'}),
-    ...mapState('events', ['localPics', 'event']),
+    ...mapState('events', ['localPics', 'event', 'photos','countPhoto']),
     pics() {
       return this.$store.getters["events/getPhotos"](this.eid)
     }
@@ -92,27 +63,20 @@ export default {
   methods: {
     ...mapActions('events', ['updatePhotosToFirebase', 'getLimitCounter', 'getEventById']),
     ...mapMutations('events', ['setLocalImages', 'setEvent']),
-    isDownload(pic) {
-      if (this.localEvent.picCounter >= this.countPhoto && pic.isDownload) {
-        this.countPhoto++
-      }
-      return true
-    },
 
-    async downloadPrivetly(pic, key) {
+
+    async downloadPrivetly(picParams) {
       const eid = this.eid
+      const key = picParams.key
+      const pic = picParams.pic
       var options = {pic: pic.photoURL, eid, key}
       await this.updatePhotosToFirebase(options)
       await this.downloadUrl(pic.photoURL, key)
     },
 
-    showFullPic(pic) {
-      this.chosenPic = pic.photoURL
-      this.isFullScreen = !this.isFullScreen
-    },
+
 
     async downloadUrl(url) {
-      this.countPhoto++
       const self = this
       await fetch(url).then(function (t) {
         return t.blob().then((b) => {
@@ -160,9 +124,10 @@ export default {
     async isEventExist() {
       if (!this.event) {
         await this.getEventById(this.eid)
-       }
-      Object.assign(this.event, this.localEvent)
-      // this.localEvent = {...this.event}
+      }
+      // Object.assign(this.localEvent, this.event)
+      this.localEvent = {...this.event}
+
     }
 
   },
@@ -177,9 +142,6 @@ export default {
 
 <style scoped>
 
-.crop {
-  width: 25%;
-}
 
 #pic:hover {
   filter: opacity(70%);

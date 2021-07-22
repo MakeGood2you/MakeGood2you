@@ -24,7 +24,7 @@ export default {
   name: "DatePicker",
   data() {
     return {
-      date: '1993-05-93',
+      date: '',
       submitResult: []
 
     }
@@ -44,7 +44,9 @@ export default {
     }
   },
   created() {
-    if (this.editedDate) {
+    if (!this.editedDate) {
+      this.date = new Date().toISOString().substring(0, 10)
+    } else {
       this.date = this.editedDate
     }
   },

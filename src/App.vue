@@ -1,13 +1,11 @@
 <template>
   <q-layout>
-    <q-page-container class="">
       <q-toolbar>
         <Setting class="absolute-top-right"></Setting>
       </q-toolbar>
 
       <img class="cursor-pointer " @click="goHome" id="image" alt="picPicLogo" src="../src/assets/osher.png"
            width="100">
-    </q-page-container>
     <q-page-container>
 
       <router-view></router-view>
@@ -40,7 +38,7 @@ export default {
     user && this.setUser(user)
 
     //
-    this.isUserPayValidate()
+    // this.isUserPayValidate()
   }
 }
 

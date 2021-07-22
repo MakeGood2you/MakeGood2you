@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mb-xl">
+  <div class="column items-center q-mb-xl">
 
     <div class=" column items-center">
       <h4 class="top"> פרטי העסק </h4>
@@ -145,6 +145,7 @@ export default {
       this.age = null
       this.accept = false
     },
+
     isNewUser() {
       if (user.isNewUser) {
         for (const key in this.localInfoDetails) {

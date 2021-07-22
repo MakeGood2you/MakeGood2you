@@ -1,7 +1,10 @@
 import authApi from '../../middleware/firebase/auth';
 import db from "../../middleware/firebase/database/api";
+import {getUserFromLocalStorage} from "../../middleware/utils";
 
 const path = (uid) => `users/${uid}/data/`
+const user = getUserFromLocalStorage()
+
 export default {
 //genric login functions
     login: async ({state, commit, dispatch}, provider) => {
@@ -60,8 +63,9 @@ export default {
             } else if (provider === 'facebook' || provider === 'google') {
                 firebaseAuthUser = await authApi.loginProvider(provider)
                 return firebaseAuthUser
-            } else return false
+            }
         }
+        return false
     },
 
     checkTerm: async ({commit}, uid) => {
@@ -72,8 +76,10 @@ export default {
 
     setTermService: async ({state, commit}, uid) => {
         uid = window.user.uid
-        commit('setPropertyTrueOrFalse', 'isFixed')
         const entity = `${path(uid)}/terms/confirmed`
+       // const  await db.get(entity, true)
+
+        // commit('setPropertyTrueOrFalse', 'isFixed')
         console.log(entity)
         await db.set(entity, true)
     },

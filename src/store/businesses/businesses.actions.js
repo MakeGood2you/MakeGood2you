@@ -32,7 +32,7 @@ export default {
         commit('addDetails', businessDetails)
     },
 
-    isUserPayValidate: async ({commit, state}, options) => {
+    isUserPayValidate: async ({commit, state}) => {
         let isUserPay
         if (!state.isPay) {
             isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
@@ -44,6 +44,7 @@ export default {
 
     setPayment: async ({commit}, details) => {
         const entity = `${paymentPath(user.uid)}/paymentDetails`
+        debugger
         await db.set(entity, details.data)
         commit('isUserPay', true)
     },

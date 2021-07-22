@@ -24,31 +24,60 @@ const router = new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
     routes
 })
-
+// to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot'
 router.beforeEach(async (to, from, next) => {
-    const isAuthenticated = getUserFromLocalStorage() ? true : false
+    const registerRoutes = ['Login', 'Registration', 'Forgot']
+    const isAuthenticated = getUserFromLocalStorage()
     let isPayState = businesses.state.isPay
-
-    if (to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot' && isAuthenticated && isPayState) {
-
-        next({name: 'Home'})
-    } else {
-        if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot') {
-            if (!isAuthenticated) {
-                next({name: 'Login'})
-                console.log('is user  not login ')
-            } else {
-                if (to.name !== 'Payment' && !isPayState) {
-                    const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-                    if (!isUserPay) {
-                        next({name: 'Payment'})
-                        console.log('is user pay ?', isPayState)
-                    }
-                }
-            }
-
+    debugger
+    if (isAuthenticated && !to.meta.authUserIsPayment && registerRoutes.includes(to.name)) {
+        debugger
+        if (!isPayState) {
+            debugger
+            const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+            console.info('is user pay ?', isPayState)
+            return isUserPay ? next() : next({name: 'Payment'})
         }
-        next()
+    }
+    if (isAuthenticated && !to.meta.authUserIsPayment) {
+        debugger
+        return next()
+    } else {
+
+        if (['Login', 'Registration', 'Forgot'].includes(to.name) && !isAuthenticated) {
+            debugger
+            return next()
+        }
+        if (to.meta.authUserIsPayment && isAuthenticated) {
+            debugger
+            if (!isPayState) {
+                debugger
+                const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+                console.info('is user pay ?', isPayState)
+                return isUserPay ? next() : next({name: 'Payment'})
+            }
+            debugger
+            return next()
+        }
+        debugger
+        next({name: 'Login'})
+
     }
 })
 export default router
+// if (isAuthenticated && !isPayState && to.meta.authUserIsPayment) {
+//     next({name: 'Payment'})
+// }
+// debugger
+// if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'  ) {
+//     if (!isPayState && to.meta.authUserIsPayment) {
+//         if (!isUserPay) {
+//             debugger
+//             next({name: 'Payment'})
+//             console.log('is user pay ?', isPayState)
+//         }
+//     }
+//     debugger
+//     next({name: 'Login'})
+//     console.log('is user  not login ')
+// } else next()

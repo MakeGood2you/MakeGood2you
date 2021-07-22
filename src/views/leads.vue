@@ -1,67 +1,41 @@
 <template>
   <div>
-    <q-btn
-        class="absolute-top-right back"
-        @click="goback"
-        icon="home"
-        color="black"
-        flat
-        dense
-        label="חזור"
-    />
-    <p class="leads" dir="rtl"><b>לידים</b></p>
-    <q-carousel
-        arrows
-        infinite
-        swipeable
-        transition-prev="scale"
-        transition-next="scale"
-        navigation
-        animated
-        control-color="white"
-        padding
-        height="250px"
-        class="rounded-borders crosrol"
-        v-model="slide"
-    >
-      <q-carousel-slide
-          v-for="(a, index) in arr"
-          :key="index"
-          :name="index"
-      >
-        <q-icon style="display: flex; flex-direction: column; margin: auto; margin-top: 40px" name="people"
-                size="56px"/>
-        <div class="q-mt-md text-center">
-          <p style="font-size: 20px">{{ a }}</p>
-        </div>
-        <div>
-          <q-icon name="delete" size="25px" @click="deleteLead(a)"></q-icon>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
-    <q-dialog v-model="persistent" transition-hide="scale">
-      <q-card class=" bg-blue-9 text-white" style="width: 300px">
+    <!--    <p class="leads" dir="rtl"><b>לידים</b></p>-->
 
-        <q-card-section dir="rtl" style="text-align: center">
-          <div class="text-h6">האם תרצה למחוק את הליד?</div>
-        </q-card-section>
+    <!--        <q-icon style="display: flex; flex-direction: column; margin: auto; margin-top: 40px" name="people"-->
+    <!--                size="56px"/>-->
+    <!--        <div class="q-mt-md text-center">-->
+    <!--          <p style="font-size: 20px">{{ details }}</p>-->
+    <!--        </div>-->
+    <TabsLeadList />
+    <!--        <div>-->
+    <!--          <q-icon name="delete" size="25px" @click="deleteLead(details)"></q-icon>-->
+    <!--        </div>-->
+    <!--    <q-dialog v-model="persistent" transition-hide="scale">-->
+    <!--      <q-card class=" bg-blue-9 text-white" style="width: 300px">-->
 
-        <q-card-actions class="bg-white text-blue-9" style="text-align: center">
-          <div>
-            <q-btn v-close-popup flat v-model="leadData" label="מחק ליד" @click="delLead(leadData)"/>
-            <q-btn v-close-popup color="red" flat label="ביטול"/>
-          </div>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <!--        <q-card-section dir="rtl" style="text-align: center">-->
+    <!--          <div class="text-h6">האם תרצה למחוק את הליד?</div>-->
+    <!--        </q-card-section>-->
+
+    <!--        <q-card-actions class="bg-white text-blue-9" style="text-align: center">-->
+    <!--          <div>-->
+    <!--            <q-btn v-close-popup flat v-model="leadData" label="מחק ליד" @click="delLead(leadData)"/>-->
+    <!--            <q-btn v-close-popup color="red" flat label="ביטול"/>-->
+    <!--          </div>-->
+    <!--        </q-card-actions>-->
+    <!--      </q-card>-->
+    <!--    </q-dialog>-->
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import TabsLeadList from "../components/leads/TabsLeadList";
 
 export default {
   name: "leads",
+  components: {TabsLeadList},
   data() {
     return {
       slide: 0,
@@ -71,6 +45,8 @@ export default {
       leadData: '',
     }
   },
+  computed:mapState('leads',['leads']),
+
 
   methods: {
     ...mapActions('leads', ['getLeads', 'deleteLeadFromDB']),
@@ -80,33 +56,17 @@ export default {
     },
     async delLead(citrus) {
 
-      var params = citrus.slice(0, 12);
-      await this.deleteLeadFromDB(params)
-      this.arr = []
-      this.information = await this.getLeads()
-      for (var info in this.information) {
-        var phone = info
-        var name = await this.information[info].name
-        const details = phone + ' - ' + name
-        await this.arr.push(details)
-      }
     },
     deleteLead(params) {
-      this.leadData = params
-      this.persistent = true
+
     }
   },
   async created() {
-    if (!window.user) {
-      await this.$router.push('/')
-    }
-    this.information = await this.getLeads()
-    for (var info in this.information) {
-      var phone = info
-      var name = await this.information[info].name
-      const details = phone + ' - ' + name
-      await this.arr.push(details)
-    }
+    debugger
+    await this.getLeads()
+    console.log(this.leads)
+    // console.log(this.leads)
+
   }
 }
 </script>

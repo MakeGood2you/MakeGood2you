@@ -12,9 +12,8 @@ const path = (uid) => `users/${uid}/data/${tableName}`
 export default {
     getLeads: async ({state, commit}) => {
         const entity = `${path(user.uid)}`
-        const leads = await db.get(entity)
+        const leads = await db.getList(entity)
         commit('setLeads', leads)
-        return leads
     },
 
     deleteLeadFromDB:async  ({commit}, params) => {

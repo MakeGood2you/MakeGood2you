@@ -10,18 +10,23 @@ export default {
     setImages: (state, data) => (state.pics = data),
     setEvents: ((state, events) => state.events = events),
 
+    setCountPhoto: ((state, count) => state.countPhoto = count),
+
     changePermissionState: ((state, options) => {
         const event = state.events[options.index]
         event.isOpen = options.isOpen
+        state.events = [...state.events]
     }),
 
     setQr: (state, options) => {
         const event = state.events[options.index]
         event.QR = options.QR
+        state.events = [...state.events]
     },
 
     updatePhoto: ((state, options) => {
         state.event.photos[options.key].isDownload = options.isDownload
+        debugger
         state.event = {...state.event}
     }),
 
@@ -32,6 +37,9 @@ export default {
 
     setEvent: ((state, event) => {
         state.event = event
+    }),
+    photos: ((state, photos) => {
+        state.photos = photos
     }),
 
     setEditedEventId: ((state, id) => state.editedEventId = id),

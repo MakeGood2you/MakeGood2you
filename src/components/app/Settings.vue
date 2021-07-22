@@ -26,7 +26,7 @@
               </div>
             </div>
 
-            <hr class="hr">
+            <q-separator />
 
             <div class="row q-gutter-x-sm no-wrap cursor-pointer"
                  @click="goEditBusinessDetails"
@@ -45,7 +45,8 @@
               </div>
 
             </div>
-            <hr class="hr">
+            <q-separator />
+
 
             <div class="row q-gutter-x-sm no-wrap cursor-pointer"
                  @click="$router.push('/help')"
@@ -64,7 +65,7 @@
               </div>
             </div>
 
-            <hr class="hr">
+            <q-separator />
 
             <div class="row q-gutter-x-sm no-wrap cursor-pointer"
                  @click="$router.push('/settings')"
@@ -77,13 +78,15 @@
                   class="btn"
                   v-model="mobileData">
                 <div class="">
-                  <span class=""> הגדרות </span>
+                  <span class="q-my-sm"> הגדרות </span>
                 </div>
               </div>
             </div>
 
-            <div class="btn">
-              <hr class="q-mb-md" color="red">
+            <div class="btn q-my-sm">
+              <q-separator  class=""  color="red" />
+
+<!--              <hr class="q-mb-md" color="red">-->
             </div>
 
             <div class="text-center">
@@ -158,13 +161,7 @@ export default {
     },
 
     async goLeads() {
-      this.informationHome = await this.getLeads()
-      console.log(this.informationHome)
-      if (this.informationHome === null) {
-        alert('אין לידים להציג')
-      } else {
-        await this.$router.push('leads')
-      }
+        await this.$router.push('/leads')
     }
   },
   async created() {

@@ -5,20 +5,25 @@ import store from './store'
 import './quasar'
 import firebaseInstance from './middleware/firebase'
 import notify from 'vue-notification'
-import langHeb from 'quasar/lang/he'
+import VueClipboard from 'vue-clipboard2'
 
-import {Loading, Quasar} from 'quasar'
+Vue.use(VueClipboard);
 
+// import langHeb from 'quasar/lang/he'
+import {
+  Quasar,
+  Notify
+} from 'quasar'
 Vue.use(
     Quasar, {
-      lang: langHeb
+      // lang: langHeb
 
-      //   config: {
-    //     loading: {Loading,}
-    //   },
-    //   plugins: {
-    //     Loading,
-    //   }
+        config: {
+            notify: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */}
+        },
+      plugins: {
+        Notify
+      }
     })
 Vue.config.productionTip = false
 firebaseInstance.firebase.auth().onAuthStateChanged((user )=>{

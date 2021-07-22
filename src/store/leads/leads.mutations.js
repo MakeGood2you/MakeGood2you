@@ -8,9 +8,9 @@ export default {
         state.events.splice(index, 1, event)
     }),
 
-    deleteLead: ((state, id) => {
-        const index = state.events.findIndex(p => p.id === id)
-        state.events.splice(index, 1)
+    removeLead: ((state, phoneNumber) => {
+        const index = state.leads.findIndex(p => p.phoneNumber === phoneNumber)
+        state.leads.splice(index, 1)
     }),
 
     insertLead: ((state, event) => {

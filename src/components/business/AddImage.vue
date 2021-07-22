@@ -12,7 +12,10 @@
             borderless stack-label
             class="relative"
             @input="onFileChange">
-          <q-icon name="add_a_photo" size="30px"/>
+          <!--          <template v-slot:prepend>-->
+
+          <q-icon class="" name="add_a_photo" size="30px"/>
+          <!--          </template>-->
         </q-file>
       </div>
     </div>
@@ -76,9 +79,12 @@ export default {
 <style scoped>
 
 .relative {
-  position: absolute;;
-  right: -220px;
-  top: 150px;
+  cursor: pointer;
+  position: absolute;
+  width: 1.5rem;
+  height: 0.5rem !important;
+  left: 20rem;
+  top: 10rem;
   /*border: solid 3px #fff;*/
 }
 

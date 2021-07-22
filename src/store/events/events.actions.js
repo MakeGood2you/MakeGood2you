@@ -33,16 +33,17 @@ export default {
     },
 
     setQrTF: async ({state, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}/QR`
         const index = state.events.findIndex(event => event.id === eid)
         let QR = !state.events[index].QR
-        // await db.set(entity, QR)
         commit('setQr', {QR, index})
         return QR
+        // const entity = `${path(user.uid)}/${eid}/QR`
+        // await db.set(entity, QR) // we not need to update
     },
     ///database///
 
     updatePhotosToFirebase: async ({commit}, options)=>{
+        debugger
         const entity = `${path(user.uid)}/${options.eid}/photos/${options.key}/isDownload`
         await db.set(entity, true);
         commit('updatePhoto', {isDownload: true, key: options.key, id: options.eid})
@@ -60,7 +61,12 @@ export default {
         const event = await db.get(entity);
         console.log(event)
         commit('setEvent', event)
-
+    },
+ getPhotos: async ({state, commit}, eid) => {
+        const entity = `${path(user.uid)}/${eid}/photos`
+        const photos = await db.getList(entity);
+        console.log(photos)
+        commit('setPhotos', photos)
     },
 
     deleteEvent: async ({state, commit}, eid) => {
@@ -71,16 +77,11 @@ export default {
 
 
     updateEvent: async ({state, commit}, event) => {
-        const entity = `${path(user.uid)}`
-            `users/${window.user.uid}/data/${options.entity}/${options.id}`
-        Object.assign(event, state.editedEvent)
-        event.id = state.editedEventId;
+        const entity = `${path(user.uid)}/${event.id}`
         //save in database
         const res = await db.update(entity, event)
         console.log(res)
         //save in store
-        commit('resetEditedEvent')
-        commit('resetEditedEventId')
         commit('editEvent', event)
 
     },
