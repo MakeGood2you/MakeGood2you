@@ -1,16 +1,20 @@
 <template>
-  <div class="column items-center "style="width: 80vw">
-    <span class="text-h6">הגדרות כלליות</span>
+  <div class="column">
+    <div class=" column items-center">
+      <h4> הגדרות כלליות </h4>
+    </div>
     <div dir="rtl" style="width: 80%">
       <Confirm/>
       <div class="q-pa-md" style="width: 80%">
-        <q-list padding bordered class="rounded-borders">
+        <q-list padding bordered class="rounded-borders ladder">
           <q-expansion-item
               dense
               dense-toggle
               expand-separator
-              icon="perm_identity"
-              label="שינוי ססמא"
+              icon="lock"
+              label="שינוי סיסמא"
+              header-class="primary"
+
           >
             <q-card>
               <q-card-section>
@@ -29,8 +33,10 @@
                 </q-input>
                 <q-btn
                     class="q-mt-md"
+                    color="primary"
                     @click="setPassword"
-                    label="עדכן ססמא"></q-btn>
+                    style="width: 100%"
+                    label="עדכן סיסמא"></q-btn>
 
               </q-card-section>
             </q-card>
@@ -40,8 +46,10 @@
               dense
               dense-toggle
               expand-separator
-              icon="signal_wifi_off"
+              icon="gavel"
               label="מדיניות ותנאים"
+              header-class="primary"
+
           >
             <q-card>
               <q-card-section>
@@ -249,9 +257,9 @@
               dense
               dense-toggle
               expand-separator
-              icon="drafts"
+              icon="logout"
               label="התנתקות"
-              header-class="text-purple"
+              header-class="primary"
           >
             <q-card dir="rtl">
               <q-card-section>
@@ -260,12 +268,16 @@
             </q-card>
           </q-expansion-item>
         </q-list>
+        <br>
+        <div class="text-center">
+          <q-btn
+              style="width: 80%"
+              color="dark"
+              @click="$router.push('/home')"
+          >חזור
+          </q-btn>
+        </div>
       </div>
-      <q-btn class="q-mr-lg self-start"
-             @click="$router.push('/home')"
-      >חזור
-      </q-btn>
-
     </div>
   </div>
 </template>
@@ -299,5 +311,11 @@ export default {
 </script>
 
 <style scoped>
-
+.ladder {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: rgb(238, 234, 233);
+}
 </style>

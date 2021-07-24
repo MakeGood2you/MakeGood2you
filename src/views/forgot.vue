@@ -58,7 +58,7 @@ export default {
   font-size: 20px;
   background-color: #000023;
   color: antiquewhite;
-  border-radius: 10px;
+  border: none;
 }
 
 .body {

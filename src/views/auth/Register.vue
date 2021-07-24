@@ -161,7 +161,7 @@ export default {
   font-size: 20px;
   background-color: #000023;
   color: antiquewhite;
-  border-radius: 10px;
+  border: none;
 }
 
 .connectMe:hover {
@@ -181,7 +181,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.62);
   padding-bottom: 30px;
   color: #000023;
-  border-radius: 10px;
+  border: none;
 }
 
 #image2 {

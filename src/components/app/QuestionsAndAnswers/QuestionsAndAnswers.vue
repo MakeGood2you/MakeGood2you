@@ -1,10 +1,12 @@
 <template>
   <div class="column items-center">
+    <div class=" column items-center" style="margin-top: -40%">
+      <h4> עזרה ותמיכה </h4>
+    </div>
     <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
-    <span class="text-h6" style="margin-top: -35%">שאלות ותשובות</span>
     <div dir="rtl" class="full-width">
       <div class="q-pa-md">
-        <q-list  padding bordered class="rounded-borders ladder">
+        <q-list  padding  class="rounded-borders ladder">
           <q-expansion-item
               v-for="(item, key) in questionsAndAnswers.data" :key="key"
               dense
@@ -14,21 +16,26 @@
               :label="item.question"
           >
             <q-card>
-              <q-card-section>
+              <q-card-section style="background-color: #D9D2CD">
                 {{ item.answer }}
               </q-card-section>
-              <q-card-actions>
-                <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>
-              </q-card-actions>
+<!--              <q-card-actions>-->
+<!--                <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>-->
+<!--              </q-card-actions>-->
             </q-card>
-
           </q-expansion-item>
         </q-list>
+        <br>
+        <div class="text-center">
+          <q-btn
+              style="width: 50%"
+              color="dark"
+              @click="$router.push('/home')"
+          >חזור
+          </q-btn>
+        </div>
       </div>
-      <q-btn class="q-mr-lg self-start"
-             @click="$router.push('/home')"
-      >חזור
-      </q-btn>
+
       <q-btn class="q-mr-lg self-start"
              @click="openDialog"
       >הוסף
@@ -71,6 +78,6 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
-  background-color: rgba(255, 255, 255, 0.43);
+  background-color: rgb(238, 234, 233);
 }
 </style>

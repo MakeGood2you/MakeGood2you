@@ -25,10 +25,10 @@
               את
             </q-checkbox>
             <a style="color: #027BE3" v-close-popup @click="setPropertyTrueOrFalse('isFixed')"> תנאי שימוש </a>
-          </div>
+          </div><br>
 
-          <q-btn class="buttonE" label="הרשמה" @click="registerWithMailAndPass()"/>
-          <q-btn class="buttonE" label="חזור" @click="goBack()"/>
+          <q-btn class="buttonE" color="primary" label="הרשמה" @click="registerWithMailAndPass()"/>
+          <q-btn class="buttonE" color="dark" label="חזור" @click="goBack()"/>
         </form>
       </div>
     </div>
@@ -87,15 +87,12 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   width: 90%;
   height: 50px;
   border: none;
   font-size: 20px;
-  background-color: #000023;
   color: antiquewhite;
-  border-radius: 10px;
 }
 
 .textOk:hover {

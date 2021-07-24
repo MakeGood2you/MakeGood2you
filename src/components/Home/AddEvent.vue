@@ -1,12 +1,11 @@
 <template>
   <div class="background2 q-px-xl q-py-xl q-my-auto q-mx-auto">
 
-    <div class="row no-wrap justify-between  q-pb-md">
-      <q-btn v-if="localEditedEvent.id" color="primary" class="self-center" icon="arrow_back_ios" round @click="goToHome">
+    <div class="row no-wrap justify-between  q-pb-md ">
+      <q-btn v-if="localEditedEvent.id" color="dark" class="self-center q-ml-lg" icon="arrow_back_ios" round @click="goToHome">
         <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">
 
           <strong>חזור הביתה</strong>
-          (<q-icon name="keyboard_arrow_down"/>)
         </q-tooltip>
       </q-btn>
     </div>
@@ -15,7 +14,8 @@
     <div class="q-mt-lg">
       <q-form
           dir="rtl"
-          class="q-gutter-y-lg"
+          class="q-gutter-y-lg justify-center"
+          style="width: 90%; margin: auto"
       >
         <q-input filled v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
                  :hint="localEditedEvent.id ? 'שם בעל האירוע': ''" type="text"/>
@@ -30,9 +30,9 @@
       </q-form>
 
 
-      <br><br><br>
+      <br>
 
-      <div class="row no-wrap items-center q-mx-auto">
+      <div class="row no-wrap items-center q-mx-auto" style="width: 90%; margin: auto">
         <q-btn v-if=" localEditedEvent.id" class="btn-submit column items-center" @click="update()"><span>עדכון</span>
         </q-btn>
         <q-btn v-if="! localEditedEvent.id" class="btn-submit column items-center" @click="blass(localEditedEvent)">
@@ -167,15 +167,16 @@ background-color: $accent;
   font-size: 20px;
   background-color: $primary;
   color: $secondary;
-  border-radius: 10px;
+  border: none;
 }
 
 .background2 {
   width:50vw;
+  margin: auto;
   background-color: #e8e3df;
   //background-color: rgba(255, 255, 255, 0.62) !important;
   color: $primary;
-  border-radius: 10px;
+  border: none;
   opacity: 1;
 }
 

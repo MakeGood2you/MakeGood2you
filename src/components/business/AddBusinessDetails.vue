@@ -83,7 +83,6 @@
           </template>
         </q-input>
 
-
         <div class="row justify-around">
           <q-btn
               class="width-50 -align-center btn1"
@@ -93,7 +92,7 @@
               class="self-start btn1 btn2"
               label="חזור"
               @click="$router.push('/home')"
-              color="gray">
+              color="dark">
           </q-btn>
         </div>
       </q-form>

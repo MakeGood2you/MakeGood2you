@@ -7,8 +7,8 @@
       flat
       dense
   >
-    <span>התנתקות מהשירות</span>
-    <q-icon name="account_circle"></q-icon>
+    <q-icon size="1.3rem" name="account_circle"></q-icon>
+    <span> התנתקות מהשירות </span>
   </q-btn>
 </template>
 

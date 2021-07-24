@@ -53,17 +53,17 @@
         </p>
       </div>
       <br>
-      <q-btn @click="halfYear" class="halfYear"
-             style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);" dir="rtl">
-        <p style="font-size: 32px; color: white"><br>חצי שנתי<br>
-        <p style="font-size: 32px; color: white"><b>1,750 ש"ח</b><br><p
-            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">2100 ש"ח</p>
-      </q-btn>
       <q-btn @click="month" class="month"
-             style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(31,65,123);" dir="rtl">
+             style="font-family: 'Open Sans Hebrew Condensed', serif;  background-color: rgb(135,135,135);" dir="rtl">
         <p style="font-size: 32px; color: white"><br>חודשי<br>
         <p style="font-size: 32px; color: white"><b>350 ש"ח</b><br><br><p
           style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">500 ש"ח</p>
+      </q-btn>
+      <q-btn @click="halfYear" class="halfYear"
+             style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(31,65,123);" dir="rtl">
+        <p style="font-size: 32px; color: white"><br>חצי שנתי<br>
+        <p style="font-size: 32px; color: white"><b>1,750 ש"ח</b><br><p
+            style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">2100 ש"ח</p>
       </q-btn>
       <q-btn @click="year" class="year" style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);"
              dir="rtl">

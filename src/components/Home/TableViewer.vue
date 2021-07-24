@@ -90,16 +90,20 @@
           <q-td key="actions" :props="props" >
             <q-btn class="trash-hover items-center" icon="delete" flat @click="del(props.row)"></q-btn>
             <q-dialog v-model="persistent" transition-hide="scale">
-              <q-card class=" bg-blue-9 text-white" style="width: 300px">
+              <q-card class="  text-white" style="background-color: #474747; width: 400px">
 
                 <q-card-section :props="props" dir="rtl" style="text-align: center">
-                  <div :props="props" class="text-h6" v-model="selected_data.id">האם תרצה למחוק את האירוע?</div>
+                  <div :props="props" class="text-h6" v-model="selected_data.id">
+                    <b>  שים לב! </b>
+                    <span> במחיקת האירוע אתה עלול למחוק גם את תמונות האירוע. </span><br>
+                    <span>עדיין מעוניין למחוק את האירוע?</span>
+                  </div>
                 </q-card-section>
 
                 <q-card-actions class="bg-white text-blue-9" style="text-align: center">
                   <div>
                     <q-btn :props="props" v-close-popup flat label="מחק אירוע" @click="remove(selected_data.id)"/>
-                    <q-btn v-close-popup color="red" flat label="ביטול"/>
+                    <q-btn v-close-popup color="primary" flat label="ביטול"/>
                   </div>
                 </q-card-actions>
               </q-card>
