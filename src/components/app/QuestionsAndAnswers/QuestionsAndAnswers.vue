@@ -35,7 +35,6 @@
           </q-btn>
         </div>
       </div>
-
       <q-btn class="q-mr-lg self-start"
              @click="openDialog"
       >הוסף
