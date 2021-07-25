@@ -1,31 +1,8 @@
 <template>
   <div>
-    <!--    <p class="leads" dir="rtl"><b>לידים</b></p>-->
 
-    <!--        <q-icon style="display: flex; flex-direction: column; margin: auto; margin-top: 40px" name="people"-->
-    <!--                size="56px"/>-->
-    <!--        <div class="q-mt-md text-center">-->
-    <!--          <p style="font-size: 20px">{{ details }}</p>-->
-    <!--        </div>-->
     <TabsLeadList />
-    <!--        <div>-->
-    <!--          <q-icon name="delete" size="25px" @click="deleteLead(details)"></q-icon>-->
-    <!--        </div>-->
-    <!--    <q-dialog v-model="persistent" transition-hide="scale">-->
-    <!--      <q-card class=" bg-blue-9 text-white" style="width: 300px">-->
 
-    <!--        <q-card-section dir="rtl" style="text-align: center">-->
-    <!--          <div class="text-h6">האם תרצה למחוק את הליד?</div>-->
-    <!--        </q-card-section>-->
-
-    <!--        <q-card-actions class="bg-white text-blue-9" style="text-align: center">-->
-    <!--          <div>-->
-    <!--            <q-btn v-close-popup flat v-model="leadData" label="מחק ליד" @click="delLead(leadData)"/>-->
-    <!--            <q-btn v-close-popup color="red" flat label="ביטול"/>-->
-    <!--          </div>-->
-    <!--        </q-card-actions>-->
-    <!--      </q-card>-->
-    <!--    </q-dialog>-->
   </div>
 </template>
 
@@ -62,7 +39,6 @@ export default {
     }
   },
   async created() {
-    debugger
     await this.getLeads()
     console.log(this.leads)
     // console.log(this.leads)

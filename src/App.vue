@@ -29,7 +29,6 @@ export default {
     ...mapActions('businesses', ['isUserPayValidate']),
     ...mapMutations('auth', ['setUser']),
     goHome() {
-      debugger
       this.$router.push('/home')
     }
   },

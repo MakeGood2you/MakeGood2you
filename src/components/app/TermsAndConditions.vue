@@ -425,7 +425,6 @@ export default {
     ...mapMutations('auth', ['setPropertyTrueOrFalse']),
 
     async confirmed() {
-      debugger
       if (this.isBtn) return this.setPropertyTrueOrFalse('isFixed')
       //check if user pay
       this.setPropertyTrueOrFalse('isFixed')
@@ -436,7 +435,7 @@ export default {
 
     },
     choseRouter() {
-      this.isPay ? this.$router.push('/Home') : this.$router.push('/payment');
+      this.isPay ? this.$router.push('/home') : this.$router.push('/payment');
     },
 
   }

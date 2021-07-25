@@ -66,6 +66,9 @@ export default {
     }),
 
     insertEvent: ((state, event) => {
+        if (!state.events){
+            state.events = []
+        }
         state.events.push(event)
     }),
 

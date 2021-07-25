@@ -21,5 +21,18 @@ export default {
         await db.remove(entity, params)
         commit('removeLead', params)
     },
+    setComment: async ({state, commit}, options) => {
+        const entity = `${path(user.uid)}/${options.phoneNumber}/comments/${options.cid}`
+        await db.set(entity, options.comment)
+        debugger
+        commit('setComment', options)
 
+    },
+    moveToOldLeadsAction: async ({state, commit}, options) => {
+        const entity = `${path(user.uid)}/${options.phoneNumber}/isNewLead`
+        await db.set(entity, options.isNewLead)
+        debugger
+        // commit('setIsNewLead', options.isNewLead)
+
+    },
 }

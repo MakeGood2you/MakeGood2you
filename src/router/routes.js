@@ -22,9 +22,9 @@ const routes = [
     {path: '/settings', name: 'Settings', component: () => import('../views/app/UserSetting'),
         meta: {authUserIsPayment: true}},
     {path: '/leads', name: 'leads',  component: () => import('../views/leads'),
-        meta: {authUserPayment: true}},
+        meta: {authUserIsPayment: true}},
     {path: '/help', name: 'Help',  component: () => import('../views/app/HelpAndSupport.vue'),
-        meta: {authUserPayment: true}},
+        meta: {authUserIsPayment: true}},
 
     {path: '/event-page/:eid', name: 'EventPage', component: () => import('../views/EventPage.vue'),
         meta: {authUserIsPayment: true}},

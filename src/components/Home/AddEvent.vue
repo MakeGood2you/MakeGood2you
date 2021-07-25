@@ -94,7 +94,6 @@ export default {
     ...mapActions('events', ['insertEvent', 'updateEvent', 'setEditEventById']),
     ...mapMutations('events', ['setEditedEvent', 'setEditedEventId', 'setEventId']),
     dateChange(val){
-      debugger
       this.localEditedEvent.date = val
     },
     localSetEditedEvent() {
@@ -108,7 +107,6 @@ export default {
     },
 
     goToHome() {
-      debugger
       if (this.localEditedEvent.id){
         this.$router.push('/home');
       }else {

@@ -29,39 +29,29 @@ router.beforeEach(async (to, from, next) => {
     const registerRoutes = ['Login', 'Registration', 'Forgot']
     const isAuthenticated = getUserFromLocalStorage()
     let isPayState = businesses.state.isPay
-    debugger
-    if (isAuthenticated && !to.meta.authUserIsPayment && registerRoutes.includes(to.name)) {
+
+    if (isAuthenticated && registerRoutes.includes(to.name)) {
         debugger
         if (!isPayState) {
-            debugger
             const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-            console.info('is user pay ?', isPayState)
-            return isUserPay ? next() : next({name: 'Payment'})
+            console.info('is user pay ?', isUserPay)
+            return isUserPay ? next({name: 'Home'}) : next({name: 'Payment'})
         }
-    }
-    if (isAuthenticated && !to.meta.authUserIsPayment) {
-        debugger
-        return next()
     } else {
-
+debugger
         if (['Login', 'Registration', 'Forgot'].includes(to.name) && !isAuthenticated) {
-            debugger
             return next()
         }
         if (to.meta.authUserIsPayment && isAuthenticated) {
-            debugger
+           debugger
             if (!isPayState) {
-                debugger
                 const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-                console.info('is user pay ?', isPayState)
+                console.info('is user pay ?', isUserPay)
                 return isUserPay ? next() : next({name: 'Payment'})
             }
-            debugger
             return next()
         }
-        debugger
         next({name: 'Login'})
-
     }
 })
 export default router
@@ -72,7 +62,6 @@ export default router
 // if (to.name !== 'Login' && to.name !== 'Registration' && to.name !== 'Forgot'  ) {
 //     if (!isPayState && to.meta.authUserIsPayment) {
 //         if (!isUserPay) {
-//             debugger
 //             next({name: 'Payment'})
 //             console.log('is user pay ?', isPayState)
 //         }

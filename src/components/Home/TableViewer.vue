@@ -1,8 +1,8 @@
 <template dir="rtl">
   <div
+      v-if="events"
       class="q-pa-md">
     <q-table
-        v-if="events.length"
         :filter="filter"
         :rows-per-page-options="[]"
         wrap-cells
@@ -22,7 +22,7 @@
         </q-input>
       </template>
       <template v-slot:top-left>
-        <h4 class="text-center t-header" ><strong>טבלת האירועים שלי </strong></h4>
+        <h4 class="text-center t-header q-ml-xl" ><strong>טבלת האירועים שלי </strong></h4>
       </template>
       <template v-slot:header="props">
         <q-tr :props="props" class="table-head-row">
@@ -280,7 +280,9 @@ export default {
   },
   async created() {
     await this.getEvents()
-    await this.qrcode()
+    if (this.events){
+      await this.qrcode()
+    }
   },
 }
 

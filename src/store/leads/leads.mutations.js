@@ -13,8 +13,13 @@ export default {
         state.leads.splice(index, 1)
     }),
 
-    insertLead: ((state, event) => {
-        state.events.push(event)
+    setComment: ((state, options) => {
+        const index = state.leads.findIndex(p => p.phoneNumber === options.phoneNumber)
+       if (!state.leads[index]['comments']){
+           state.leads[index]['comments'] = {}
+       }
+        state.leads[index]['comments'][`${options.cid}`] = options.comment
+        state.leads = [...state.leads]
     }),
 
 

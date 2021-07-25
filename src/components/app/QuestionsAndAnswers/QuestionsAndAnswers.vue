@@ -1,22 +1,29 @@
 <template>
-  <div class="column items-center">
+  <div class="column items-center ">
     <div class=" column items-center" style="margin-top: -40%">
       <h4> עזרה ותמיכה </h4>
     </div>
     <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
-    <div dir="rtl" class="full-width">
-      <div class="q-pa-md">
-        <q-list  padding  class="rounded-borders ladder">
+    <span class="text-h6 text-center" >שאלות ותשובות</span>
+    <div dir="rtl" class="full-width" >
+      <div class="q-pa-sm column items-center">
+        <q-list   style="max-width: 600px"  class="">
+         <div
+             v-for="(item, key) in questionsAndAnswers.data" :key="key"
+
+         >
           <q-expansion-item
-              v-for="(item, key) in questionsAndAnswers.data" :key="key"
-              dense
+              class="q-pa-md text-h6 text-bold"
+              group="somegroup"
+
               dense-toggle
-              expand-separator
               icon="help_outline"
               :label="item.question"
           >
             <q-card>
-              <q-card-section style="background-color: #D9D2CD">
+              <q-card-section
+                  class="text-subtitle2"
+              >
                 {{ item.answer }}
               </q-card-section>
 <!--              <q-card-actions>-->
@@ -24,6 +31,9 @@
 <!--              </q-card-actions>-->
             </q-card>
           </q-expansion-item>
+           <q-separator class="q-mx-lg"/>
+
+         </div>
         </q-list>
         <br>
         <div class="text-center">
