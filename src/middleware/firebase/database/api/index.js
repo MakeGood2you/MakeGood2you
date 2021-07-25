@@ -37,7 +37,7 @@ async function getList(entity) {
       obj.id = key;
       list.push(obj)
     }
-    return list
+    return list.length ? list : null
   } catch (err) {
     console.log(err)
     return err

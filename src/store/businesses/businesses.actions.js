@@ -38,13 +38,11 @@ export default {
             isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
         }
         console.log('is user pay? ', isUserPay)
-        debugger
         commit('isUserPay', isUserPay)
     },
 
     setPayment: async ({commit}, details) => {
         const entity = `${paymentPath(user.uid)}/paymentDetails`
-        debugger
         await db.set(entity, details.data)
         commit('isUserPay', true)
     },

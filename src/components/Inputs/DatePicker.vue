@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     onSubmit(evt) {
-      debugger
       const formData = new FormData(evt.target)
       const submitResult = []
       for (const [name, value] of formData.entries()) {

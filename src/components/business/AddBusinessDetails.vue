@@ -18,7 +18,6 @@
         <q-input
             v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
             filled
-            :rules="[ val => val && val.length > 0 || 'חביבי שחכת להזין את שם העסק']"
         >
 
           <template v-slot:prepend>
@@ -41,7 +40,6 @@
         <q-input
             v-model="localInfoDetails.BEmail" placeholder="אימייל" type="email"
             filled
-            :rules="[ val => val && val.length > 0 || 'חביבי שחכת להזין אימייל']"
         >
 
           <template v-slot:append>
@@ -63,7 +61,6 @@
 
         <q-input
             v-model="localInfoDetails.BPhone" placeholder="טלפון" mask="###-###-####" filled
-            :rules="[val => val.length > 0  || 'חביבי מה עם הפלאפון']"
         >
 
           <template v-slot:append>

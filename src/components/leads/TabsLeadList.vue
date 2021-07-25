@@ -21,14 +21,13 @@
           <q-tab-panel name="newLeads" class="q-pa-none ">
 
             <h4 class="text-center text-bold">לידים חדשים</h4>
-           <leads-list/>
+
+           <leads-list :isOldLeads="false"/>
           </q-tab-panel>
 
           <q-tab-panel name="oldLeads">
             <div class="text-h6">לידים ישנים</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <leads-list :isOldLeads="true"/>
           </q-tab-panel>
 
         </q-tab-panels>

@@ -1,18 +1,17 @@
 <template>
-    <q-layout>
       <q-page-container>
         <q-dialog class="dialog" v-model="isShowDialog">
           <AddEvent @closeDialog="isShowDialog=false"/>
         </q-dialog>
         <q-icon
             @click="isShowDialog = true"
-            :class="`${events.length === 0 ?'absolute-center' :'fixed-bottom-right'} mouse-over q-pa-lg` "
-            :size="events.length === 0 ?'8rem': '9rem'" color="primary"
-            name="add_circle_outline"></q-icon>
-        <TableViewer/>
+            :class="`${!events ?'absolute-center' :'fixed-bottom-right'} mouse-over q-mb-lg q-pa-lg` "
+            :size="!events ?'8rem': '9rem'" color="accent"
+            name="add_circle_outline">        <div class="text-h5">הוסף אירוע</div>
+        </q-icon>
+        <TableViewer />
 
       </q-page-container>
-    </q-layout>
 </template>
 
 <script>

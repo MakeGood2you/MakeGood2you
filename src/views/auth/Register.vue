@@ -97,14 +97,21 @@ export default {
 
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
-     const result = await this.login(provider)
+      const result = await this.login(provider)
+
+      debugger
       if (!this.isUserExist) {
         return this.$q.notify(negative(result))
       }
       debugger
       if (this.isAcceptTerms) this.$q.notify(positive('התחברת בהצלחה :)'))
       else return this.$q.notify(negative('יש לאשר תנאי שימוש'))
+      debugger
       this.choseRouter()
+    },
+    choseRouter() {
+      debugger
+      this.isPay ? this.$router.push('/home') : this.$router.push('/payment');
     },
 
 
