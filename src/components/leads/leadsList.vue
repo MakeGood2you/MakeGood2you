@@ -4,7 +4,6 @@
       <q-expansion-item
 
           v-for="lead of localLeads"
-          :key="lead.isNewLead"
           v-if="!isOldLeads && lead.isNewLead"
           group="somegroup"
           icon="person"
