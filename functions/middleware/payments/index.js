@@ -116,7 +116,7 @@ exports.billingRecurringCancel = functions.region('europe-west1').https.onReques
                 functions.logger.log('item[ID]', item['ID'])
                 functions.logger.log(`item['Date_NextBilling']`, item['Date_NextBilling'])
                 let res = item['Date_NextBilling']
-                entity = `payments/${uid}/package/paymentDetails/last_date`
+                entity = `${paymentPath(uid)}/last_date`
                 await db.set(entity, res)
             }
         }

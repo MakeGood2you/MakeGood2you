@@ -91,24 +91,24 @@ export default {
   },
   methods: {
 ...mapActions('businesses', ['setPackagePayment']),
-    month() {
+    async month() {
       let paymentMethod = 'month'
-      this.setPackagePayment(paymentMethod)
+      await this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5kn/1le5j6/payment/';
     },
-    halfYear() {
+    async halfYear() {
       let paymentMethod = 'halfYear'
-      this.setPackagePayment(paymentMethod)
+      await this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5jj/1lfcy0/payment/';
     },
-    year() {
+    async year() {
       let paymentMethod = 'year'
-      this.setPackagePayment(paymentMethod)
+      await this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5ju/1lfdkf/payment/';
     },
-    day(){
+    async day() {
       let paymentMethod = 'day'
-      this.setPackagePayment(paymentMethod)
+      await this.setPackagePayment(paymentMethod)
       window.location.href = 'https://www.myofficeguy.com/p/1ionde/1lmm5p/1lmmcy/payment/';
     }
   },
