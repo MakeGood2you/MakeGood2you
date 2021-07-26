@@ -7,13 +7,40 @@
       <span class="q-px-md"> נוצר :  {{ new Date(lead.createdTime).toLocaleString().substring(0, 10) }} </span>
       <span> בשעה :  {{ new Date().toLocaleString(lead.createdTime).substring(12,20) }} </span>
     </div>
-    <q-card-section>
+    <q-card-section class="">
       <div class="row items-center content-between">
         <div class="col">
           <div class="text-subtitle1"><span class="text-bold"> סוג האירוע : </span>{{ lead.eventStyle }}</div>
           <div class="text-subtitle1"><span class="text-bold"> מקום האירוע : </span>{{ lead.eventPlace }}</div>
           <div class="text-subtitle1"><span class="text-bold"> בתאריך : : </span>{{ lead.eventDate }}</div>
+
         </div>
+        <q-input
+            style="width:38%"
+            class=""
+            v-model="lead.phoneNumber"
+            filled
+            readonly
+            outlined
+        >
+
+          <template v-slot:prepend>
+
+            <q-chip v-if="lead.firstName" class="bg-primary text-bold text-white "> קובי
+              :
+            </q-chip>
+
+          </template>
+          <template v-slot:append>
+            <div class="cursor-pointer" v-clipboard:copy="lead.phoneNumber"
+            >
+              <q-icon
+                  color="black" @click="copy" size="1.3rem" name="svguse:icons.svg#clipboard"/>
+            </div>
+          </template>
+
+
+        </q-input>
 
         <div class="col-auto">
           <q-btn color="grey-7" size="1.5rem" round flat icon="more_vert">
@@ -37,21 +64,28 @@
       <q-card-actions class="column items-start">
         <div class="row no-wrap">
           <div class="q-px-md row items-center">
-            <q-chip v-if="lead.firstName" class="bg-primary text-bold text-white q-pa-md q-mr-md"> {{ lead.firstName }} :</q-chip>
 
-            {{ lead.phoneNumber }}
+
           </div>
-          <q-btn class="text-white cursor-pointer" @click="copy()"
-                 v-clipboard:copy="lead.phoneNumber" color="primary">העתק
-          </q-btn>
+
         </div>
 
       </q-card-actions>
+      <div class="column items-center">
+        <span class="text-bold text-subtitle1"> הערות :</span>
+        <q-separator class="q-my-sm full-width"/>
 
-      הערות : <br>
-      <span v-for="comment in lead.comments">
-        {{ comment }}
-      </span>
+        <div class="row wrap">
+          <q-chat-message
+              class="q-mx-md text-white"
+              bg-color="info"
+              text-color="black"
+              v-for="comment in lead.comments"
+              :text="[comment]"
+          />
+        </div>
+      </div>
+
     </q-card-section>
 
   </q-card>
@@ -71,7 +105,7 @@ export default {
   methods: {
     ...mapActions('leads', ['deleteLeadFromDB', 'setComment', 'moveToOldLeadsAction']),
     copy() {
-      this.$q.notify(positive('קישור הועתק'))
+      this.$q.notify(positive('מספר הועתק'))
     },
     remove() {
       this.deleteLeadFromDB(this.lead.phoneNumber)
