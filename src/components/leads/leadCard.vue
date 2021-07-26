@@ -15,32 +15,24 @@
           <div class="text-subtitle1"><span class="text-bold"> בתאריך : : </span>{{ lead.eventDate }}</div>
 
         </div>
-        <q-input
-            style="width:38%"
-            class=""
-            v-model="lead.phoneNumber"
-            filled
-            readonly
-            outlined
+        <q-btn-dropdown
+            class=" q-mx-md"
+            color="primary"
+            :menu-offset="[60, 5]"
+            label="הצג מס פלאפון"
         >
-
-          <template v-slot:prepend>
-
-            <q-chip v-if="lead.firstName" class="bg-primary text-bold text-white "> קובי
-              :
-            </q-chip>
-
-          </template>
-          <template v-slot:append>
-            <div class="cursor-pointer" v-clipboard:copy="lead.phoneNumber"
-            >
+          <div class="row no-wrap justify-between q-pa-sm">
+            <div class="cursor-pointer text-subtitle1" v-clipboard:copy="lead.phoneNumber">
               <q-icon
-                  color="black" @click="copy" size="1.3rem" name="svguse:icons.svg#clipboard"/>
+                  color="black" @click="copy" size="1.5rem" name="svguse:icons.svg#clipboard"/>
             </div>
-          </template>
+            <span class="text-subtitle1">         {{ lead.phoneNumber }}   </span>
+            <span v-if="lead.firstName" class="text-subtitle1 text-bold text-black ">  :  {{ lead.firstName }}</span>
 
 
-        </q-input>
+
+          </div>
+        </q-btn-dropdown>
 
         <div class="col-auto">
           <q-btn color="grey-7" size="1.5rem" round flat icon="more_vert">
@@ -71,18 +63,25 @@
         </div>
 
       </q-card-actions>
-      <div class="column items-center">
-        <span class="text-bold text-subtitle1"> הערות :</span>
+      <div class="column ">
         <q-separator class="q-my-sm full-width"/>
+        <span class="text-bold text-subtitle1"> הערות :</span>
 
-        <div class="row wrap">
-          <q-chat-message
-              class="q-mx-md text-white"
-              bg-color="info"
-              text-color="black"
-              v-for="comment in lead.comments"
-              :text="[comment]"
-          />
+        <div class="row wrap justify-start">
+          <q-list>
+            <q-item
+                v-for="comment in lead.comments"
+            >
+              <q-item-section side>
+                <q-icon
+                    color="black" size="1.3rem" name="svguse:icons.svg#left-circle"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ comment }}</q-item-label>
+              </q-item-section>
+              <q-separator spaced inset/>
+            </q-item>
+          </q-list>
         </div>
       </div>
 

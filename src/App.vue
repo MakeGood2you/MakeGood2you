@@ -4,8 +4,7 @@
         <Setting class="absolute-top-right"></Setting>
       </q-toolbar>
 
-      <img class="cursor-pointer" @click="goHome" id="image" alt="picPicLogo" src="../src/assets/logo2.png"
-           width="200">
+
     <q-page-container>
 
       <router-view></router-view>
@@ -55,7 +54,7 @@ body
   background-size: 100%
   /*background-image: url("https://static.toiimg.com/photo/64560386/mountain-peaks-unconquered.jpg?width=748&resize=4");*/
   /*backdrop-filter: blur(15px);*/
-  background-color: $secondary
+  //background-color: $input-bg
 
 
 

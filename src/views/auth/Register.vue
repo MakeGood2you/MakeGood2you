@@ -1,59 +1,58 @@
 <template>
-  <div class="body">
-    <div class="background">
-      <div class="ori" dir="rtl">
-        <form class="q-gutter-md">
-          <div id="image2"><img alt="user" src="../../assets/user.png" width="100"></div>
-          <h5 class="witchSign">התחברות</h5>
-          <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" style="margin-top: 60px"
-                   type="email"></q-input>
-          <q-input placeholder="סיסמא" ref="password" id="password" v-model="localUser.password"
-                   :type="isPwd ? 'password' : 'text'">
-            <template v-slot:append>
-              <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-          <br>
-
-          <div><br>
-            <p class="forget" @click="goToForgot">שכחתי סיסמא</p>
-
-            <terms-and-conditions/>
-
-
-          </div>
-          <br><br>
-          <button @click="getLogin('passAndEmail')" class="connectMe" style="margin: auto; display:grid;">
-            <span></span>
-            התחבר
-          </button>
-
-          <p style="text-align: center; margin-top: 20px; font-size: 17px">או באמצעות:</p>
-          <div>
-            <q-btn flat style="margin-left: 20px;" @click="getLogin('google')">
-              <img src="../../assets/google.png" height="50" width="50"/>
-            </q-btn>
-            <q-btn flat icon="facebook" size="xl" style="display: inline; color: #0028ad; margin-right: 20px; "
-                   @click="getLogin('facebook')"/>
-          </div>
-
-        </form>
-        <br>
-      </div>
-      <p style="text-align: center; font-size: 15px">עדיין לא נרשמת? <b class="reg" @click="registering">
-        לחץ כאן
-      </b></p>
+  <div dir="rtl" class="column items-center shadow-2 q-mx-auto q-mt-lg background">
+    <div class="circle-bottom q-mx-auto fixed-top "></div>
+    <div class="q-mt-xl column items-center container">
+      <Logo/>
+      <h5 class="">התחברות</h5>
     </div>
+
+    <q-form class="column">
+      <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" class="inputs"
+               type="email"></q-input>
+      <q-input placeholder="סיסמא" ref="password" class="inputs" v-model="localUser.password"
+               :type="isPwd ? 'password' : 'text'">
+        <template v-slot:append>
+          <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+      <br>
+
+      <p class="forget cursor-pointer"
+         @click="goToForgot">שכחתי סיסמא</p>
+
+      <terms-and-conditions/>
+
+
+      <q-btn color="primary" @click="getLogin('passAndEmail')" class="btn q-mt-md">
+        התחבר
+      </q-btn>
+
+      <div class="column items-center q-my-md">
+        <p>או באמצעות:</p>
+        <div>
+          <q-btn flat @click="getLogin('google')">
+            <img src="../../assets/google.png" height="50" width="50"/>
+          </q-btn>
+          <q-btn flat icon="facebook" size="xl" style="display: inline; color: #0028ad; margin-right: 20px; "
+                 @click="getLogin('facebook')"/>
+        </div>
+      </div>
+
+    </q-form>
+    <p class="q-pa-md">עדיין לא נרשמת? <b class="reg cursor-pointer" @click="registering">
+      לחץ כאן
+    </b></p>
   </div>
 </template>
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
 import {negative, positive} from "../../middleware/utils/notify";
 import TermsAndConditions from "../../components/app/TermsAndConditions";
+import Logo from "../../components/app/Logo";
 
 const window = {
   recaptchaVerifier: undefined
@@ -64,7 +63,7 @@ let signUp = [];
 export default {
 
   name: "Register",
-  components: {TermsAndConditions},
+  components: {Logo, TermsAndConditions},
   data() {
     return {
       localUser: {
@@ -141,68 +140,24 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "src/styles/quasar.variables";
 
-
-.forget {
-  margin-top: -40px;
-  margin-bottom: -20px;
-  display: flex;
+.container {
+  z-index: 10000;
 }
-
-.ori {
-  text-align: center;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.connectMe {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-bottom: 50px;
-  width: 90%;
-  height: 50px;
-  border: none;
-  font-size: 20px;
-  background-color: #000023;
-  color: antiquewhite;
-  border: none;
-}
-
-.connectMe:hover {
-  filter: opacity(55%);
-}
-
-.body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 
 .background {
-  width: 400px;
-  position: relative;
-  background-color: rgba(255, 255, 255, 0.62);
-  padding-bottom: 30px;
-  color: #000023;
-  border: none;
-}
-
-#image2 {
-  margin-top: -66px;
-  text-align: center;
-  align-items: center;
-
-}
-
-.registering {
-  margin-bottom: -20px;
+  height: 100vh;
+  max-width: $max-width;
+  background-color:$input-bg
 }
 
 .reg:hover {
+  filter: opacity(55%);
+}
+
+.connectMe:hover {
   filter: opacity(55%);
 }
 

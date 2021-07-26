@@ -8,6 +8,7 @@
 <script>
 import {mapActions, mapState} from "vuex";
 import TabsLeadList from "../components/leads/TabsLeadList";
+import {positive} from "../middleware/utils/notify";
 
 export default {
   name: "leads",
@@ -39,6 +40,10 @@ export default {
   },
   async created() {
     await this.getLeads()
+    if (!this.leads) {
+      this.$q.notify(positive('איו לידים להצגה כרגע'))
+      return this.$router.push('/home')
+    }
     console.log(this.leads)
     // console.log(this.leads)
 

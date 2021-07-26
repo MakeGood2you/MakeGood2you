@@ -1,10 +1,13 @@
 @import "src/styles/quasar.variables";
 
 .circle-bottom {
+  max-width: $max-width;
+
   width: 100vw;
-  height: 30vh;
-  background-color: $input-bg;
-  border-radius: 0px 0px 50% 50% / 0px 0px 20% 20%
+  height: 25vh;
+  z-index: 1;
+  background-color: $secondary;
+  border-radius: 20px 0px 50% 50% / 0px 0px 20% 20%
 }
 
 .triangle-bottom {

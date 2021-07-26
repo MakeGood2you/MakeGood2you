@@ -17,7 +17,7 @@
 
         <q-separator/>
 
-        <q-tab-panels class="container" v-model="tab" animated>
+        <q-tab-panels v-if="leads" class="container" v-model="tab" animated>
           <q-tab-panel name="newLeads" class="q-pa-none ">
 
            <leads-list :isNewLeads="true"/>
