@@ -1,22 +1,23 @@
 <template>
-  <div class="column">
-    <div class=" column items-center">
-      <h4> הגדרות כלליות </h4>
+  <div class="column ">
+    <div class=" column items-center" >
+      <h4 class="text-center q-my-md"> הגדרות כלליות </h4>
     </div>
-    <div dir="rtl" style="width: 80%">
       <Confirm/>
-      <div class="q-pa-md" style="width: 80%">
-        <q-list padding bordered class="rounded-borders ladder">
-          <q-expansion-item
-              dense
-              dense-toggle
-              expand-separator
-              icon="lock"
-              label="שינוי סיסמא"
-              header-class="primary"
+      <div dir="rtl" class="ladder" style="width: 35%">
+        <div class="q-pa-sm column items-center">
+          <q-list style="max-width: 800px; width: 100%" class="">
+            <q-expansion-item
+                group="somegroup"
 
-          >
-            <q-card>
+                class="q-pa-md text-h6"
+                dense-toggle
+                expand-separator
+                icon="lock"
+                label="שינוי סיסמא"
+                header-class="primary"
+            >
+              <q-card>
               <q-card-section>
                 <q-input placeholder="הזן ססמא חדשה" ref="password" id="password" v-model="password"
                          :type="isPwd ? 'password' : 'text'"
@@ -41,9 +42,11 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
+            <q-separator class="q-mx-lg"/>
 
           <q-expansion-item
-              dense
+              group="somegroup"
+              class="q-pa-md text-h6"
               dense-toggle
               expand-separator
               icon="gavel"
@@ -54,7 +57,7 @@
             <q-card>
               <q-card-section>
                 <div dir="rtl" style="text-align: center">תקנון ותנאי שימוש</div>
-                <q-card-section dir="rtl" style="max-height: 50vh" class="scroll">
+                <q-card-section dir="rtl" style="max-height: 50vh" class="scroll text-subtitle1">
                   <p>
                     1. מבוא
                     <br> ברוכים  הבאים לתוכנה האינטרנטית של חברת PicPic המתפרסמת באמצעות כתובות האינטרנט:<br>
@@ -252,9 +255,12 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
+            <q-separator class="q-mx-lg"/>
 
           <q-expansion-item
-              dense
+              class="q-pa-md text-h6"
+              group="somegroup"
+
               dense-toggle
               expand-separator
               icon="logout"
@@ -267,19 +273,21 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
-        </q-list>
-        <br>
-        <div class="text-center">
-          <q-btn
-              style="width: 80%"
-              color="dark"
-              @click="$router.push('/home')"
-          >חזור
-          </q-btn>
+            <q-separator class="q-mx-lg"/>
+
+          </q-list>
+          <br>
+          <div class="text-center">
+            <q-btn
+                class="full-width"
+                color="dark"
+                @click="$router.push('/home')"
+            >חזור
+            </q-btn>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

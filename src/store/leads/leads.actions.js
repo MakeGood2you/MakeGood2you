@@ -22,15 +22,24 @@ export default {
         commit('removeLead', params)
     },
     setComment: async ({state, commit}, options) => {
-        const entity = `${path(user.uid)}/${options.phoneNumber}/comments/${options.cid}`
-        await db.set(entity, options.comment)
-        debugger
-        commit('setComment', options)
+
+        const lead = {...options.lead}
+        if (!lead.comments) {
+            lead.comments = {}
+        }
+        const cid = new Date().getTime()
+        lead.comments[cid] = options.comment
+        commit('editLead', lead)
+        const entity = `${path(lead.uid)}/${lead.phoneNumber}/comments/`
+        await db.set(entity, lead.comments)
 
     },
-    moveToOldLeadsAction: async ({state, commit}, options) => {
-        const entity = `${path(user.uid)}/${options.phoneNumber}/isNewLead`
-        await db.set(entity, options.isNewLead)
+    moveToOldLeadsAction: async ({state, commit}, lead) => {
+        const newLead = {...lead}
+        newLead.isNewLead = !newLead.isNewLead
+        commit('editLead', newLead)
+        const entity = `${path(lead.uid)}/${lead.phoneNumber}/isNewLead`
+        await db.set(entity, newLead.isNewLead)
         debugger
         // commit('setIsNewLead', options.isNewLead)
 

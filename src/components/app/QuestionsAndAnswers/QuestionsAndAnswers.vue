@@ -1,37 +1,37 @@
 <template>
-  <div class="column items-center ">
-    <div class=" column items-center" style="margin-top: -45%">
+  <div class="column items-center">
+    <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
+    <div class=" column items-center">
       <h4> עזרה ותמיכה </h4>
     </div>
-    <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
-    <div dir="rtl" class="ladder" style="width: 35%" >
-      <div class="q-pa-sm column items-center">
-        <q-list style="max-width: 700px"  class="">
-         <div
-             v-for="(item, key) in questionsAndAnswers.data" :key="key"
-         >
+
+    <div style="width: 100%" dir="rtl" class="ladder">
+      <div  class="column items-center">
+        <q-list class="" >
+
           <q-expansion-item
+              v-for="(item, key) in questionsAndAnswers.data" :key="key"
+              group="questionsAndAnswers"
               class="q-pa-md text-h6"
-              group="somegroup"
               dense-toggle
+              expand-separator
               icon="help_outline"
               :label="item.question"
           >
-            <q-card>
+            <q-card style="max-width: 100%">
               <q-card-section
                   style="background-color: #D9D2CD"
                   class="text-subtitle2"
               >
                 {{ item.answer }}
               </q-card-section>
-<!--              <q-card-actions>-->
-<!--                <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>-->
-<!--              </q-card-actions>-->
+              <!--              <q-card-actions>-->
+              <!--                <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>-->
+              <!--              </q-card-actions>-->
             </q-card>
           </q-expansion-item>
-           <q-separator class="q-mx-lg"/>
+          <q-separator class="q-mx-lg"/>
 
-         </div>
           <br>
           <div class="text-center">
             <q-btn
@@ -44,10 +44,10 @@
         </q-list>
         <br>
       </div>
-<!--      <q-btn class="q-mr-lg self-start"-->
-<!--             @click="openDialog"-->
-<!--      >הוסף-->
-<!--      </q-btn>-->
+      <!--      <q-btn class="q-mr-lg self-start"-->
+      <!--             @click="openDialog"-->
+      <!--      >הוסף-->
+      <!--      </q-btn>-->
 
     </div>
   </div>

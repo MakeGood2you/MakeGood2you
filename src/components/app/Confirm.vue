@@ -1,14 +1,14 @@
 <template>
-  <q-dialog v-model="isOpen">
+  <q-dialog @escape-key="isOpenDialog" v-model="isOpen">
     <q-card>
       <q-toolbar>
         <q-avatar>
-          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+          <img src="../../assets/logo2.png">
         </q-avatar>
 
-        <q-toolbar-title><span class="text-weight-bold">PicPic</span> for fun</q-toolbar-title>
+        <q-toolbar-title><span class="text-weight-bold text-center">PicPic</span> </q-toolbar-title>
 
-        <q-btn flat round dense icon="close" v-close-popup/>
+        <q-btn flat round dense icon="close" @click="isOpenDialog"/>
       </q-toolbar>
 
       <q-card-section>
@@ -16,7 +16,7 @@
       </q-card-section>
       <q-card-actions class="row justify-around">
         <q-btn @click="chekResult(true)" label="כן לצערי"></q-btn>
-        <q-btn @click="chekResult(false)" label="לא התחרטתי"></q-btn>
+        <q-btn @click="isOpenDialog" label="לא התחרטתי"></q-btn>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -41,6 +41,7 @@ export default {
       console.log('costumer as deleted')
       this.isOpenDialog()
     }
+
   }
 }
 </script>

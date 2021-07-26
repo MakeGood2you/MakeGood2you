@@ -1,18 +1,18 @@
 <template>
-  <q-card flat bordered class="my-card bg-grey-1">
+  <q-card  flat bordered class="my-card bg-secondary ">
     <q-dialog v-model="isComment">
       <CommentInput @onSubmit="onSubmit"/>
     </q-dialog>
-    <div class="row no-wrap q-py-lg">
-      <span class="q-px-md"> נוצר :  {{ new Date(lead.createdTime).toISOString().substring(0, 10) }} </span>
-      <span> בשעה :  {{ new Date(lead.createdTime).toISOString().substring(11, 19) }} </span>
+    <div class="row no-wrap q-py-xs">
+      <span class="q-px-md"> נוצר :  {{ new Date(lead.createdTime).toLocaleString().substring(0, 10) }} </span>
+      <span> בשעה :  {{ new Date().toLocaleString(lead.createdTime).substring(12,20) }} </span>
     </div>
     <q-card-section>
       <div class="row items-center content-between">
         <div class="col">
-          <div class="text-h6">סוג האירוע : {{ lead.eventStyle }}</div>
-          <div class="text-h6">מקום האירוע :{{ lead.eventPlace }}</div>
-          <div class="text-h6"> בתאריך : {{ lead.eventDate }}</div>
+          <div class="text-subtitle1"><span class="text-bold"> סוג האירוע : </span>{{ lead.eventStyle }}</div>
+          <div class="text-subtitle1"><span class="text-bold"> מקום האירוע : </span>{{ lead.eventPlace }}</div>
+          <div class="text-subtitle1"><span class="text-bold"> בתאריך : : </span>{{ lead.eventDate }}</div>
         </div>
 
         <div class="col-auto">
@@ -36,13 +36,13 @@
       </div>
       <q-card-actions class="column items-start">
         <div class="row no-wrap">
-          <div class="bg-secondary q-px-md row items-center">
-            <q-chip v-if="lead.firstName" class="bg-accent text-white q-pa-md q-mr-md"> {{ lead.firstName }}</q-chip>
+          <div class="q-px-md row items-center">
+            <q-chip v-if="lead.firstName" class="bg-primary text-bold text-white q-pa-md q-mr-md"> {{ lead.firstName }} :</q-chip>
 
             {{ lead.phoneNumber }}
           </div>
           <q-btn class="text-white cursor-pointer" @click="copy()"
-                 v-clipboard:copy="lead.phoneNumber" color="accent">העתק
+                 v-clipboard:copy="lead.phoneNumber" color="primary">העתק
           </q-btn>
         </div>
 
@@ -77,16 +77,12 @@ export default {
       this.deleteLeadFromDB(this.lead.phoneNumber)
     },
     onSubmit(comment) {
-      const options = {comment, uid: this.lead.uid, phoneNumber: this.lead.phoneNumber, cid: new Date().getTime()}
-      this.setComment(options)
+      this.setComment({lead: this.lead, comment})
       console.log(this.text)
       this.isComment = false
     },
     async moveToOldLeads() {
-      let isNewLead = !this.lead.isNewLead
-      const options = {isNewLead, uid: this.lead.uid, phoneNumber: this.lead.phoneNumber, cid: new Date().getTime()}
-
-      await this.moveToOldLeadsAction(options)
+      await this.moveToOldLeadsAction(this.lead)
     }
   }
 }

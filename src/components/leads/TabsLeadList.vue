@@ -20,14 +20,11 @@
         <q-tab-panels class="container" v-model="tab" animated>
           <q-tab-panel name="newLeads" class="q-pa-none ">
 
-            <h4 class="text-center text-bold">לידים חדשים</h4>
-
-           <leads-list :isOldLeads="false"/>
+           <leads-list :isNewLeads="true"/>
           </q-tab-panel>
 
           <q-tab-panel name="oldLeads">
-            <div class="text-h6">לידים ישנים</div>
-            <leads-list :isOldLeads="true"/>
+            <leads-list :isNewLeads="false"/>
           </q-tab-panel>
 
         </q-tab-panels>
@@ -48,10 +45,18 @@ export default {
     innerTab: 'lastWeek',
     splitterModel: 10
   }),
-  computed:mapState('leads',['leads']),
-created() {
-  console.log(this.leads)
-}
+  computed: {
+    ...mapState('leads', ['leads']),
+    newLeads() {
+      return this.leads.filter(lead => lead.isNewLead)
+    },
+    oldLeads() {
+      return this.leads.filter(lead => !lead.isNewLead)
+    }
+  },
+  created() {
+    console.log(this.leads)
+  }
 }
 </script>
 

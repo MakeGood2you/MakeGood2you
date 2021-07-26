@@ -1,6 +1,6 @@
 <template>
-  <div class="column items-center full-height">
-    <QuestionsAndAnswers class="absolute-bottom q-mb-lg"/>
+  <div class="relative-position main column items-center">
+    <QuestionsAndAnswers class=""/>
   </div>
 </template>
 
@@ -17,5 +17,12 @@ export default {
 </script>
 
 <style scoped>
+.main{
+margin: auto;
+  max-width: 53%;
+}
+.relative-position {
+  bottom: 9.5rem;
+}
 
 </style>

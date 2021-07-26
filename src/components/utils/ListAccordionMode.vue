@@ -6,15 +6,18 @@
         :label="label"
         header-class="text-primary"
     >
-      <component :is="child_component"> Something else</component>
-
+      <component v-bind:is="currentCardComponent"></component>
     </q-expansion-item>
   </q-list>
 </template>
 
 <script>
 export default {
-  name: "ListAccordionMode"
+  name: "ListAccordionMode",
+  props:['currentCardComponent'],
+  data: () =>({
+
+  })
 }
 </script>
 

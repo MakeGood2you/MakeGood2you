@@ -3,9 +3,9 @@
     <q-list bordered>
       <q-expansion-item
 
-          v-for="lead of localLeads"
-          v-if="!isOldLeads && lead.isNewLead"
-          group="somegroup"
+          v-for="lead of leads"
+          class="full-width"
+          group="newLeads"
           icon="person"
           :label="lead.firstName"
           header-class="text-primary"
@@ -14,37 +14,29 @@
 
       </q-expansion-item>
     </q-list>
-        <q-list bordered>
 
-        <q-expansion-item
-
-            v-for="lead of localLeads"
-            v-if="isOldLeads && !lead.isNewLead"
-            group="isOldLeads"
-            icon="person"
-            :label="lead.firstName"
-            header-class="text-primary"
-        >
-          <lead-card :lead="lead"/>
-        </q-expansion-item>
-    </q-list>
   </div>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import LeadCard from "./leadCard";
 
 export default {
-  props: ['isOldLeads'],
+  props: ['isNewLeads'],
   name: "leadsList",
   components: {LeadCard},
   data: () => ({
-    localLeads: []
   }),
-  computed: mapState('leads', ['leads']),
+  computed: {
+    ...mapState('leads', ['leads']),
+    ...mapGetters('leads', ['getFilterLeads']),
+    leads() {
+      return this.getFilterLeads(this.isNewLeads)
+    },
+  },
   created() {
-    this.localLeads = [...this.leads]
+
   },
   watch: {
     leads() {
