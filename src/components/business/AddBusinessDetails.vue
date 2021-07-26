@@ -80,6 +80,26 @@
           </template>
         </q-input>
 
+        <q-input
+            v-model="localInfoDetails.address" placeholder="כתובת העסק"  filled
+            type="address"
+        >
+          <template v-slot:append>
+            <q-icon
+                v-if="!localInfoDetails.address"
+                class="cursor-pointer"
+                name="clear"
+                @click.stop="localInfoDetails.address = ''"
+            />
+          </template>
+
+          <template v-slot:prepend>
+            <q-icon
+                color="black" size="1.3rem" name="svguse:icons.svg#address"
+            />
+          </template>
+        </q-input>
+
         <div class="row justify-around">
           <q-btn
               class="width-50 -align-center btn1"
@@ -113,6 +133,7 @@ export default {
       BName: '',
       BEmail: '',
       BPhone: '',
+      address: '',
     },
     tempLogo: null,
     isFileChange: false

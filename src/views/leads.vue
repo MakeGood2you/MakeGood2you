@@ -1,8 +1,7 @@
 <template>
-  <div>
-
-    <TabsLeadList />
-
+  <div class="column items-center">
+    <h4 class="text-bold q-mb-lg">לידים</h4>
+    <TabsLeadList/>
   </div>
 </template>
 
