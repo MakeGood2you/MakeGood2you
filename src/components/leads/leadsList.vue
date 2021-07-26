@@ -7,7 +7,7 @@
           v-if="!isOldLeads && lead.isNewLead"
           group="somegroup"
           icon="person"
-          :label="lead.firstName "
+          :label="lead.firstName"
           header-class="text-primary"
       >
         <lead-card :lead="lead"/>
@@ -22,7 +22,7 @@
             v-if="isOldLeads && !lead.isNewLead"
             group="isOldLeads"
             icon="person"
-            :label="lead.firstName "
+            :label="lead.firstName"
             header-class="text-primary"
         >
           <lead-card :lead="lead"/>

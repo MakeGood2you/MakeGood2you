@@ -29,16 +29,19 @@ router.beforeEach(async (to, from, next) => {
     const registerRoutes = ['Login', 'Registration', 'Forgot' ]
     const isAuthenticated = getUserFromLocalStorage()
     let isPayState = businesses.state.isPay
-
-    if (isAuthenticated && registerRoutes.includes(to.name)) {
+    if (isAuthenticated && !to.meta.authUserIsPayment && registerRoutes.includes(to.name)) {
         debugger
         if (!isPayState) {
             const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
             console.info('is user pay ?', isUserPay)
-            return isUserPay ? next({name: 'Home'}) : next({name: 'Payment'})
+            return isUserPay ? next() : next({name: 'Payment'})
         }
+    }
+    if (isAuthenticated && !to.meta.authUserIsPayment) {
+        debugger
+        return next()
     } else {
-debugger
+
         if (['Login', 'Registration', 'Forgot'].includes(to.name) && !isAuthenticated) {
             return next()
         }
