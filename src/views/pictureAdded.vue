@@ -6,15 +6,15 @@
 
     <div class="row no-wrap absolute-top-right q-mr-xxl ">
       <p class="countPhoto self-center">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
-      <q-btn
-          class="q-pa-sm self-center"
-          @click="goHome"
-          icon="home"
-          color="black"
-          flat
-          dense
-          label="דף הבית"
-      />
+<!--      <q-btn-->
+<!--          class="q-pa-sm self-center"-->
+<!--          @click="goHome"-->
+<!--          icon="home"-->
+<!--          color="black"-->
+<!--          flat-->
+<!--          dense-->
+<!--          label="דף הבית"-->
+<!--      />-->
 
       <q-btn
           class=" q-pa-sm q-mr-lg self-center"

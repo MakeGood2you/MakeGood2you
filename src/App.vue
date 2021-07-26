@@ -4,8 +4,8 @@
         <Setting class="absolute-top-right"></Setting>
       </q-toolbar>
 
-      <img class="cursor-pointer " @click="goHome" id="image" alt="picPicLogo" src="../src/assets/osher.png"
-           width="100">
+      <img class="cursor-pointer" @click="goHome" id="image" alt="picPicLogo" src="../src/assets/logo2.png"
+           width="200">
     <q-page-container>
 
       <router-view></router-view>
@@ -49,7 +49,8 @@ export default {
   margin-left: 40px;
   margin-top: -30px;
 
-
+#image:hover
+  filter: opacity(80%)
 body
   background-size: 100%
   /*background-image: url("https://static.toiimg.com/photo/64560386/mountain-peaks-unconquered.jpg?width=748&resize=4");*/
