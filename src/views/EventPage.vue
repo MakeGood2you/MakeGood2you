@@ -11,8 +11,8 @@
     <h5>    <strong>דף אירוע </strong></h5>
   </div>
     <div class="column items-center q-gutter-y-md" dir="rtl">
-      <q-btn class="me"   color="primary"label="תמונות מוזמנים" @click="picAdd"/><br>
-      <q-btn class="me"  color="primary" label="ערוך אירוע" @click="updateFromEvent"/><br>
+      <q-btn class="me" color="primary"label="תמונות מוזמנים" @click="picAdd"/>
+      <q-btn class="me" color="primary" label="ערוך אירוע" @click="updateFromEvent"/>
       <q-btn class="me" color="dark"  label="חזור" @click="goBack"/>
       <br>
     </div>

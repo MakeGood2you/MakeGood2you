@@ -99,12 +99,12 @@ export default {
     halfYear() {
       let paymentMethod = 'halfYear'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5jj/1le5jq/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5jj/1lfcy0/payment/';
     },
     year() {
       let paymentMethod = 'year'
       this.setPackagePayment(paymentMethod)
-      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5ju/1le617/payment/';
+      window.location.href = 'https://www.myofficeguy.com/p/1ionde/1le5ju/1lfdkf/payment/';
     },
     day(){
       let paymentMethod = 'day'

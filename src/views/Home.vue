@@ -6,9 +6,11 @@
         <q-icon
             @click="isShowDialog = true"
             :class="`${!events ?'absolute-center' :'fixed-bottom-right'} mouse-over q-mb-lg q-pa-lg` "
-            :size="!events ?'8rem': '9rem'" color="accent"
-            name="add_circle_outline">        <div class="text-h5">הוסף אירוע</div>
+            :size="!events ?'8rem': '9rem'" color="primary"
+            name="add_circle_outline" >
+          <div class="text-h5" ><p>צור אירוע חדש</p></div>
         </q-icon>
+
         <TableViewer />
 
       </q-page-container>

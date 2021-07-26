@@ -26,7 +26,7 @@ const router = new VueRouter({
 })
 // to.name === 'Login' || to.name === 'Registration' || to.name === 'Forgot'
 router.beforeEach(async (to, from, next) => {
-    const registerRoutes = ['Login', 'Registration', 'Forgot']
+    const registerRoutes = ['Login', 'Registration', 'Forgot' ]
     const isAuthenticated = getUserFromLocalStorage()
     let isPayState = businesses.state.isPay
 
