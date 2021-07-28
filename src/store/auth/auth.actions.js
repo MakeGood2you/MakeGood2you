@@ -14,7 +14,6 @@ export default {
             console.error('there is not chosen provider')
             return firebaseAuthUser
         }
-        debugger
         if (typeof firebaseAuthUser !== 'object') return firebaseAuthUser
         // set the user in s`tate and localstorage
         commit('setUser', firebaseAuthUser)
@@ -30,6 +29,7 @@ export default {
             commit('setIsAcceptTerms', isAcceptTerms)
             localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
         } else {
+            debugger
             commit('setPropertyTrueOrFalse', 'isFixed')
             // open pop up to confirm the terms
             // TODO : CHNACH THE VARIBLE IN COMPONNENT TO POINTER TO STATE
@@ -39,7 +39,6 @@ export default {
     register: async ({commit, state, dispatch}, options) => {
         if (!options.isAcceptTerms) return console.error('not accepted terms')
         const firebaseAuthUser = await authApi.registerWithPassAndEmail(options.user)
-        debugger
         if (typeof firebaseAuthUser === "string")  return firebaseAuthUser
         if (!firebaseAuthUser) console.error('not user')
         commit('setUser', firebaseAuthUser)
@@ -76,6 +75,7 @@ export default {
     checkTerm: async ({commit}, uid) => {
         const entity = `${path(uid)}/terms/confirmed`
         const term = await db.get(entity)
+        debugger
         return term
     },
 
@@ -85,8 +85,8 @@ export default {
        // const  await db.get(entity, true)
 
         // commit('setPropertyTrueOrFalse', 'isFixed')
-        console.log(entity)
         await db.set(entity, true)
+        commit('setIsAcceptTerms',true)
     },
     updatePassword: async ({state, commit}, newPassword) => {
         const result = await authApi.updatePassword(newPassword)

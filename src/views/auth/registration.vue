@@ -63,24 +63,23 @@ export default {
   computed: mapState('auth', ['isFixed', 'user']),
   methods: {
     ...mapActions('auth', ['register', 'checkTerm']),
-    ...mapMutations('auth', ['setPropertyTrueOrFalse']),
+    ...mapMutations('auth', ['setPropertyTrueOrFalse','setIsUserExist']),
     goBack() {
       this.$router.push(`/`)
     },
 
     async registerWithMailAndPass() {
-      console.log(this.isAcceptTerms)
-      debugger
       if (this.isAcceptTerms === false) {
         return this.$q.notify(isNotAcceptTerms)
         return console.error('יש לאשר את תנאי השימוש')
       }
       if (this.localUser.email && this.localUser.password) {
        const result = await this.register({user:this.localUser, isAcceptTerms:this.isAcceptTerms})
-        console.log(result)
+        console.log(result, 'result registerWithMailAndPass')
         if (typeof result === "string") return this.$q.notify(result)
         if (this.user) {
           await this.$router.push('/payment');
+          this.setIsUserExist(true)
         }
       } else {
         alert('אחד מהפרטים לא הוזנו')

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div @click="goHome" class="">
   <img class="logo" alt="picPicLogo" src="../../../assets/logo2.png"
        width="200">
   </div>
@@ -7,7 +7,12 @@
 
 <script>
 export default {
-  name: "simple"
+  name: "simple",
+  methods:{
+    goHome() {
+      this.$router.push('/home')
+    }
+  }
 }
 </script>
 

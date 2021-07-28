@@ -29,43 +29,46 @@ router.beforeEach(async (to, from, next) => {
     const registerRoutes = ['Login', 'Registration', 'Forgot']
     const isAuthenticated = getUserFromLocalStorage()
     let isPayState = businesses.state.isPay
-    console.log('is user pay ?', isPayState)
+    console.log('is user pay router Guard?', isPayState)
     if (to.meta.authUserIsPayment && isAuthenticated && !registerRoutes.includes(to.name) && isPayState) {
         return next()
+    }
+    if (!to.meta.authUserIsPayment && !isAuthenticated && registerRoutes.includes(to.name) ) {
+        return next()
+    }
+
+    if (isAuthenticated && !to.meta.authUserIsPayment && !registerRoutes.includes(to.name)) {
+        return next()
     } else {
-        if (isAuthenticated && to.name === 'Payment') {
+        if (registerRoutes.includes(to.name) && isAuthenticated && isPayState) {
+            debugger
+            return next({name: 'Home'})
+        }
+        if (to.meta.authUserIsPayment && isAuthenticated) {
+        debugger
+            if (!isPayState) {
+                const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
+                console.info('is user pay ?', isUserPay)
+                return isUserPay ? next() : next({name: 'Payment'})
+            }
             debugger
             return next()
         }
-        debugger
-        return next({name: 'Home'})
-
+        // if (!isAuthenticated)
+        return  next({name: 'Login'})
     }
 })
 export default router
-// if (isAuthenticated && !to.meta.authUserIsPayment && registerRoutes.includes(to.name)) {
-//     if (!isPayState) {
+// else {
+//     if (isAuthenticated) {
 //         debugger
-//         const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-//         console.info('is user pay ?', isUserPay)
-//         return isUserPay ? next() : next({name: 'Payment'})
+//         if (to.name === 'Payment' || to.name === 'Welcome') {
+//             debugger
+//
+//             return next()
+//         }
+//         return next({name: 'Home'})
+//     } else {
+//         if (registerRoutes.includes(to.name)) return next()
 //     }
 // }
-// if (isAuthenticated && to.name === 'Payment') {
-//     debugger
-//     return next()
-// } else {
-//
-//     if (['Login', 'Registration', 'Forgot'].includes(to.name) && !isAuthenticated) {
-//         return next()
-//     }
-//     if (to.meta.authUserIsPayment && isAuthenticated) {
-//         if (!isPayState) {
-//             debugger
-//             const isUserPay = await functions.callableFunction({}, 'payment-validatePayment')
-//             console.info('is user pay ?', isUserPay)
-//             return isUserPay ? next() : next({name: 'Payment'})
-//         }
-//         return next()
-//     }
-//     next({name: 'Login'})

@@ -25,14 +25,13 @@ p {
 a {
   text-decoration: none; /* no underline */
 }
-
 .position{
   position: relative;
-  top: 8em;
+  bottom: 14em;
 }
 .position-settings{
   position: relative;
-  bottom: 9.5em;
+  bottom: 11em;
 }
 .logo {
   z-index: 1;
@@ -40,7 +39,7 @@ a {
 }
 
 .container {
-  z-index: 10000;
+  z-index: 50;
 }
 
 
@@ -52,10 +51,12 @@ a {
 
 .hover {
  opacity: 0.5;
-
 }
 .z-in{
   z-index:1000;
+}
+.z-in-min{
+  z-index: -1111;
 }
 //
 //.container {
@@ -77,7 +78,7 @@ a {
 }
 
 .q-mr-xxl {
-  margin-right: 5rem;
+  margin-right: 7rem;
 }
 
 .text-opacity {

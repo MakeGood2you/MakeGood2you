@@ -20,7 +20,6 @@ const authentication = () => {
 authentication().onAuthStateChanged(async function (user) {
     if (user) {
         window.user = user;
-        console.log(window.user.uid)
         console.log(user)
     } else {
         // No user is signed in.

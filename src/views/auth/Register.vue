@@ -1,9 +1,11 @@
 <template>
-  <div class="bg-white full-height-vh column justify-center">
+  <div class="bg-white full-height-vh column justify-center"
+  v-if="!isUserExist"
+  >
     <div dir="rtl" class="column items-center shadow-2 q-mx-auto  background">
       <Logo class=""/>
       <div class="q-mt-xl column items-center container">
-        <h5 class="q-mt-lg">התחברות</h5>
+        <h5  class="z-in-min q-mt-lg">התחברות</h5>
       </div>
 
       <q-form class="column">
@@ -104,7 +106,9 @@ export default {
       }
       console.log(this.isAcceptTerms, 'this.isAcceptTerms')
       if (!this.isAcceptTerms) {
-        return this.$q.notify(negative('יש לאשר תנאי שימוש'))
+         this.$q.notify(negative('יש לאשר תנאי שימוש'))
+        console.log(this.isUserExist)
+        return
       }
       this.$q.notify(positive('התחברת בהצלחה :)'))
       this.choseRouter()

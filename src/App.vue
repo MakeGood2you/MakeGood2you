@@ -1,8 +1,8 @@
 <template>
   <q-layout>
     <div v-if="isUserExist" dir="rtl" class="row justify-between">
-      <Setting class="self-start"></Setting>
-      <SimpleLogo class="mouse-over" @click="goHome()"/>
+      <Setting  class="self-start"></Setting>
+      <SimpleLogo :class="`${isPay ? '' : ''} mouse-over`" @click="goHome()"/>
 
     </div>
     <q-page-container class="full-width full-height">
@@ -24,20 +24,20 @@ export default {
     isUserExist() {
       return JSON.parse(localStorage.getItem('user'))
     },
-    ...mapState('auth', ['user', 'isUserExist']),
+    ...mapState('auth', ['user', 'isUserExist', 'isAcceptTerms']),
     ...mapState('businesses', ['isPay']),
   },
   methods: {
     ...mapActions('businesses', ['isUserPayValidate']),
+    ...mapActions('auth', ['checkTerm']),
     ...mapMutations('auth', ['setUser', 'setIsUserExist']),
-    goHome() {
-      this.$router.push('/home')
-    }
+
   },
   created() {
     const user = JSON.parse(localStorage.getItem('user'))
     user && this.setUser(user)
     if (!this.isUserExist) {
+      // const isAcceptTerm = this.checkTerm(window.user.uid)
       if (user) {
         this.setIsUserExist(true)
       }

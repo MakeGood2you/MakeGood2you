@@ -24,7 +24,6 @@ export default {
       await this.$router.push('/add-business-details')
     }
   }, created() {
-
     this.setAndPush()
   }
 }

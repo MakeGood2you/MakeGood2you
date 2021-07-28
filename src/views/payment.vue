@@ -104,7 +104,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(https://dl.dropboxusercontent.com/u/15746367/fonts/carmela/style.css);
 @import url(https://fonts.googleapis.com/earlyaccess/alefhebrew.css);
 @import url(https://fonts.googleapis.com/earlyaccess/opensanshebrewcondensed.css);
 @import "./src/styles/media";

@@ -8,7 +8,8 @@
             :class="`${!events ?'absolute-center' :'fixed-bottom-right'} z-in mouse-over q-mb-lg q-pa-lg` "
             :size="!events ?'8rem': '9rem'" color="primary"
             name="add_circle_outline" >
-          <div class="text-h5" ><p>צור אירוע חדש</p></div>
+          <br>
+          <h5  ><p>צור אירוע חדש</p></h5>
         </q-icon>
 
         <TableViewer />
@@ -46,7 +47,6 @@ export default {
   },
   created() {
     const user = JSON.parse(localStorage.getItem('user'))
-    console.log('user && this.setIsUserExist(true)', user && true)
     // user && this.setIsUserExist(true)
 
     // user ? this.setUser(user) : this.$router.push('/')

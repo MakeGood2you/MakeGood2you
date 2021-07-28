@@ -1,5 +1,5 @@
 <template>
-  <div class="relative-position main column items-center">
+  <div class="position-settings main column items-center">
     <QuestionsAndAnswers class=""/>
   </div>
 </template>

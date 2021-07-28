@@ -1,8 +1,8 @@
 <template>
-  <div class="column ">
-    <div  class="position-settings  ">
+  <div class="max-width-1 position h-center  column items-center">
+    <div  class=" ">
 
-      <div class=" column items-center">
+      <div class="max-width-1 column items-center">
         <h4 class="text-center q-mb-xl q-mt-xl"> הגדרות כלליות </h4>
       </div>
       <Confirm/>
@@ -20,8 +20,10 @@
                 header-class="primary"
             >
               <q-card>
-              <q-card-section>
-                <q-input placeholder="הזן ססמא חדשה" ref="password" id="password" v-model="password"
+              <q-card-section
+              class="bg-secondary"
+              >
+                <q-input  placeholder="הזן ססמא חדשה" ref="password" id="password" v-model="password"
                          :type="isPwd ? 'password' : 'text'"
                 >
                   <template v-slot:append>
@@ -30,7 +32,6 @@
                         class="cursor-pointer"
                         @click="isPwd = !isPwd"
                         :rules="[ val => val  && val.length > 0 || 'נו מה יהיה?']"
-
                     />
                   </template>
                 </q-input>
@@ -56,7 +57,10 @@
               header-class="primary"
 
           >
-            <q-card>
+            <q-card
+                class="bg-secondary"
+
+            >
               <q-card-section>
                 <div dir="rtl" style="text-align: center">תקנון ותנאי שימוש</div>
                 <q-card-section dir="rtl" style="max-height: 50vh" class="scroll text-subtitle1">
@@ -269,7 +273,10 @@
               label="התנתקות"
               header-class="primary"
           >
-            <q-card dir="rtl">
+            <q-card dir="rtl"
+                    class="bg-secondary"
+
+            >
               <q-card-section>
                 <Disengagement/>
               </q-card-section>
@@ -296,7 +303,7 @@
 <script>
 import Disengagement from "../../components/app/userSettings/Disengagement";
 import {mapActions} from "vuex";
-import {positive} from "../../middleware/utils/notify";
+import {negative, positive} from "../../middleware/utils/notify";
 import Confirm from "../../components/app/Confirm";
 import SimpleLogo from "../../components/app/Logos/SimpleLogo";
 import Settings from "../../components/app/Settings";
@@ -316,7 +323,8 @@ export default {
         this.$q.notify(positive(('הססמא שונתה בהצלחה')))
         this.password = ''
       }else {
-        console.log(this.password.length)
+        this.$q.notify(negative(('יש להזין ססמא')))
+
       }
     }
   }

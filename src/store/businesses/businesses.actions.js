@@ -26,7 +26,6 @@ export default {
         if (!window.user) return
         const entity = businessesPath(window.user.uid)
         const businessDetails = await db.get(entity)
-        console.log('businessDetails ', businessDetails)
         if (!businessDetails) return
         commit('addDetails', businessDetails)
     },

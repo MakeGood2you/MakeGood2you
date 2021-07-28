@@ -56,20 +56,17 @@ export default {
         if (!window.user) return
         const entity = path(window.user.uid)
         const events = await db.getList(entity);
-        console.log(events)
         commit('setEvents', events)
     },
 
     getEventById: async ({state, commit}, eid) => {
         const entity = `${path(window.user.uid)}/${eid}`
         const event = await db.get(entity);
-        console.log(event)
         commit('setEvent', event)
     },
  getPhotos: async ({state, commit}, eid) => {
      const entity = `${path(window.user.uid)}/${eid}/photos`
      const photos = await db.getList(entity);
-        console.log(photos)
         commit('setPhotos', photos)
     },
 
@@ -84,7 +81,6 @@ export default {
         const entity = `${path(window.user.uid)}/${event.id}`
         //save in database
         const res = await db.update(entity, event)
-        console.log(res)
         //save in store
         commit('editEvent', event)
 
@@ -99,7 +95,6 @@ export default {
 
         const entity = `${path(window.user.uid)}/${event.id}`
         await db.set(entity, event)
-        console.log(event)
         commit('resetEditedEvent')
         commit('insertEvent', event)
         return event.id

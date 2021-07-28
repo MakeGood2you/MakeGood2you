@@ -27,10 +27,8 @@ Vue.use(
     })
 Vue.config.productionTip = false
 firebaseInstance.firebase.auth().onAuthStateChanged(async (user) => {
-    console.log()
     if (user) {
         const isUserPay = await store.dispatch('businesses/isUserPayValidate')
-        debugger
         window.user = user;
         console.log(isUserPay, ' main js is uuser pay ? ')
     }

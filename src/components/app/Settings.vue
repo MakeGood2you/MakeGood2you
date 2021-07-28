@@ -1,13 +1,22 @@
 <template>
   <q-btn
-      v-if=""
-         class="q-mr-md q-pa-sm q-pr-md"
-         icon="account_circle"
-         no-caps
-         color="black"
-         flat
-         dense
-         label="חשבון">
+      v-if="!isPay"
+      class="q-mr-sm q-pa-sm q-pr-md"
+      :icon=" 'logout'"
+      color="black"
+      flat
+      dense
+      @click="signOut"
+      :label="'התנתק'"/>
+  <q-btn
+      v-else
+      class="q-mr-sm q-pa-sm q-pr-md"
+      :icon="isPay ?'account_circle' : 'logout'"
+      no-caps
+      color="black"
+      flat
+      dense
+      :label="'חשבון'">
 
     <q-menu>
       <div class="row no-wrap items-center q-pa-lg setting-container">

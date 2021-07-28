@@ -7,7 +7,7 @@
     <div
         v-for="(pic, key) in localEvent.photos"
         :key="key"
-        v-if="isDownload(pic)"
+        v-if="isDownload(pic, isShowDownload)"
         class="crop"
     >
       <q-card
@@ -34,7 +34,7 @@ import FsLightbox from "fslightbox-vue";
 import {mapMutations} from 'vuex'
 
 export default {
-  props: ['localEvent'],
+  props: ['localEvent','isShowDownload'],
   name: "PhotoList",
   components: {FsLightbox},
 
@@ -45,21 +45,33 @@ export default {
   }),
   methods: {
     ...mapMutations('events', ['setCountPhoto']),
-    isDownload(pic) {
+    isDownload(pic, download) {
       //chek how many photos has downloads
-      if (pic.isDownload && !this.isCheckDownload[pic.uploadTime]) {
-        this.isCheckDownload[pic.uploadTime] = true
-        this.countPhoto++
-        this.setCountPhoto(this.countPhoto)// set the counter of download photos
-        console.log(this.isCheckDownload)
-        return false
-      } else {
-        if (this.isCheckDownload[pic.uploadTime]) {
+      if (download){
+        if (pic.isDownload && !this.isCheckDownload[pic.uploadTime]) {
+          this.isCheckDownload[pic.uploadTime] = true
+          this.countPhoto++
+          this.setCountPhoto(this.countPhoto)// set the counter of download photos
           return false
+        } else {
+          if (this.isCheckDownload[pic.uploadTime]) {
+            return false
+          }
         }
       }
+      // if (pic.isDownload && !this.isCheckDownload[pic.uploadTime]) {
+      //   this.isCheckDownload[pic.uploadTime] = true
+      //   this.countPhoto++
+      //   this.setCountPhoto(this.countPhoto)// set the counter of download photos
+      //   return false
+      // } else {
+      //   if (this.isCheckDownload[pic.uploadTime]) {
+      //     return false
+      //   }
+      // }
       return true
     },
+
     showFullPic(pic) {
       this.isFullScreen.chosenPic = pic.photoURL
       this.isFullScreen.value = !this.isFullScreen.value

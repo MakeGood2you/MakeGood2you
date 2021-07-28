@@ -29,7 +29,6 @@ export default {
 async created() {
    if (this.eid){
      await this.setEditEventById(this.eid)
-     console.log(this.editedEvent)
    }
 }
 }

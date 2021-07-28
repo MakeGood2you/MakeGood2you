@@ -112,7 +112,6 @@ export default {
     },
     onSubmit(comment) {
       this.setComment({lead: this.lead, comment})
-      console.log(this.text)
       this.isComment = false
     },
     async moveToOldLeads() {

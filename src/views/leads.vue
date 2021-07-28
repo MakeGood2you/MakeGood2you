@@ -44,8 +44,6 @@ export default {
       this.$q.notify(positive('איו לידים להצגה כרגע'))
       return this.$router.push('/home')
     }
-    console.log(this.leads)
-    // console.log(this.leads)
 
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="column items-center">
+  <div class="background2 column items-center">
   <div class="background2 ">
     <div class=" q-px-xl q-py-md  q-mt-sm q-pb-sm ">
 

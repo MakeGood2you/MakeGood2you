@@ -1,5 +1,5 @@
 <template>
-  <div class="column items-center">
+  <div class="max-width-1 h-center column items-center">
     <AddQuestionsAndAnswers></AddQuestionsAndAnswers>
     <div class=" column items-center">
       <h4> עזרה ותמיכה </h4>
@@ -66,7 +66,6 @@ export default {
       this.isOpenDialog()
     },
     removeQuestionAndAnswer(key) {
-      console.log(key)
       this.removeQuestionAndAnswerAction(key)
     }
   },

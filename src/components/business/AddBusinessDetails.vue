@@ -1,7 +1,7 @@
 <template>
-  <div class="row no-wrap justify-center">
+  <div class="max-width-2 h-center row no-wrap justify-center">
 
-    <div style="width: 60vh" class="position-settings column items-center q-mb-xl">
+    <div style="width: 60vh" class=" position-settings column items-center q-mb-xl">
 
       <div class=" column items-center q-mb-lg">
         <h4 class=""> פרטי העסק </h4>
@@ -24,14 +24,13 @@
 
             <template v-slot:prepend>
             <q-icon
-                class="cursor-pointer"
                 name="storefront"
             />
           </template>
 
           <template v-slot:append>
             <q-icon
-                v-if="localInfoDetails.BName !== ''"
+                v-if="localInfoDetails.BName "
                 class="cursor-pointer"
                 name="clear"
                 @click.stop="localInfoDetails.BName = ''"
@@ -46,7 +45,7 @@
 
           <template v-slot:append>
             <q-icon
-                v-if="localInfoDetails.BEmail !== ''"
+                v-if="localInfoDetails.BEmail"
                 class="cursor-pointer"
                 name="clear"
                 @click.stop="localInfoDetails.BEmail = ''"
@@ -55,7 +54,6 @@
 
           <template v-slot:prepend>
             <q-icon
-                class="cursor-pointer"
                 name="email"
             />
           </template>
@@ -75,10 +73,8 @@
           </template>
 
           <template v-slot:prepend>
-            <q-icon
-                class="cursor-pointer"
-                name="cellphone"
-            />
+            <q-icon color="black" size="1.5rem" name="svguse:icons.svg#cellphone"/>
+
           </template>
         </q-input>
 
@@ -155,7 +151,6 @@ export default {
         await this.$refs.addImage.userDetails()
         this.localInfoDetails.photoURL = this.currentImageProfile
       }
-      console.log(this.localInfoDetails)
       await this.addBusinessDetails(this.localInfoDetails)
       await this.$router.push('/home')
       // this.$q.notify(loading(false))
@@ -201,6 +196,7 @@ export default {
   margin-top: -100px;
 }
 .back{
+
   background-color: rgba(255, 255, 255, 0.43);
 }
 .btn1 {

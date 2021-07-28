@@ -41,7 +41,6 @@ export default {
   },
   watch: {
     leads() {
-      console.log(this.leads)
       this.localLeads = [...this.leads]
 
     }

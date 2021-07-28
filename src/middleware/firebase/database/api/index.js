@@ -24,7 +24,6 @@ async function set(entity, document) {
 
 async function get(entity) {
   const result = await db.ref(entity).once("value")
-  console.log(result.val())
   return result.val()
 }
 

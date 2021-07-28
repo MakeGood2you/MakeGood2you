@@ -17,7 +17,7 @@
 <!--      />-->
 
       <q-btn
-          class=" q-pa-sm q-mr-lg self-center"
+          class=" q-pa-sm self-center"
           @click="download(localEvent)"
           icon="file_download"
           color="black"
@@ -26,7 +26,12 @@
           label="הורד תמונות"
       />
     </div>
-    <PhotoList @onDownload="downloadPrivetly" :localEvent="localEvent"/>
+    <q-btn
+        @click="isShowDownload= !isShowDownload">
+      {{isShowDownload ? ' תמונות שירדו' : ' תמונות שלא ירדו'}}
+    </q-btn>
+    <PhotoList v-if="!isShowDownload" @onDownload="downloadPrivetly" :localEvent="localEvent"/>
+    <PhotoList v-else @onDownload="downloadPrivetly" :localEvent="localEvent" :isShowDownload="isShowDownload"/>
     <!--    <div v-intersection="onIntersection"></div>-->
   </div>
 </template>
@@ -40,6 +45,7 @@ export default {
   components: {PhotoList, InfiniteLoading},
   data() {
     return {
+      isShowDownload: false,
       localEvent: {
         photos: {}
       },
@@ -117,7 +123,6 @@ export default {
           this.setLocalImages(setPics)
           // this.localPics = this.localPics.concat(setPics)
         }
-        console.log(entry)
         console.log(entry.isIntersecting)
       }
     },

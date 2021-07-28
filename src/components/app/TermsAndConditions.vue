@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="isFixed">
+  <q-dialog class="z-in" v-model="isFixed">
     <q-card>
       <q-card-section>
         <div class="text-h6" dir="rtl" style="text-align: center">תקנון ותנאי שימוש</div>
@@ -422,7 +422,7 @@ export default {
   methods: {
     ...mapActions('businesses', ['isUserPayValidate']),
     ...mapActions('auth', ['setTermService']),
-    ...mapMutations('auth', ['setPropertyTrueOrFalse']),
+    ...mapMutations('auth', ['setPropertyTrueOrFalse', 'setIsUserExist']),
 
     async confirmed() {
       if (this.isBtn) return this.setPropertyTrueOrFalse('isFixed')
@@ -435,7 +435,12 @@ export default {
 
     },
     choseRouter() {
-      this.isPay ? this.$router.push('/home') : this.$router.push('/payment');
+      if (this.isPay) { // already checked in auth actions login
+        this.$router.push('/home')
+      } else {
+        this.$router.push('/payment');
+      }
+      this.setIsUserExist(true)
     },
 
   }

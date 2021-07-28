@@ -42,7 +42,9 @@
         </q-tr>
       </template>
       <template v-slot:body="props" dir="ltr">
-        <q-tr :props="props">
+        <q-tr :props="props"
+        class="cursor-pointer"
+        >
           <q-td key="organizer" :props="props" @click="goToEvent(props.row.id)">
             <div class="text-pre-wrap">{{ props.row.organizer }}</div>
           </q-td>
