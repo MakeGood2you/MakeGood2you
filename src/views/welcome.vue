@@ -18,8 +18,8 @@ export default {
   methods: {
     ...mapActions('businesses', ['setPayment']),
     async setAndPush() {
-      debugger
       const payload = {data: this.$route.query}
+      if (!payload.data) return
       await this.setPayment(payload)
       await this.$router.push('/add-business-details')
     }

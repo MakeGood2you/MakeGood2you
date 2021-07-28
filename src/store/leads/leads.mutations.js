@@ -15,7 +15,6 @@ export default {
 
     editLead: ((state, lead) => {
         const index = state.leads.findIndex(p => p.phoneNumber === lead.phoneNumber)
-        debugger
         state.leads.splice(index, 1, lead)
     }),
 

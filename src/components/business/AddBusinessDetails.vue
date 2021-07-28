@@ -1,26 +1,28 @@
 <template>
-  <div class="column items-center q-mb-xl">
+  <div class="row no-wrap justify-center">
 
-    <div class=" column items-center">
-      <h4 class="top"> פרטי העסק </h4>
-      <p> (יפורסם אצל המשתמשים) </p>
-    </div>
+    <div style="width: 60vh" class="position-settings column items-center q-mb-xl">
 
-    <div class=" q-pa-xl column center max-width-1 background back"  dir="rtl">
-      <q-form
-          @submit="onSubmit"
-          @reset="onReset"
-          class="q-gutter-md"
-      >
-        <AddImage :url="localInfoDetails.photoURL" @fileChange="isFileChange = true" ref="addImage"/>
+      <div class=" column items-center q-mb-lg">
+        <h4 class=""> פרטי העסק </h4>
+        <p> (יפורסם אצל המשתמשים) </p>
+      </div>
 
-        <p>הזן פרטי עסק:</p>
-        <q-input
-            v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
-            filled
+      <div style="width: 60vh" class=" q-pa-xl column center   back" dir="rtl">
+        <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
         >
+          <AddImage :url="localInfoDetails.photoURL" @fileChange="isFileChange = true" ref="addImage"/>
 
-          <template v-slot:prepend>
+          <p>הזן פרטי עסק:</p>
+          <q-input
+              v-model="localInfoDetails.BName" placeholder="שם העסק" type="text"
+              filled
+          >
+
+            <template v-slot:prepend>
             <q-icon
                 class="cursor-pointer"
                 name="storefront"
@@ -86,7 +88,7 @@
         >
           <template v-slot:append>
             <q-icon
-                v-if="!localInfoDetails.address"
+                v-if="localInfoDetails.address"
                 class="cursor-pointer"
                 name="clear"
                 @click.stop="localInfoDetails.address = ''"
@@ -112,8 +114,10 @@
               color="dark">
           </q-btn>
         </div>
-      </q-form>
+        </q-form>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -122,12 +126,13 @@ import {mapActions, mapState} from "vuex";
 import {positive} from '../../middleware/utils/notify'
 import {getUserFromLocalStorage} from "../../middleware/utils";
 import AddImage from "./AddImage";
+import SimpleLogo from "../app/Logos/SimpleLogo";
 
 const user = getUserFromLocalStorage()
 
 export default {
   name: "AddBusinessDetails",
-  components: {AddImage},
+  components: {AddImage, SimpleLogo},
   data: () => ({
     localInfoDetails: {
       BName: '',

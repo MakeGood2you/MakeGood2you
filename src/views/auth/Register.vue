@@ -1,35 +1,35 @@
 <template>
-  <div dir="rtl" class="column items-center shadow-2 q-mx-auto q-mt-lg background">
-    <div class="circle-bottom q-mx-auto fixed-top "></div>
-    <div class="q-mt-xl column items-center container">
-      <Logo/>
-      <h5 class="">התחברות</h5>
-    </div>
+  <div class="bg-white full-height-vh column justify-center">
+    <div dir="rtl" class="column items-center shadow-2 q-mx-auto  background">
+      <Logo class=""/>
+      <div class="q-mt-xl column items-center container">
+        <h5 class="q-mt-lg">התחברות</h5>
+      </div>
 
-    <q-form class="column">
-      <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" class="inputs"
-               type="email"></q-input>
-      <q-input placeholder="סיסמא" ref="password" class="inputs" v-model="localUser.password"
-               :type="isPwd ? 'password' : 'text'">
-        <template v-slot:append>
-          <q-icon
-              :name="isPwd ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="isPwd = !isPwd"
-          />
-        </template>
-      </q-input>
-      <br>
+      <q-form class="column">
+        <q-input v-if="!turn" v-model="localUser.email" placeholder="אימייל" class="inputs"
+                 type="email"></q-input>
+        <q-input placeholder="סיסמא" ref="password" class="inputs" v-model="localUser.password"
+                 :type="isPwd ? 'password' : 'text'">
+          <template v-slot:append>
+            <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
+        <br>
 
-      <p class="forget cursor-pointer"
-         @click="goToForgot">שכחתי סיסמא</p>
+        <p class="forget cursor-pointer"
+           @click="goToForgot">שכחתי סיסמא</p>
 
-      <terms-and-conditions/>
+        <terms-and-conditions/>
 
 
-      <q-btn color="primary" @click="getLogin('passAndEmail')" class="btn q-mt-md">
-        התחבר
-      </q-btn>
+        <q-btn color="primary" @click="getLogin('passAndEmail')" class="btn q-mt-md">
+          התחבר
+        </q-btn>
 
       <div class="column items-center q-my-md">
         <p>או באמצעות:</p>
@@ -42,17 +42,18 @@
         </div>
       </div>
 
-    </q-form>
-    <p class="q-pa-md">עדיין לא נרשמת? <b class="reg cursor-pointer" @click="registering">
-      לחץ כאן
-    </b></p>
+      </q-form>
+      <p class="q-pa-md">עדיין לא נרשמת? <b class="reg cursor-pointer" @click="registering">
+        לחץ כאן
+      </b></p>
+    </div>
   </div>
 </template>
 <script>
 import {mapActions, mapMutations, mapState} from 'vuex'
 import {negative, positive} from "../../middleware/utils/notify";
 import TermsAndConditions from "../../components/app/TermsAndConditions";
-import Logo from "../../components/app/Logo";
+import Logo from "../../components/app/Logos/Logo";
 
 const window = {
   recaptchaVerifier: undefined
@@ -92,25 +93,29 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['checkTerm', 'login', 'setTermService']),
-    ...mapMutations('auth', ['setUser']),
+    ...mapMutations('auth', ['setUser', 'setIsUserExist']),
 
     async getLogin(provider) {
       provider = provider !== 'passAndEmail' ? provider : this.localUser
       const result = await this.login(provider)
 
-      debugger
-      if (!this.isUserExist) {
+      if (typeof result === 'string') { // if string is error
         return this.$q.notify(negative(result))
       }
-      debugger
-      if (this.isAcceptTerms) this.$q.notify(positive('התחברת בהצלחה :)'))
-      else return this.$q.notify(negative('יש לאשר תנאי שימוש'))
-      debugger
+      console.log(this.isAcceptTerms, 'this.isAcceptTerms')
+      if (!this.isAcceptTerms) {
+        return this.$q.notify(negative('יש לאשר תנאי שימוש'))
+      }
+      this.$q.notify(positive('התחברת בהצלחה :)'))
       this.choseRouter()
     },
     choseRouter() {
-      debugger
-      this.isPay ? this.$router.push('/home') : this.$router.push('/payment');
+      if (this.isPay) { // already checked in auth actions login
+        this.$router.push('/home')
+      } else {
+        this.$router.push('/payment');
+      }
+      this.setIsUserExist(true)
     },
 
 
@@ -141,17 +146,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@import "./src/styles/media";
 @import "src/styles/quasar.variables";
 
-.container {
-  z-index: 10000;
-}
-
-.background {
-  height: 100vh;
-  max-width: $max-width;
-  background-color:$input-bg
-}
 
 .reg:hover {
   filter: opacity(55%);

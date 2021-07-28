@@ -8,5 +8,11 @@ export default {
 
     isUserExist: (state, bol) => {
         state.isUserExist = bol
+    },
+    setIsAcceptTerms: (state, bol) => {
+        state.isAcceptTerms = bol
+    },
+    setIsUserExist: (state, bol) => {
+        state.isUserExist = bol
     }
 }

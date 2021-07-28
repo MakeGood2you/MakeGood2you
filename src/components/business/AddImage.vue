@@ -83,8 +83,8 @@ export default {
   position: absolute;
   width: 1.5rem;
   height: 0.5rem !important;
-  left: 20rem;
-  top: 10rem;
+  left: 16rem;
+  top: 9.5rem;
   /*border: solid 3px #fff;*/
 }
 

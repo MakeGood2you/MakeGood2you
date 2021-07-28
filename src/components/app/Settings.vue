@@ -1,5 +1,6 @@
 <template>
-  <q-btn v-if="isUserExist"
+  <q-btn
+      v-if=""
          class="q-mr-md q-pa-sm q-pr-md"
          icon="account_circle"
          no-caps
@@ -11,15 +12,17 @@
     <q-menu>
       <div class="row no-wrap items-center q-pa-lg setting-container">
         <div class="row no-wrap">
-          <div dir="rtl" class="column q-gutter-y-sm">
-            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+          <div dir="rtl" class="column">
+
+            <div class="row btn q-gutter-x-sm no-wrap cursor-pointer"
                  @click="goLeads"
             >
-              <div class="self-center">
+              <div class=" ">
                 <q-icon size="1.3rem" name="people"></q-icon>
               </div>
+
               <div
-                  class="btn"
+                  class=""
                   v-model="mobileData"
               >
                 <span class="justify-end"> לידים  </span>
@@ -28,14 +31,14 @@
 
             <q-separator />
 
-            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+            <div class="row btn q-gutter-x-sm no-wrap cursor-pointer"
                  @click="goEditBusinessDetails"
             >
-              <div class="self-center">
+              <div class=" self-center">
                 <q-icon size="1.3rem" name="edit"></q-icon>
               </div>
               <div
-                  class="btn"
+                  class=""
                   v-model="mobileData">
                 <div class="">
                   <div class="">
@@ -48,7 +51,7 @@
             <q-separator />
 
 
-            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+            <div class="row btn q-gutter-x-sm no-wrap cursor-pointer"
                  @click="$router.push('/help')"
             >
               <div class="self-center">
@@ -67,7 +70,7 @@
 
             <q-separator />
 
-            <div class="row q-gutter-x-sm no-wrap cursor-pointer"
+            <div class="row btn q-gutter-x-sm no-wrap cursor-pointer"
                  @click="$router.push('/settings')"
             >
               <div>
@@ -83,11 +86,9 @@
               </div>
             </div>
 
-            <div class="btn q-my-sm">
-              <q-separator  class=""  color="red" />
+              <q-separator  class=" q-my-sm"  color="red" />
 
 <!--              <hr class="q-mb-md" color="red">-->
-            </div>
 
             <div class="text-center">
               <span
@@ -110,7 +111,7 @@
         <div class="img-container column items-center">
           <div class="q-mt-md column">
             <q-avatar class="content-start" size="8rem">
-              <q-icon v-if="!businessDetails" color="accent" size="8rem" name="svguse:icons.svg#person"/>
+              <q-icon v-if="!businessDetails.photoURL" color="accent" size="8rem" name="svguse:icons.svg#person"/>
               <q-img sizes="" v-else
                      :src="businessDetails.thumbURL ?businessDetails.thumbURL: businessDetails.photoURL"/>
             </q-avatar>
@@ -135,19 +136,19 @@ export default {
   name: "Settings",
   data() {
     return {
-      isUserExist:false,
       mobileData: true,
       bluetooth: false,
-      informationHome: null
+      informationHome: null,
     }
-
   },
   computed: {
-    ...mapState('auth', ['user']),
+
+    ...mapState('auth', ['user','']),
     ...mapState('businesses', ['businessDetails', 'isPay']),
   },
   methods: {
     ...mapActions('auth', ['firebaseLogout']),
+    ...mapMutations('auth', ['setIsUserExist']),
     ...mapActions('leads', ['getLeads']),
     ...mapActions('businesses', ['billingRecurringCancelAction', 'getBusinessDetails']),
     ...mapMutations('businesses', ['addDetails']),
@@ -158,6 +159,7 @@ export default {
     async signOut() {
       await this.firebaseLogout()
       await this.$router.push(`/`)
+      this.setIsUserExist(false)
     },
 
     async goLeads() {
@@ -165,11 +167,11 @@ export default {
     }
   },
   async created() {
-    await this.getBusinessDetails()
-    console.log(this.businessDetails)
-    const user = window.user
-    if (user) this.isUserExist = true
-    else this.isUserExist = false
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user || this.user) {
+      await this.getBusinessDetails()
+    }
+
   }
 
 }

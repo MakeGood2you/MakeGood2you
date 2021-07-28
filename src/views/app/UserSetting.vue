@@ -1,11 +1,13 @@
 <template>
   <div class="column ">
-    <div class=" column items-center" >
-      <h4 class="text-center q-my-md"> הגדרות כלליות </h4>
-    </div>
+    <div  class="position-settings  ">
+
+      <div class=" column items-center">
+        <h4 class="text-center q-mb-xl q-mt-xl"> הגדרות כלליות </h4>
+      </div>
       <Confirm/>
-      <div dir="rtl" class="ladder" style="width: 35%">
-        <div class="q-pa-sm column items-center">
+      <div dir="rtl"  class="ladder" style="width: 60vh">
+        <div class="q-pa-sm column ">
           <q-list style="max-width: 800px; width: 100%" class="">
             <q-expansion-item
                 group="somegroup"
@@ -277,7 +279,7 @@
 
           </q-list>
           <br>
-          <div class="text-center">
+          <div class="column items-center text-center">
             <q-btn
                 class="full-width"
                 color="dark"
@@ -288,6 +290,7 @@
         </div>
       </div>
     </div>
+    </div>
 </template>
 
 <script>
@@ -295,10 +298,12 @@ import Disengagement from "../../components/app/userSettings/Disengagement";
 import {mapActions} from "vuex";
 import {positive} from "../../middleware/utils/notify";
 import Confirm from "../../components/app/Confirm";
+import SimpleLogo from "../../components/app/Logos/SimpleLogo";
+import Settings from "../../components/app/Settings";
 
 export default {
   name: "UserSetting",
-  components: {Confirm, Disengagement},
+  components: {Confirm, Disengagement, SimpleLogo, Settings},
   data: () => ({
     isPwd: true,
     password: ''

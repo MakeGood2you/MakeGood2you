@@ -3,6 +3,7 @@
       v-if="events"
       class="q-pa-md">
     <q-table
+        v-if="events  "
         :filter="filter"
         :rows-per-page-options="[]"
         wrap-cells
@@ -221,6 +222,7 @@ export default {
       const QRCode = require('qrcode')
 
 // Creating the data
+      if (self.events === null) return
       for (let event of self.events) {
         const data = event.canvas
         const id = event.id
@@ -269,8 +271,9 @@ export default {
         color: 'black'
       })
     },
-    reverseString(str) {
-      const splitString = str.split("-");
+    reverseString(date) {
+      if (!date) return
+      const splitString = date.split("-");
       splitString.splice(1, 0, '-')
       splitString.splice(3, 0, '-')
       const reverseArray = splitString.reverse();
@@ -279,10 +282,9 @@ export default {
     }
   },
   async created() {
+    await this.qrcode()
     await this.getEvents()
-    if (this.events){
-      await this.qrcode()
-    }
+
   },
 }
 

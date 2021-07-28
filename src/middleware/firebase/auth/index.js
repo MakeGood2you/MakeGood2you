@@ -83,6 +83,7 @@ function registerWithPassAndEmail(user) {
             console.error(errorCode)
             console.error(errorMessage)
             // ..
+            return errorMessage
         });
 }
 

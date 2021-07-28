@@ -6,6 +6,7 @@
 //@import "onBoarding/mainStyle";
 @import "shapes";
 @import "sizes/containers";
+@import "payment";
 @import "inputs";
 //@import "borders/radius";
 
@@ -25,22 +26,56 @@ a {
   text-decoration: none; /* no underline */
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  //margin: auto;
-  //height: 100vh;
-  //max-width: 50vh;
+.position{
+  position: relative;
+  top: 8em;
 }
+.position-settings{
+  position: relative;
+  bottom: 9.5em;
+}
+.logo {
+  z-index: 1;
+  align-self: auto;
+}
+
+.container {
+  z-index: 10000;
+}
+
+
+.background {
+  height: 90vh;
+  max-width: $max-width;
+  background-color: $input-bg
+}
+
+.hover {
+ opacity: 0.5;
+
+}
+.z-in{
+  z-index:1000;
+}
+//
+//.container {
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//  justify-content: center;
+//
+//  //margin: auto;
+//  //height: 100vh;
+//  //max-width: 50vh;
+//}
 
 .q-date__view {
   padding: 0;
 }
-.date-picker{
+
+.date-picker {
 }
+
 .q-mr-xxl {
   margin-right: 5rem;
 }
@@ -48,6 +83,7 @@ a {
 .text-opacity {
   opacity: 0.5;
 }
+
 .mouse-over:hover {
   opacity: 0.5;
   transition: opacity 0.3s ease-out;
@@ -61,7 +97,11 @@ a {
 
 .btn {
   //border-radius: 100%;
-  width: 100%;
+ display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  //width: 100%;
   height: $btn-hs-md;
 }
 

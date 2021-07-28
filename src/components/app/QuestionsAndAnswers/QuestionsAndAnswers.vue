@@ -5,14 +5,13 @@
       <h4> עזרה ותמיכה </h4>
     </div>
 
-    <div style="width: 100%" dir="rtl" class="ladder">
-      <div  class="column items-center">
+    <div style="width: 60vh" dir="rtl" class="ladder q-mt-none">
         <q-list class="" >
 
           <q-expansion-item
               v-for="(item, key) in questionsAndAnswers.data" :key="key"
               group="questionsAndAnswers"
-              class="q-pa-md text-h6"
+              class="q-pa-md full-width text-h6"
               dense-toggle
               expand-separator
               icon="help_outline"
@@ -49,7 +48,6 @@
       <!--      >הוסף-->
       <!--      </q-btn>-->
 
-    </div>
   </div>
 </template>
 

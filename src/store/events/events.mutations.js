@@ -26,7 +26,6 @@ export default {
 
     updatePhoto: ((state, options) => {
         state.event.photos[options.key].isDownload = options.isDownload
-        debugger
         state.event = {...state.event}
     }),
 
@@ -63,6 +62,9 @@ export default {
     deleteEvent: ((state, id) => {
         const index = state.events.findIndex(p => p.id === id)
         state.events.splice(index, 1)
+        if (!state.events.length) {
+            state.events = null
+        }
     }),
 
     insertEvent: ((state, event) => {

@@ -3,7 +3,7 @@ export default {
     photos:[],
     localPics: [],
     imagesCounter:0,
-    events: [],
+    events: null,
     editedEventId: '',
     eventId:null,
     event: null,

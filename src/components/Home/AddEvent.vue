@@ -1,56 +1,72 @@
 <template>
-  <div class="background2 q-px-xl q-py-xl q-my-auto q-mx-auto">
+  <div class="column items-center">
+  <div class="background2 ">
+    <div class=" q-px-xl q-py-md  q-mt-sm q-pb-sm ">
 
-    <div class="row no-wrap justify-between  q-pb-md ">
-      <q-btn v-if="localEditedEvent.id" color="dark" class="self-center q-ml-lg" icon="arrow_back_ios" round @click="goToHome">
-        <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">
+      <div class="row no-wrap justify-between fab q-pb-sm ">
+        <q-btn v-if="localEditedEvent.id" color="dark" class="self-center q-ml-lg" icon="arrow_back_ios" round
+               @click="goToHome">
+          <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">
 
-          <strong>חזור הביתה</strong>
-        </q-tooltip>
-      </q-btn>
-    </div>
-    <h5 class="text-center">  <strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
-
-    <div class="q-mt-lg">
-      <q-form
-          dir="rtl"
-          class="q-gutter-y-lg justify-center"
-          style="width: 90%; margin: auto"
-      >
-        <q-input filled v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
-                 :hint="localEditedEvent.id ? 'שם בעל האירוע': ''" type="text"/>
-        <q-select filled v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
-                  :hint="localEditedEvent.id ? 'סוג האירוע': ''" placeholder="סוג האירוע"></q-select>
-        <q-input filled v-model="localEditedEvent.place" :hint="localEditedEvent.id ? 'מקום האירוע': ''" class=""
-                 color="black" placeholder="מקום האירוע" type="text"/>
-        <DatePicker class="" @dateChange="dateChange" label="מועד האירוע" :editedDate="localEditedEvent.date"/>
-        <q-input filled v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black"
-                 type="number"
-                 :hint="localEditedEvent.id ? 'הגבלת תמונות': ''" placeholder="הגבלת תמונות"/>
-      </q-form>
-
-
-      <br>
-
-      <div class="row no-wrap items-center q-mx-auto" style="width: 90%; margin: auto">
-        <q-btn v-if=" localEditedEvent.id" class="btn-submit column items-center" @click="update()"><span>עדכון</span>
-        </q-btn>
-        <q-btn v-if="! localEditedEvent.id" class="btn-submit column items-center" @click="blass(localEditedEvent)">
-          <span>צור אירוע</span>
+            <strong>חזור הביתה</strong>
+          </q-tooltip>
         </q-btn>
       </div>
+      <h5 class="text-center"><strong> {{ localEditedEvent.id ? 'ערוך אירוע' : 'יצירת אירוע חדש' }}</strong></h5>
+
+      <div class="q-mt-lg">
+        <q-form
+
+            dir="rtl"
+            class="column items-center q-gutter-y-md justify-center"
+
+        >
+          <q-input filled v-model="localEditedEvent.organizer" class="inputs" color="black" placeholder="שם בעל האירוע"
+                   :hint="localEditedEvent.id ? 'שם בעל האירוע': ''" type="text"/>
+
+          <q-select filled v-model="localEditedEvent.eventStyle" :options="options2" class="inputs" color="black"
+                    :hint="localEditedEvent.id ? 'סוג האירוע': ''" placeholder="סוג האירוע"></q-select>
+
+          <q-input filled v-model="localEditedEvent.place" :hint="localEditedEvent.id ? 'מקום האירוע': ''"
+                   class="inputs"
+                   color="black" placeholder="מקום האירוע" type="text"/>
+          <DatePicker class="inputs" @dateChange="dateChange" label="מועד האירוע" :editedDate="localEditedEvent.date"/>
+          <q-input filled v-model="localEditedEvent.imgLimit" :max="10" :min="0" class="inputs" color="black"
+                   type="number"
+                   :hint="localEditedEvent.id ? 'הגבלת תמונות': ''" placeholder="הגבלת תמונות"/>
+        </q-form>
+
+
+        <br>
+
+        <div class="column items-center">
+          <q-btn v-if=" localEditedEvent.id"
+                 class="q-pa-xs inputs"
+                 color="primary"
+                 @click="update()">
+            <span>עדכון</span>
+          </q-btn>
+          <q-btn v-if="! localEditedEvent.id"
+                 color="primary inputs"
+                 class="q-pa-xs"
+                 @click="blass(localEditedEvent)">
+            <span>צור אירוע</span>
+          </q-btn>
+        </div>
+      </div>
+      <q-dialog v-model="persistent" transition-hide="scale">
+        <q-card class="bg text-white" style="width: 800px">
+
+          <q-card-section dir="rtl" style="text-align: center">
+            <div class="text-h6">מזל טוב!!</div>
+            <span><strong>יצירת אירוע בוצעה בהצלחה! </strong></span>
+          </q-card-section>
+
+        </q-card>
+      </q-dialog>
+
     </div>
-    <q-dialog v-model="persistent" transition-hide="scale">
-      <q-card class="bg text-white" style="width: 800px">
-
-        <q-card-section dir="rtl" style="text-align: center">
-          <div class="text-h6">מזל טוב!!</div>
-          <span><strong>יצירת אירוע בוצעה בהצלחה! </strong></span>
-        </q-card-section>
-
-      </q-card>
-    </q-dialog>
-
+    </div>
   </div>
 </template>
 
@@ -60,12 +76,15 @@ import VueConfetti from 'vue-confetti';
 import {mapState, mapActions, mapMutations} from 'vuex';
 import DatePicker from "../Inputs/DatePicker";
 import {positive} from "../../middleware/utils/notify";
+import SimpleLogo from "../app/Logos/SimpleLogo";
+import Settings from "../app/Settings";
+
 Vue.use(VueConfetti);
 
 export default {
 
   name: "AddItem",
-  components: {DatePicker},
+  components: {Settings, SimpleLogo, DatePicker},
   computed: mapState('events', ['editedEvent', 'editedEventId', 'eventId', 'editedEvent']),
   data() {
 
@@ -159,23 +178,21 @@ export default {
 background-color: $accent;
 }
 .btn-submit {
-  width: 100%;
-  text-align: center;
-  height: 50px;
-  font-size: 20px;
-  background-color: $primary;
-  color: $secondary;
-  border: none;
+  //width: 100%;
+  //text-align: center;
+  //height: 50px;
+  //font-size: 20px;
+  //background-color: $primary;
+  //color: $secondary;
+  //border: none;
 }
 
 .background2 {
-  width:50vw;
-  margin: auto;
-  background-color: #e8e3df;
+  width: 60vh;
+  background-color: $secondary3;
   //background-color: rgba(255, 255, 255, 0.62) !important;
   color: $primary;
-  border: none;
-  opacity: 1;
+  border-radius: 20px;
 }
 
 

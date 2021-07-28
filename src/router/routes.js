@@ -6,7 +6,7 @@ const routes = [
         meta: {authUserIsPayment: false},props: true }, ,
     {path: '/', name: 'Login', component: Login,
         meta: {authUserIsPayment: false}},
-    {path: '/forgot', name: 'Forgot', component: () => import('../views/forgot.vue'),
+    {path: '/forgot', name: 'Forgot', component: () => import('../views/auth/forgot.vue'),
         meta: {authUserIsPayment: false}},
 
     {path: '/payment', name: 'Payment', component: () => import('../views/payment.vue'),

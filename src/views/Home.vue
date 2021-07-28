@@ -1,24 +1,25 @@
 <template>
       <q-page-container>
-        <q-dialog class="dialog" v-model="isShowDialog">
-          <AddEvent @closeDialog="isShowDialog=false"/>
+        <q-dialog style="width: 100vh" class="dialog" v-model="isShowDialog">
+          <AddEvent  @closeDialog="isShowDialog=false"/>
         </q-dialog>
         <q-icon
             @click="isShowDialog = true"
-            :class="`${!events ?'absolute-center' :'fixed-bottom-right'} mouse-over q-mb-lg q-pa-lg` "
+            :class="`${!events ?'absolute-center' :'fixed-bottom-right'} z-in mouse-over q-mb-lg q-pa-lg` "
             :size="!events ?'8rem': '9rem'" color="primary"
             name="add_circle_outline" >
           <div class="text-h5" ><p>צור אירוע חדש</p></div>
         </q-icon>
 
         <TableViewer />
-
       </q-page-container>
 </template>
 
 <script>
 import AddEvent from '../components/Home/AddEvent'
 import TableViewer from '../components/Home/TableViewer'
+import Settings from '../components/app/Settings'
+import SimpleLogo from '../components/app/Logos/SimpleLogo'
 
 import {mapActions, mapMutations, mapState} from 'vuex'
 
@@ -32,7 +33,7 @@ export default {
   },
 
   components: {
-    AddEvent, TableViewer,
+    AddEvent, TableViewer,Settings,SimpleLogo
   },
   computed: {
     ...mapState('auth', ['user']),
@@ -40,10 +41,14 @@ export default {
     ...mapState('events', ['events']),
   },
   methods: {
-    ...mapMutations('auth', ['setUser']),
+
+    ...mapMutations('auth', ['setUser','setIsUserExist']),
   },
   created() {
-    // const user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log('user && this.setIsUserExist(true)', user && true)
+    // user && this.setIsUserExist(true)
+
     // user ? this.setUser(user) : this.$router.push('/')
     // this.isPay ? null : this.$router.push('/payment')
   }
@@ -53,6 +58,7 @@ export default {
 
 <style scoped>
 .dialog {
+  width: 100vh
 }
 
 </style>

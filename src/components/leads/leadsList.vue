@@ -3,7 +3,8 @@
     <q-list bordered>
       <q-expansion-item
 
-          v-for="lead of leads"
+          v-for="(lead,index) of leads"
+          :key="index"
           class="full-width"
           group="newLeads"
           icon="person"
@@ -43,7 +44,6 @@ export default {
       console.log(this.leads)
       this.localLeads = [...this.leads]
 
-      debugger
     }
   }
 }

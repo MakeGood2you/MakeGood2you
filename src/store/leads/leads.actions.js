@@ -11,13 +11,13 @@ const path = (uid) => `users/${uid}/data/${tableName}`
 
 export default {
     getLeads: async ({state, commit}) => {
-        const entity = `${path(user.uid)}`
+        const entity = `${path(window.user.uid)}`
         const leads = await db.getList(entity)
         commit('setLeads', leads)
     },
 
     deleteLeadFromDB:async  ({commit}, params) => {
-        const entity = `${path(user.uid)}/${params}`
+        const entity = `${path(window.user.uid)}/${params}`
         await db.remove(entity, params)
         commit('removeLead', params)
     },
@@ -40,7 +40,6 @@ export default {
         commit('editLead', newLead)
         const entity = `${path(lead.uid)}/${lead.phoneNumber}/isNewLead`
         await db.set(entity, newLead.isNewLead)
-        debugger
         // commit('setIsNewLead', options.isNewLead)
 
     },

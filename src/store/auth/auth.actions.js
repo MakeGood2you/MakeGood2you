@@ -14,11 +14,11 @@ export default {
             console.error('there is not chosen provider')
             return firebaseAuthUser
         }
-        commit('setUser', firebaseAuthUser)
-        commit('isUserExist',true)
-        localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
-
+        debugger
+        if (typeof firebaseAuthUser !== 'object') return firebaseAuthUser
         // set the user in s`tate and localstorage
+        commit('setUser', firebaseAuthUser)
+        localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 
         //chek if is accept terms
         const uid = firebaseAuthUser.uid
@@ -27,7 +27,7 @@ export default {
         if (isAcceptTerms) {
             await dispatch('businesses/isUserPayValidate', uid, {root: true})
             commit('setUser', firebaseAuthUser)
-            commit('setPropertyTrueOrFalse', 'isAcceptTerms')
+            commit('setIsAcceptTerms', isAcceptTerms)
             localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
         } else {
             commit('setPropertyTrueOrFalse', 'isFixed')
@@ -36,13 +36,18 @@ export default {
         }
     },
 
-    register: async ({commit, state, dispatch}, user) => {
-        const firebaseAuthUser = await authApi.registerWithPassAndEmail(user)
-        if (!firebaseAuthUser) return console.error('not user')
+    register: async ({commit, state, dispatch}, options) => {
+        if (!options.isAcceptTerms) return console.error('not accepted terms')
+        const firebaseAuthUser = await authApi.registerWithPassAndEmail(options.user)
+        debugger
+        if (typeof firebaseAuthUser === "string")  return firebaseAuthUser
+        if (!firebaseAuthUser) console.error('not user')
         commit('setUser', firebaseAuthUser)
+
         await dispatch('setTermService', firebaseAuthUser.uid)
         localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
 //      TODO: chek if user alredy exist and let give err to the user
+        return firebaseAuthUser
     },
 
     firebaseLogout: async ({commit}) => {

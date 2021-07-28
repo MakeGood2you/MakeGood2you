@@ -8,11 +8,11 @@ const user = getUserFromLocalStorage()
 const tableName = 'businessInfo'
 
 const paymentPath = (uid) => `payments/${uid}/package`
-const businessesPath = (uid) => `users/${user.uid}/data/${tableName}`
+const businessesPath = (uid) => `users/${uid}/data/${tableName}`
 export default {
 
     addBusinessDetails: async ({commit, state}, businessDetails) => {
-        const entity = `${businessesPath(user.uid)}`
+        const entity = `${businessesPath(window.user.uid)}`
         if (state.currentImageProfile) {
             businessDetails.photoURL = state.currentImageProfile
         }
@@ -23,9 +23,8 @@ export default {
     getBusinessDetails: async ({commit, state, getters}) => {
         // if (!state.user.uid) return
 
-        const user = getUserFromLocalStorage()
-        if (!user) return
-        const entity = businessesPath(user.uid)
+        if (!window.user) return
+        const entity = businessesPath(window.user.uid)
         const businessDetails = await db.get(entity)
         console.log('businessDetails ', businessDetails)
         if (!businessDetails) return
@@ -42,7 +41,7 @@ export default {
     },
 
     setPayment: async ({commit}, details) => {
-        const entity = `${paymentPath(user.uid)}/paymentDetails`
+        const entity = `${paymentPath(window.user.uid)}/paymentDetails`
         await db.set(entity, details.data)
         commit('isUserPay', true)
     },
@@ -58,7 +57,7 @@ export default {
 
 
     uploadProfileImage: async ({rootState, dispatch, state, commit}, file) => {
-        const entity = `users/${user.uid}/business/profilePic`
+        const entity = `users/${window.user.uid}/business/profilePic`
         let photoURL = null
         const ref = await storage.getStorageRef(entity)
         await ref.put(file).then(async (result) => {
@@ -70,7 +69,7 @@ export default {
     },
 
     setPackagePayment: async ({state, commit}, paymentMethod) => {
-        const entity = `${paymentPath(user.uid)}/selected`
+        const entity = `${paymentPath(window.user.uid)}/selected`
         await db.set(entity, paymentMethod)
     },
 }

@@ -70,7 +70,8 @@
         <div class="row wrap justify-start">
           <q-list>
             <q-item
-                v-for="comment in lead.comments"
+                v-for="(comment, key) in lead.comments"
+                :key="key"
             >
               <q-item-section side>
                 <q-icon

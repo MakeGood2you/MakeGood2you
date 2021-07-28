@@ -4,13 +4,14 @@ import 'firebase/storage';
 
 import {getUserFromLocalStorage} from '../../middleware/utils'
 
-const user = getUserFromLocalStorage()
 let tableName = 'events'
 const path = (uid) => `users/${uid}/data/${tableName}`
 
 export default {
+
     getLimitCounter: async ({stat, commit, getters}, options) => {
-        let entity = `${path(user.uid)}/${options.eid}`
+
+        let entity = `${path(window.user.uid)}/${options.eid}`
         const storageRef = await storage.getStorageRef(entity)
         let listResult = await storageRef.listAll()//// check the object
         let length = listResult.items.length
@@ -18,7 +19,8 @@ export default {
     },
 
     changePermissionValue: async ({state, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}/isOpen`
+
+        const entity = `${path(window.user.uid)}/${eid}/isOpen`
         const index = state.events.findIndex(event => event.id === eid)
         let isOpen = !state.events[index].isOpen// change the value
         await db.set(entity, isOpen)
@@ -26,7 +28,9 @@ export default {
     },
 
     setQrF: async ({stat, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}/QR`
+        if (!window.user) return
+
+        const entity = `${path(window.user.uid)}/${eid}/QR`
         const document = false
         await db.set(entity, document)
         commit('setQrF', document)
@@ -43,41 +47,41 @@ export default {
     ///database///
 
     updatePhotosToFirebase: async ({commit}, options)=>{
-        debugger
-        const entity = `${path(user.uid)}/${options.eid}/photos/${options.key}/isDownload`
+        const entity = `${path(window.user.uid)}/${options.eid}/photos/${options.key}/isDownload`
         await db.set(entity, true);
         commit('updatePhoto', {isDownload: true, key: options.key, id: options.eid})
     },
 
     getEvents: async ({commit}) => {
-        const entity = path(user.uid)
+        if (!window.user) return
+        const entity = path(window.user.uid)
         const events = await db.getList(entity);
         console.log(events)
         commit('setEvents', events)
     },
 
     getEventById: async ({state, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}`
+        const entity = `${path(window.user.uid)}/${eid}`
         const event = await db.get(entity);
         console.log(event)
         commit('setEvent', event)
     },
  getPhotos: async ({state, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}/photos`
-        const photos = await db.getList(entity);
+     const entity = `${path(window.user.uid)}/${eid}/photos`
+     const photos = await db.getList(entity);
         console.log(photos)
         commit('setPhotos', photos)
     },
 
     deleteEvent: async ({state, commit}, eid) => {
-        const entity = `${path(user.uid)}/${eid}`
+        const entity = `${path(window.user.uid)}/${eid}`
         await db.remove(entity);
         commit('deleteEvent', eid)
     },
 
 
     updateEvent: async ({state, commit}, event) => {
-        const entity = `${path(user.uid)}/${event.id}`
+        const entity = `${path(window.user.uid)}/${event.id}`
         //save in database
         const res = await db.update(entity, event)
         console.log(res)
@@ -91,9 +95,9 @@ export default {
         Object.assign(event, state.editedEvent)
         //save in database
         event.id = `${new Date().getTime()}`
-        event.canvas = `https://picpic-guests.web.app/#/${user.uid}/${event.id}`
+        event.canvas = `https://picpic-guests.web.app/#/${window.user.uid}/${event.id}`
 
-        const entity = `${path(user.uid)}/${event.id}`
+        const entity = `${path(window.user.uid)}/${event.id}`
         await db.set(entity, event)
         console.log(event)
         commit('resetEditedEvent')
@@ -103,7 +107,7 @@ export default {
 
     setEditEventById: async ({state, commit}, eid) => {
         let event = null;
-        const entity = `${path(user.uid)}/${eid}`
+        const entity = `${path(window.user.uid)}/${eid}`
         if (state.events.length) {
             event = state.events.find(event => event.id === eid)
         } else {
