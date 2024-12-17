@@ -4,14 +4,6 @@ export default {
     callableFunction
 }
 
-
-// example
-//     body: {
-//         data: 'data',
-//         entity: 'entity',
-//     }
-//     funcName: 'name'
-
 async function callableFunction(body, funcName) {
     const checkPayment = await firebaseInstance.firebase
         .app()

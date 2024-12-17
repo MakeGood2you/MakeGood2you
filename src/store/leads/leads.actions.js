@@ -40,7 +40,6 @@ export default {
         commit('editLead', newLead)
         const entity = `${path(lead.uid)}/${lead.phoneNumber}/isNewLead`
         await db.set(entity, newLead.isNewLead)
-        // commit('setIsNewLead', options.isNewLead)
 
     },
 }

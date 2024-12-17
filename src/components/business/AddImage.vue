@@ -6,22 +6,16 @@
       <div class="animated">
         <q-img v-if="localImage" class="circle" :src="localImage"></q-img>
 
-        <!--        <q-btn class="q-mb-xl"  round color="grey" icon="add_a_photo" size="12px"/>-->
         <q-file
             accept="image/*"
             borderless stack-label
             class="relative"
             @input="onFileChange">
-          <!--          <template v-slot:prepend>-->
 
           <q-icon class="" name="add_a_photo" size="30px"/>
-          <!--          </template>-->
         </q-file>
       </div>
     </div>
-
-    <!--    <span-->
-    <!--      class="q-mx-auto q-mt-md"> העלאת תמונה פרופיל</span>-->
   </div>
 </template>
 
@@ -85,7 +79,6 @@ export default {
   height: 0.5rem !important;
   left: 16rem;
   top: 9.5rem;
-  /*border: solid 3px #fff;*/
 }
 
 

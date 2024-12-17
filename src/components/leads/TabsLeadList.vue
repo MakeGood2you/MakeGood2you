@@ -64,7 +64,5 @@ export default {
   width: 70vw;
   height: 70vh;
 }
-div{
-  /*overflow: hidden;*/
-}
+
 </style>

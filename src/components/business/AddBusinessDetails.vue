@@ -153,7 +153,6 @@ export default {
       }
       await this.addBusinessDetails(this.localInfoDetails)
       await this.$router.push('/home')
-      // this.$q.notify(loading(false))
       this.$q.notify(positive('הפרטים עודכנו בהצלחה :)'))
     },
 

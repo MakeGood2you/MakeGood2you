@@ -1,13 +1,6 @@
 <template>
   <div class="main q-py-lg q-px-xl q-m-a">
   <div class="row q-py-lg no-wrap justify-around">
-<!--    <q-btn color="primary" class="self-center" icon="arrow_back_ios" round @click="goToHome">-->
-<!--      <q-tooltip anchor="top middle" self="center middle" transition-show="rotate" transition-hide="flip-left">-->
-<!--        <strong>חזור הביתה</strong>-->
-<!--        (<q-icon name="keyboard_arrow_down"/>)-->
-<!--      </q-tooltip>-->
-<!--    </q-btn>-->
-
     <h5>    <strong>דף אירוע </strong></h5>
   </div>
     <div class="column items-center q-gutter-y-md" dir="rtl">
@@ -45,18 +38,7 @@ export default {
       this.$router.push({name: 'Event', params: {id: id}})
     },
 
-    goToId() {
-      this.$router.push({
-        name: 'contacts',
-        params: {id: this.$route.params.eid}
-      })
-    },
-    goToTable() {
-      this.$router.push({
-        name: 'contactTable',
-        params: {id: this.$route.params.eid}
-      })
-    },
+
     picAdd() {
       this.$router.push(`/event-page/${this.$route.params.eid}/pictureAdded`)
     }

@@ -108,12 +108,6 @@
               > התנתק</span>
             </div>
           </div>
-          <!--          <div class="column q-gutter-y-lg q-pl-md">-->
-          <!--            <q-icon size="1.3rem" name="people"></q-icon>-->
-          <!--            <q-icon size="1.3rem" name="edit"></q-icon>-->
-          <!--            <q-icon color="black" size="1.3rem" name="svguse:icons.svg#help"/>-->
-          <!--            <q-icon size="1.3rem" name="settings"></q-icon>-->
-          <!--          </div>-->
         </div>
         <q-separator vertical inset class="q-mx-lg line "/>
 
@@ -127,9 +121,6 @@
             <div dir="rtl" class="text-h6 text-center text-bold q-pt-xl "> היי,
               {{ businessDetails ? businessDetails.BName : 'חבוב' }}
             </div>
-
-            <!--              <div class="text-h6 text-center text-bold q-py-xl ">{{ businessDetails.BName }}</div>-->
-
           </div>
         </div>
       </div>
@@ -195,8 +186,5 @@ export default {
   width: 20rem !important;
 }
 
-.line {
-  /*margin-left: 20px;*/
-}
 
 </style>

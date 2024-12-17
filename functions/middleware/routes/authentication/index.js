@@ -1,6 +1,5 @@
 'use strict';
 const logic = require('./logic')
-// const user = require('./user')
 const express = require('express')
 const router = express.Router({mergeParams:true})
 
@@ -19,7 +18,6 @@ router.get('/',async (req, res, next) => {
 // // Create a new todo
 router.post('/', async (req, res, next) => {
   try {
-    // console.log(req.body)
     console.log(req.body)
     const result = await logic.createUser(req.body, req.body.uid)
     if (!result) return res.sendStatus(409)

@@ -59,16 +59,3 @@ router.beforeEach(async (to, from, next) => {
     }
 })
 export default router
-// else {
-//     if (isAuthenticated) {
-//         debugger
-//         if (to.name === 'Payment' || to.name === 'Welcome') {
-//             debugger
-//
-//             return next()
-//         }
-//         return next({name: 'Home'})
-//     } else {
-//         if (registerRoutes.includes(to.name)) return next()
-//     }
-// }

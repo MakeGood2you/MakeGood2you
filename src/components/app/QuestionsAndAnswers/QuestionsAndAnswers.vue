@@ -24,9 +24,6 @@
               >
                 {{ item.answer }}
               </q-card-section>
-              <!--              <q-card-actions>-->
-              <!--                <q-btn @click="removeQuestionAndAnswer(key)"> מחק</q-btn>-->
-              <!--              </q-card-actions>-->
             </q-card>
           </q-expansion-item>
           <q-separator class="q-mx-lg"/>
@@ -43,11 +40,6 @@
         </q-list>
         <br>
       </div>
-      <!--      <q-btn class="q-mr-lg self-start"-->
-      <!--             @click="openDialog"-->
-      <!--      >הוסף-->
-      <!--      </q-btn>-->
-
   </div>
 </template>
 

@@ -1,48 +1,37 @@
 <template>
   <div class="q-pa-md">
-        <h1 class="text-center text-opacity" v-if=" !localEvent.photos ">
-           אין תמונות לאירוע זה {{ localEvent.photos }}
-        </h1>
+    <h1 v-if=" !localEvent.photos " class="text-center text-opacity">
+      אין תמונות לאירוע זה {{ localEvent.photos }}
+    </h1>
 
     <div class="row no-wrap absolute-top-right q-mr-xxl ">
       <p class="countPhoto self-center">סה"כ הורדות: <b>{{ countPhoto }}</b></p>
-<!--      <q-btn-->
-<!--          class="q-pa-sm self-center"-->
-<!--          @click="goHome"-->
-<!--          icon="home"-->
-<!--          color="black"-->
-<!--          flat-->
-<!--          dense-->
-<!--          label="דף הבית"-->
-<!--      />-->
-
       <q-btn
           class=" q-pa-sm self-center"
-          @click="download(localEvent)"
-          icon="file_download"
           color="black"
-          flat
           dense
+          flat
+          icon="file_download"
           label="הורד תמונות"
+          @click="download(localEvent)"
       />
     </div>
     <q-btn
         @click="isShowDownload= !isShowDownload">
-      {{isShowDownload ? ' תמונות שירדו' : ' תמונות שלא ירדו'}}
+      {{ isShowDownload ? ' תמונות שירדו' : ' תמונות שלא ירדו' }}
     </q-btn>
-    <PhotoList v-if="!isShowDownload" @onDownload="downloadPrivetly" :localEvent="localEvent"/>
-    <PhotoList v-else @onDownload="downloadPrivetly" :localEvent="localEvent" :isShowDownload="isShowDownload"/>
-    <!--    <div v-intersection="onIntersection"></div>-->
+    <PhotoList v-if="!isShowDownload" :localEvent="localEvent" @onDownload="downloadPrivetly"/>
+    <PhotoList v-else :isShowDownload="isShowDownload" :localEvent="localEvent" @onDownload="downloadPrivetly"/>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading'
 import PhotoList from "../components/photos/PhotoList";
 
 export default {
-  components: {PhotoList, InfiniteLoading},
+  components: { PhotoList, InfiniteLoading },
   data() {
     return {
       isShowDownload: false,
@@ -60,8 +49,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('events', {pics: 'getPhotos'}),
-    ...mapState('events', ['localPics', 'event', 'photos','countPhoto']),
+    ...mapGetters('events', { pics: 'getPhotos' }),
+    ...mapState('events', ['localPics', 'event', 'photos', 'countPhoto']),
     pics() {
       return this.$store.getters["events/getPhotos"](this.eid)
     }
@@ -75,11 +64,10 @@ export default {
       const eid = this.eid
       const key = picParams.key
       const pic = picParams.pic
-      var options = {pic: pic.photoURL, eid, key}
+      var options = { pic: pic.photoURL, eid, key }
       await this.updatePhotosToFirebase(options)
       await this.downloadUrl(pic.photoURL, key)
     },
-
 
 
     async downloadUrl(url) {
@@ -97,7 +85,6 @@ export default {
 
     async download(pics) {
       for (const pic in pics) {
-        const options = {pics: pics[pic], eid: this.eid}
 
         if (pics[pic].isDownload !== true) {
           pics[pic].isDownload = false
@@ -117,11 +104,9 @@ export default {
         if (this.localPics.length <= (length - counter)) {
           const setPics = this.pics.slice((this.start + counter), (this.end + counter))
           this.setLocalImages(setPics)
-          // this.localPics = this.localPics.concat(setPics)
         } else {
           const setPics = this.pics.slice((this.localPics.length), (this.pics.length))
           this.setLocalImages(setPics)
-          // this.localPics = this.localPics.concat(setPics)
         }
         console.log(entry.isIntersecting)
       }
@@ -130,17 +115,13 @@ export default {
       if (!this.event) {
         await this.getEventById(this.eid)
       }
-      // Object.assign(this.localEvent, this.event)
-      this.localEvent = {...this.event}
+      this.localEvent = { ...this.event }
 
     }
 
   },
   async created() {
     await this.isEventExist()
-    // await this.getLimitCounter({eid: this.eid, uid: window.user.uid})
-    // const setPics = this.pics.slice(this.start, this.end)
-    // this.setLocalImages(setPics)
   },
 }
 </script>
@@ -152,9 +133,6 @@ export default {
   filter: opacity(70%);
 }
 
-/*.downloadPic {*/
-/*  margin-right: 180px;*/
-/*}*/
 
 .countPhoto {
   color: #008e24;

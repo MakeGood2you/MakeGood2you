@@ -41,8 +41,6 @@ export default {
         let QR = !state.events[index].QR
         commit('setQr', {QR, index})
         return QR
-        // const entity = `${path(user.uid)}/${eid}/QR`
-        // await db.set(entity, QR) // we not need to update
     },
     ///database///
 

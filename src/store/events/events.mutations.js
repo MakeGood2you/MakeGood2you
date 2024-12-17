@@ -3,7 +3,6 @@ export default {
     setLocalImages: (state, setPics) => {
         state.localPics = [...state.localPics]
         Array.prototype.push.apply(state.localPics, setPics)
-        // this.localPics = this.localPics.concat(setPics
     },
 
     setImagesCounter: (state, length) => (state.imagesCounter = length),

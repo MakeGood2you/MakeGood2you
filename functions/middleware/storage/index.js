@@ -49,17 +49,22 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
     let listOfThumbs = {}
     let isProfilePic = false
     if (fileName.includes('profilePic') || !object.contentType.includes('image')) {
+
         functions.logger.info('pass 8 profilePIc')
+
         isProfilePic = true
         sizes = [128]
     }
     const uploadPromises = sizes.map(async size => {
+
         functions.logger.info('pass 9', 'size', size)
 
         const thumbName = `thumb@${size}_${fileName}`
+
         functions.logger.info('pass 10 thumbName', thumbName)
 
         const thumbPath = join(workingDir, thumbName)
+
         functions.logger.info('pass 11 thumbName', thumbPath)
         //resize the image
 
@@ -83,10 +88,13 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
                 expires: '03-17-2500'
             }).then((response) => {
                 const url = response[0];
+
                 functions.logger.info('pass 13 url', url)
+
                 if (!isProfilePic && !listOfThumbs[size]) {
                     listOfThumbs[size] = url
                 } else listOfThumbs = url
+
                 functions.logger.info('pass 13.5 listOfThumbs', listOfThumbs)
             })
 
@@ -96,10 +104,13 @@ exports.generateThumbs = functions.storage.object().onFinalize(async (object) =>
             let entity = `users/${uid}/data/events/${eid}/photos/${dbFileName}/thumbs`
             let entityProfilePic = `users/${uid}/data/businessInfo/thumbURL`
             entity = !isProfilePic ? entity : entityProfilePic
+
             functions.logger.info('pass 15  IS DONE ', entity)
+
             await db.set(entity, listOfThumbs)
         })
     })
     await Promise.all(uploadPromises)
+
     functions.logger.info('pass 15  IS DONE ', uploadPromises)
 })

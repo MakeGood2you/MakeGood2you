@@ -59,16 +59,7 @@ export default {
           }
         }
       }
-      // if (pic.isDownload && !this.isCheckDownload[pic.uploadTime]) {
-      //   this.isCheckDownload[pic.uploadTime] = true
-      //   this.countPhoto++
-      //   this.setCountPhoto(this.countPhoto)// set the counter of download photos
-      //   return false
-      // } else {
-      //   if (this.isCheckDownload[pic.uploadTime]) {
-      //     return false
-      //   }
-      // }
+
       return true
     },
 

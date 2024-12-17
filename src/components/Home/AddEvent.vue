@@ -153,7 +153,6 @@ export default {
 
 
     update() {
-      // if (!this.localEditedEvent.date) this.localEditedEvent.date = this.eventDate
       this.localSetEditedEvent();
       this.updateEvent(this.localEditedEvent);
       this.goToHome()
@@ -163,7 +162,6 @@ export default {
   async created() {
     if (this.eid) {
       Object.assign(this.localEditedEvent, this.editedEvent)
-      // this.eventDate = this.localEditedEvent.date
     }
   }
 }

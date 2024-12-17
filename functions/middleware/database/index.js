@@ -18,8 +18,8 @@ async function create(entity, document) {
 
 async function set(entity, document) {
     return await db.ref(entity).set(document)
-
 }
+
 async function update(entity, document) {
     return await db.ref(entity).update(document)
 }

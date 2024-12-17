@@ -21,8 +21,6 @@ export default {
     },
 
     getBusinessDetails: async ({commit, state, getters}) => {
-        // if (!state.user.uid) return
-
         if (!window.user) return
         const entity = businessesPath(window.user.uid)
         const businessDetails = await db.get(entity)

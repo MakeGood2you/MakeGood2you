@@ -42,8 +42,8 @@
     "@vue/cli-service": "4.5.11",
     "firebase-tools": "9.3.0",
     "fslightbox-vue": "^1.2.0",
-    "node-sass": "5.0.0",
     "postcss-rtl": "1.7.3",
+    "sass": "^1.83.0",
     "sass-loader": "10.1.1",
     "vue-cli-plugin-quasar": "3.0.1",
     "vue-template-compiler": "2.6.12"

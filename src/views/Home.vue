@@ -42,16 +42,8 @@ export default {
     ...mapState('events', ['events']),
   },
   methods: {
-
     ...mapMutations('auth', ['setUser','setIsUserExist']),
   },
-  created() {
-    const user = JSON.parse(localStorage.getItem('user'))
-    // user && this.setIsUserExist(true)
-
-    // user ? this.setUser(user) : this.$router.push('/')
-    // this.isPay ? null : this.$router.push('/payment')
-  }
 }
 
 </script>

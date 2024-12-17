@@ -1,7 +1,7 @@
 <template>
   <div class="column items-center">
 
-    <div dir="rtl" class="text-center q-pa-lg column container-payment">
+    <div class="text-center q-pa-lg column container-payment" dir="rtl">
       <p class="q-my-lg">
         בחר את התכנית שלך</p>
       <div class="column items-start">
@@ -37,28 +37,29 @@
 
       </div>
       <div class="row q-gutter-lg q-my-lg justify-center">
-        <q-btn @click="month" class="month"
+        <q-btn class="month" dir="rtl"
                style="font-family: 'Open Sans Hebrew Condensed', serif;  background-color: rgb(135,135,135);"
-               dir="rtl">
+               @click="month">
           <p style="font-size: 32px; color: white"><br>חודשי<br>
           <p style="font-size: 32px; color: white"><b>350 ש"ח</b><br><br>
           <p
-              style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;" class="insted">500 ש"ח</p>
+              class="insted" style="text-decoration-line: line-through; color: #fffdfd; font-size: 30px;">500 ש"ח</p>
         </q-btn>
-        <q-btn @click="halfYear" class="halfYear"
-               style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(31,65,123);" dir="rtl">
+        <q-btn class="halfYear" dir="rtl"
+               style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(31,65,123);" @click="halfYear">
           <p style="font-size: 32px; color: white"><br>חצי שנתי<br>
           <p style="font-size: 32px; color: white"><b>1,750 ש"ח</b><br>
           <p
-              style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">2100 ש"ח</p>
+              class="insted" style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;">2100 ש"ח</p>
         </q-btn>
-        <q-btn @click="year" class="year"
+        <q-btn class="year" dir="rtl"
                style="font-family: 'Open Sans Hebrew Condensed', serif; background-color: rgb(135,135,135);"
-               dir="rtl">
+               @click="year">
+
           <p style="font-size: 32px; color: white"><br> שנתי
           <p style="font-size: 32px; color: white"><b>2,850 ש"ח</b><br>
           <p
-              style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;" class="insted">4200 ש"ח</p>
+              class="insted" style="text-decoration-line: line-through; color: #ffffff; font-size: 30px;">4200 ש"ח</p>
         </q-btn>
 
       </div>
@@ -68,12 +69,12 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import Setting from '../components/app/Settings'
 
 export default {
   name: "payment",
-  components: {Setting},
+  components: { Setting },
   data() {
     return {}
   },
@@ -113,9 +114,11 @@ export default {
   width: 170px;
   height: 200px;
 }
+
 .month:hover, .halfYear:hover, .year:hover {
-filter: opacity(80%);
+  filter: opacity(80%);
 }
+
 .insted {
   margin-right: 20px;
   /* Safari */

@@ -1,13 +1,13 @@
 import authApi from '../../middleware/firebase/auth';
 import db from "../../middleware/firebase/database/api";
-import {getUserFromLocalStorage} from "../../middleware/utils";
+import { getUserFromLocalStorage } from "../../middleware/utils";
 
 const path = (uid) => `users/${uid}/data/`
 const user = getUserFromLocalStorage()
 
 export default {
 //genric login functions
-    login: async ({state, commit, dispatch}, provider) => {
+    login: async ({ state, commit, dispatch }, provider) => {
         //check login provider
         let firebaseAuthUser = await dispatch('checkProviderUser', provider)
         if (typeof firebaseAuthUser === 'string') {
@@ -24,7 +24,7 @@ export default {
         const isAcceptTerms = await dispatch('checkTerm', uid)
         console.log('is Accept Terms ?', isAcceptTerms)
         if (isAcceptTerms) {
-            await dispatch('businesses/isUserPayValidate', uid, {root: true})
+            await dispatch('businesses/isUserPayValidate', uid, { root: true })
             commit('setUser', firebaseAuthUser)
             commit('setIsAcceptTerms', isAcceptTerms)
             localStorage.setItem('user', JSON.stringify(firebaseAuthUser))
@@ -36,10 +36,10 @@ export default {
         }
     },
 
-    register: async ({commit, state, dispatch}, options) => {
+    register: async ({ commit, state, dispatch }, options) => {
         if (!options.isAcceptTerms) return console.error('not accepted terms')
         const firebaseAuthUser = await authApi.registerWithPassAndEmail(options.user)
-        if (typeof firebaseAuthUser === "string")  return firebaseAuthUser
+        if (typeof firebaseAuthUser === "string") return firebaseAuthUser
         if (!firebaseAuthUser) console.error('not user')
         commit('setUser', firebaseAuthUser)
 
@@ -49,13 +49,13 @@ export default {
         return firebaseAuthUser
     },
 
-    firebaseLogout: async ({commit}) => {
+    firebaseLogout: async ({ commit }) => {
         await authApi.signOut()
         localStorage.setItem('user', null)
         commit('setUser', null);
     },
 
-    checkProviderUser: async ({commit, state}, provider) => {
+    checkProviderUser: async ({ commit, state }, provider) => {
         let firebaseAuthUser
         if (provider) {
             if (provider.email && provider.password) {
@@ -72,26 +72,24 @@ export default {
         return false
     },
 
-    checkTerm: async ({commit}, uid) => {
+    checkTerm: async ({ commit }, uid) => {
         const entity = `${path(uid)}/terms/confirmed`
         const term = await db.get(entity)
         debugger
         return term
     },
 
-    setTermService: async ({state, commit}, uid) => {
+    setTermService: async ({ state, commit }, uid) => {
         uid = window.user.uid
-        const entity = `${path(uid)}/terms/confirmed`
-       // const  await db.get(entity, true)
 
-        // commit('setPropertyTrueOrFalse', 'isFixed')
+        const entity = `${path(uid)}/terms/confirmed`
+
         await db.set(entity, true)
-        commit('setIsAcceptTerms',true)
+
+        commit('setIsAcceptTerms', true)
     },
-    updatePassword: async ({state, commit}, newPassword) => {
-        const result = await authApi.updatePassword(newPassword)
-        console.log(result)
-        return result
+    updatePassword: async ({ state, commit }, newPassword) => {
+        return await authApi.updatePassword(newPassword)
     }
 
 }

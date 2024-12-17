@@ -27,16 +27,6 @@ export default {
 
   methods: {
     ...mapActions('leads', ['getLeads', 'deleteLeadFromDB']),
-
-    goback() {
-      this.$router.push(`/home`)
-    },
-    async delLead(citrus) {
-
-    },
-    deleteLead(params) {
-
-    }
   },
   async created() {
     await this.getLeads()

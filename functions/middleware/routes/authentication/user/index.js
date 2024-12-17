@@ -4,14 +4,7 @@ const express = require('express')
 const router = express.Router({mergeParams: true})
 
 // Get all todos
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const result = await logic.getById(req.params.id)
-//     return res.json(result)
-//   } catch (e) {
-//     return next(e)
-//   }
-// })
+
 router.get('/', async (req, res, next) => {
   try {
     const result = await logic.getById(req.params.id)
@@ -21,19 +14,9 @@ router.get('/', async (req, res, next) => {
     return next(e)
   }
 })
-//
-// // Get one todo
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//     const result = await todosModel.getById(req.params.id)
-//     if (!result) return res.sendStatus(404)
-//     return res.json(result)
-//   } catch (e) {
-//     return next(e)
-//   }
-// })
 
-// // Create a new todo
+
+// // Create a new
 router.post('/', async (req, res, next) => {
   try {
     console.log(req.body)
@@ -45,7 +28,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// Delete a todo
+// Delete
 router.delete('/', async (req, res, next) => {
   try {
     const result = await logic.delete(req.params.id)
@@ -56,7 +39,7 @@ router.delete('/', async (req, res, next) => {
   }
 })
 
-// Update a todo
+// Update
 router.patch('/', async (req, res, next) => {
   try {
     const id = req.params.id
@@ -77,7 +60,7 @@ router.patch('/', async (req, res, next) => {
   }
 })
 
-// Replace a todo
+// Replace
 router.put('/', async (req, res, next) => {
   try {
     const updateResult = await logic.update(req.params.id, req.body)
